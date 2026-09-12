@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 450" width="1200" height="450" role="img" aria-hidden="true">
-  <rect width="1200" height="450" fill="#1F6B52"/>
-  <g opacity="0.18" fill="#F7F7F2">
+  <rect width="1200" height="450" fill="#0C63E7"/>
+  <g opacity="0.18" fill="#F5F8FA">
     <rect x="0" y="0" width="1200" height="2"/>
     <rect x="0" y="448" width="1200" height="2"/>
   </g>
-  <g stroke="#F7F7F2" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none">
+  <g stroke="#F5F8FA" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none">
     <path d="M420 168 L348 225 L420 282"/>
     <path d="M780 168 L852 225 L780 282"/>
     <path d="M560 300 L640 150"/>
   </g>
   <circle cx="180" cy="120" r="44" fill="#D98A3A" opacity="0.85"/>
   <rect x="948" y="248" width="128" height="128" rx="20" fill="#426B8A" opacity="0.75"/>
-  <circle cx="1040" cy="96" r="20" fill="#F7F7F2" opacity="0.35"/>
-  <rect x="120" y="292" width="180" height="18" rx="9" fill="#F7F7F2" opacity="0.35"/>
+  <circle cx="1040" cy="96" r="20" fill="#F5F8FA" opacity="0.35"/>
+  <rect x="120" y="292" width="180" height="18" rx="9" fill="#F5F8FA" opacity="0.35"/>
 </svg>

@@ -2,7 +2,7 @@ import { mkdir, readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
 
-const BRAND = "#1F6B52";
+const BRAND = "#0C63E7";
 const PUBLIC_DIR = path.join(process.cwd(), "public");
 const ICONS_DIR = path.join(PUBLIC_DIR, "icons");
 const SOURCE = path.join(PUBLIC_DIR, "icon.svg");

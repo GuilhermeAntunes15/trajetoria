@@ -1,12 +1,12 @@
 @import "tailwindcss";
 
 @theme {
-  --color-canvas: #f7f7f2;
+  --color-canvas: #f5f8fa;
   --color-surface: #ffffff;
   --color-ink: #20231f;
   --color-muted: #62675f;
-  --color-brand: #1f6b52;
-  --color-brand-hover: #175440;
+  --color-brand: #0c63e7;
+  --color-brand-hover: #0d41e1;
   --color-accent: #d98a3a;
   --color-info: #426b8a;
   --color-line: #e3e4de;
@@ -23,13 +23,17 @@
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
 
-  /* Landing pública (rota "/"): paleta ampliada, derivada da marca. */
-  --color-lp-paper: #fbf7ec;
+  /* Landing pública (rota "/"): paleta ampliada, derivada da marca.
+     Família azul: Alice Blue (paper), Sky Aqua (aqua), Fresh Sky (sun),
+     Royal Blue (brand), Bright Indigo (forest / brand-hover).
+     Mint e tangerine ficam como acentos quentes/verdes intencionais. */
+  --color-lp-paper: #e8f2f7;
   --color-lp-mint: #d7ebe0;
-  --color-lp-sun: #f5c84b;
+  --color-lp-sun: #09a6f3;
   --color-lp-tangerine: #e8763a;
-  --color-lp-sky: #c2d9e9;
-  --color-lp-forest: #123f31;
+  --color-lp-sky: #b5eefd;
+  --color-lp-aqua: #07c8f9;
+  --color-lp-forest: #0d41e1;
 
   --radius-sticker: 16px;
 }
@@ -252,10 +256,12 @@
 }
 
 /* Foco duplo (anel claro + anel escuro): permanece visível tanto sobre os blocos
-   claros quanto sobre o verde cheio da faixa final. Fica fora de @layer de
-   propósito, para vencer as utilidades de sombra do próprio botão. */
+   claros quanto sobre o azul cheio da faixa final. Fica fora de @layer de
+   propósito, para vencer as utilidades de sombra do próprio botão.
+   O anel interno usa o tom claro (lp-sky) porque o Fresh Sky não separa do
+   Royal Blue da faixa: lp-sky sobre brand fica em 4.4:1, bem acima dos 3:1. */
 .lp-focus:focus-visible {
-  outline: 3px solid var(--color-lp-sun);
+  outline: 3px solid var(--color-lp-sky);
   outline-offset: 3px;
   box-shadow:
     0 0 0 6px var(--color-ink),
@@ -268,7 +274,7 @@
   }
 }
 
-/* Foco sobre fundos claros do app: o anel verde padrão some em cima do
+/* Foco sobre fundos claros do app: o anel azul padrão some em cima do
    contorno preto do adesivo, então damos um anel duplo mais contrastado. */
 .lp-focus-ink:focus-visible {
   outline: 2px solid var(--color-ink);

@@ -17,7 +17,7 @@ export type CertificatePdfData = {
 
 const INK = "#20231F";
 const MUTED = "#62675F";
-const BRAND = "#1F6B52";
+const BRAND = "#0C63E7";
 const LINE = "#E3E4DE";
 const MARGIN = 48;
 

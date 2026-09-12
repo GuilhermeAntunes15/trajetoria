@@ -32,7 +32,7 @@ export function MobileNavigation({ username, role }: { username: string; role: R
                   className={cn(
                     "grid size-8 place-items-center rounded-full border-2 motion-safe:transition-transform motion-safe:duration-200",
                     active
-                      ? "-rotate-6 border-ink bg-lp-mint text-ink"
+                      ? "-rotate-6 border-ink bg-lp-aqua text-ink"
                       : "border-transparent text-muted",
                   )}
                 >

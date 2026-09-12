@@ -29,7 +29,7 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
       aria-current={active ? "page" : undefined}
       className={cn(
         "relative flex items-center gap-2.5 rounded-[var(--radius-control)] py-2 pr-3 pl-4 text-sm transition-colors",
-        active ? "bg-lp-mint/70 font-semibold text-ink" : "text-muted hover:bg-canvas hover:text-ink",
+        active ? "bg-lp-sky/70 font-semibold text-ink" : "text-muted hover:bg-canvas hover:text-ink",
       )}
     >
       {/* Marcador de página atual: também existe como aria-current, então o

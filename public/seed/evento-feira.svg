@@ -1,11 +1,11 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 450" width="1200" height="450" role="img" aria-hidden="true">
-  <rect width="1200" height="450" fill="#F7F7F2"/>
-  <rect x="0" y="348" width="1200" height="102" fill="#1F6B52" opacity="0.12"/>
-  <g fill="none" stroke="#1F6B52" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
+  <rect width="1200" height="450" fill="#F5F8FA"/>
+  <rect x="0" y="348" width="1200" height="102" fill="#0C63E7" opacity="0.12"/>
+  <g fill="none" stroke="#0C63E7" stroke-width="9" stroke-linecap="round" stroke-linejoin="round">
     <path d="M520 120 V 196 L 452 330 A 24 24 0 0 0 474 348 H 726 A 24 24 0 0 0 748 330 L 680 196 V 120"/>
     <path d="M492 120 H 708"/>
   </g>
-  <path d="M478 278 H 722 L 726 330 A 24 24 0 0 1 704 348 H 496 A 24 24 0 0 1 474 330 Z" fill="#1F6B52" opacity="0.3"/>
+  <path d="M478 278 H 722 L 726 330 A 24 24 0 0 1 704 348 H 496 A 24 24 0 0 1 474 330 Z" fill="#0C63E7" opacity="0.3"/>
   <circle cx="560" cy="306" r="12" fill="#D98A3A"/>
   <circle cx="640" cy="322" r="8" fill="#D98A3A" opacity="0.7"/>
   <g stroke="#426B8A" stroke-width="7" stroke-linecap="round">

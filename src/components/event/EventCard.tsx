@@ -31,7 +31,7 @@ export const EVENT_TYPE_COLORS: Record<EventType, string> = {
   OTHER: "var(--color-lp-paper)",
 };
 
-/** Verde cheio pede texto claro; os demais blocos são claros e pedem tinta. */
+/** Royal Blue cheio pede texto claro; os demais blocos são claros e pedem tinta. */
 export const EVENT_TYPE_INK: Record<EventType, string> = {
   HACKATHON: "text-ink",
   SCIENCE_FAIR: "text-ink",
