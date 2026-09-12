@@ -247,15 +247,41 @@ Tour completo em ordem, cobrindo os critérios de entrega:
    ```
 
 4. **Build**: o `railway.json` já define `builder: DOCKERFILE`. O `Dockerfile` é multi-stage
-   (node:22-alpine) e usa a saída `standalone` do Next.
-5. **Migrations**: rodam automaticamente antes de cada deploy pelo
-   `deploy.preDeployCommand` (`prisma migrate deploy`). Nenhuma migration roda no build.
+   (node:22-alpine) e usa a saída `standalone` do Next. O estágio de build também roda
+   `scripts/collect-prisma-runtime.mjs`, que copia o CLI do Prisma e suas dependências
+   transitivas para a imagem final — é o que permite rodar `migrate deploy` no start.
+5. **Migrations**: rodam no **start do container**, antes de o servidor subir. Tanto o
+   `deploy.startCommand` do `railway.json` quanto o `CMD` do `Dockerfile` usam
+   `sh -c "node node_modules/prisma/build/index.js migrate deploy && node server.js"`, então o
+   comportamento é o mesmo no Railway e em qualquer outro runtime Docker. Nenhuma migration roda
+   no build. Se o `migrate deploy` falhar, o `node server.js` não executa, o container não sobe,
+   o health check não passa e o **deploy anterior continua ativo** — a versão nova só entra no ar
+   com o banco já migrado.
+
+   > Não use `deploy.preDeployCommand` no `railway.json`: o campo não é aplicado pelo Railway
+   > (o serviço fica com `preDeployCommand: null`) e as migrations nunca rodariam.
+
 6. **Health check**: `/api/health` (timeout de 120s, reinício `ON_FAILURE` com até 3 tentativas).
 7. **Seed** (opcional, só na primeira publicação):
 
    ```bash
    railway run npm run db:seed
    ```
+
+   `railway run` só funciona se o CLI conseguir resolver a `DATABASE_URL` do serviço. Quando
+   isso falhar (ou quando for preciso aplicar uma migration manualmente, sem redeploy), abra um
+   proxy TCP temporário para o Postgres:
+
+   ```bash
+   railway tcp-proxy create --service Postgres --port 5432
+   # anote host e porta públicos devolvidos pelo comando
+   DATABASE_URL="postgresql://postgres:<senha>@<host-publico>:<porta>/railway" npx prisma migrate deploy
+   DATABASE_URL="postgresql://postgres:<senha>@<host-publico>:<porta>/railway" npm run db:seed
+   railway tcp-proxy delete
+   ```
+
+   A senha e o nome do banco saem das variáveis do serviço Postgres. **Remova o proxy assim que
+   terminar** — enquanto ele existir, o banco fica exposto na internet pública.
 
 8. **Storage em produção é obrigatório**: o disco do container é efêmero. Com
    `STORAGE_PROVIDER=local` os arquivos enviados desaparecem no deploy seguinte. Exemplo de
