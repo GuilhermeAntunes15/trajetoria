@@ -5,12 +5,21 @@ export const optionalText = (max: number) => z.string().trim().max(max);
 
 export const idSchema = z.string().trim().max(40);
 
+const SAFE_ROOT_RELATIVE_PATH = /^\/(?!\/)[A-Za-z0-9._~\-/]+$/;
+
+const isSafeRootRelativePath = (value: string) =>
+  SAFE_ROOT_RELATIVE_PATH.test(value) && !value.includes("..");
+
 export const mediaUrlSchema = z
   .string()
   .trim()
   .max(500)
   .refine(
-    (value) => value === "" || value.startsWith("/api/files/") || /^https?:\/\//i.test(value),
+    (value) =>
+      value === "" ||
+      value.startsWith("/api/files/") ||
+      isSafeRootRelativePath(value) ||
+      /^https?:\/\//i.test(value),
     "Endereço de arquivo inválido.",
   );
 

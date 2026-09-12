@@ -118,6 +118,17 @@ export function EventForm({ mode, eventId, returnTo, defaults }: EventFormProps)
         onChange={(value) => setValue("coverImageUrl", value ?? "", { shouldDirty: true })}
       />
       <input type="hidden" {...register("coverImageUrl")} />
+      {errors.coverImageUrl?.message ? (
+        <p role="alert" className="text-sm text-danger">
+          {errors.coverImageUrl.message}
+        </p>
+      ) : null}
+
+      {errors.root?.message ? (
+        <p role="alert" className="text-sm text-danger">
+          {errors.root.message}
+        </p>
+      ) : null}
 
       {formError ? (
         <p role="alert" className="text-sm text-danger">

@@ -30,6 +30,20 @@ type ProjectFormProps = {
   defaults: Partial<ProjectCreateInput>;
 };
 
+const RENDERED_ERROR_FIELDS = new Set([
+  "title",
+  "summary",
+  "area",
+  "projectDate",
+  "problem",
+  "solution",
+  "learnings",
+  "description",
+  "ownerRole",
+  "ownerContribution",
+  "coverImageUrl",
+]);
+
 const emptyDefaults: ProjectCreateInput = {
   title: "",
   summary: "",
@@ -69,6 +83,11 @@ export function ProjectForm({ mode, slug, events, teachers, defaults }: ProjectF
   });
 
   const coverImageUrl = watch("coverImageUrl");
+
+  const unhandledErrors = Object.entries(errors)
+    .filter(([name]) => !RENDERED_ERROR_FIELDS.has(name))
+    .map(([, error]) => (error as { message?: string } | undefined)?.message)
+    .filter((message): message is string => Boolean(message));
 
   const onSubmit = handleSubmit((values) => {
     setFormError(null);
@@ -156,6 +175,11 @@ export function ProjectForm({ mode, slug, events, teachers, defaults }: ProjectF
       />
       <input type="hidden" {...register("coverImageUrl")} />
       <input type="hidden" {...register("parentProjectId")} />
+      {errors.coverImageUrl?.message ? (
+        <p role="alert" className="text-sm text-danger">
+          {errors.coverImageUrl.message}
+        </p>
+      ) : null}
 
       <Field
         id="problem"
@@ -223,6 +247,12 @@ export function ProjectForm({ mode, slug, events, teachers, defaults }: ProjectF
 
         <Checkbox id="allowFork" label={projectCopy.allowForkLabel} {...register("allowFork")} />
       </div>
+
+      {unhandledErrors.length > 0 ? (
+        <p role="alert" className="text-sm text-danger">
+          {unhandledErrors.join(" ")}
+        </p>
+      ) : null}
 
       {formError ? (
         <p role="alert" className="text-sm text-danger">

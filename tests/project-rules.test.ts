@@ -87,7 +87,24 @@ describe("endereços aceitos", () => {
   it("aceita arquivos servidos pela própria aplicação", () => {
     expect(mediaUrlSchema.safeParse("/api/files/image/2026/03/a.png").success).toBe(true);
     expect(mediaUrlSchema.safeParse("").success).toBe(true);
-    expect(mediaUrlSchema.safeParse("/etc/passwd").success).toBe(false);
+    expect(mediaUrlSchema.safeParse("etc/passwd").success).toBe(false);
+  });
+
+  it("aceita capas estáticas do seed", () => {
+    expect(mediaUrlSchema.safeParse("/seed/evento-feira.svg").success).toBe(true);
+    expect(mediaUrlSchema.safeParse("/seed/projeto-enchentes.svg").success).toBe(true);
+  });
+
+  it("rejeita caminhos protocol-relative e com travessia", () => {
+    expect(mediaUrlSchema.safeParse("//evil.com/x.png").success).toBe(false);
+    expect(mediaUrlSchema.safeParse("/../etc").success).toBe(false);
+    expect(mediaUrlSchema.safeParse("/seed/../../etc/passwd").success).toBe(false);
+  });
+
+  it("rejeita esquemas perigosos e caracteres inválidos", () => {
+    expect(mediaUrlSchema.safeParse("javascript:alert(1)").success).toBe(false);
+    expect(mediaUrlSchema.safeParse("/seed/arquivo com espaco.svg").success).toBe(false);
+    expect(mediaUrlSchema.safeParse("/seed/a.svg?x=1").success).toBe(false);
   });
 });
 
