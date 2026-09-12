@@ -101,7 +101,10 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
 
   const [rows, skillRows, badges, eventRows, certificates] = await Promise.all([
     prisma.project.findMany({
-      where: { members: { some: { userId: user.id } }, status: { not: "ARCHIVED" } },
+      where: {
+        members: { some: { userId: user.id } },
+        ...(isOwner || isStaff ? {} : { status: { not: "ARCHIVED" as const } }),
+      },
       orderBy: [{ projectDate: "desc" }],
       take: 24,
       select: projectCardSelect,

@@ -68,14 +68,23 @@ export function toProjectCardData(row: ProjectCardRow): ProjectCardData {
   };
 }
 
+function statusWhere(includeArchived: boolean): Prisma.ProjectWhereInput {
+  return includeArchived ? {} : { status: { not: "ARCHIVED" } };
+}
+
 export async function listVisibleProjects(
   viewer: Viewer,
-  options: { take?: number; skip?: number; where?: Prisma.ProjectWhereInput } = {},
+  options: {
+    take?: number;
+    skip?: number;
+    where?: Prisma.ProjectWhereInput;
+    includeArchived?: boolean;
+  } = {},
 ): Promise<ProjectCardData[]> {
   const rows = await prisma.project.findMany({
     where: {
       AND: [
-        { status: { not: "ARCHIVED" } },
+        statusWhere(options.includeArchived ?? false),
         projectVisibilityWhere(viewer),
         options.where ?? {},
       ],
@@ -93,12 +102,12 @@ export async function listVisibleProjects(
 
 export async function countVisibleProjects(
   viewer: Viewer,
-  options: { where?: Prisma.ProjectWhereInput } = {},
+  options: { where?: Prisma.ProjectWhereInput; includeArchived?: boolean } = {},
 ): Promise<number> {
   return prisma.project.count({
     where: {
       AND: [
-        { status: { not: "ARCHIVED" } },
+        statusWhere(options.includeArchived ?? false),
         projectVisibilityWhere(viewer),
         options.where ?? {},
       ],

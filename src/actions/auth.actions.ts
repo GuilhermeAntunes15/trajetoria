@@ -1,6 +1,7 @@
 "use server";
 
 import { createHash, randomBytes } from "node:crypto";
+import { revalidatePath } from "next/cache";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { AuthError } from "next-auth";
@@ -19,7 +20,7 @@ import {
   resetPasswordSchema,
 } from "@/lib/validation/auth.schema";
 
-export type FormState = { error?: string; success?: string };
+export type FormState = { error?: string; success?: string; email?: string };
 
 const RESET_TOKEN_TTL_MS = 60 * 60 * 1000;
 
@@ -28,22 +29,26 @@ function hashToken(token: string): string {
 }
 
 export async function loginAction(_prev: FormState, formData: FormData): Promise<FormState> {
+  const email = String(formData.get("email") ?? "").slice(0, 160);
+
   const parsed = loginSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
   });
 
   if (!parsed.success) {
-    return { error: authCopy.invalidCredentials };
+    return { error: authCopy.invalidCredentials, email };
   }
 
   const ip = clientIp(await headers());
   const limit = rateLimit(`login:${ip}:${parsed.data.email}`, 5, 15 * 60 * 1000);
   if (!limit.ok) {
-    return { error: authCopy.rateLimited };
+    return { error: authCopy.rateLimited, email };
   }
 
   const redirectTo = safeRedirect(formData.get("redirectTo"));
+
+  revalidatePath("/", "layout");
 
   try {
     await signIn("credentials", {
@@ -53,7 +58,7 @@ export async function loginAction(_prev: FormState, formData: FormData): Promise
     });
   } catch (error) {
     if (error instanceof AuthError) {
-      return { error: authCopy.invalidCredentials };
+      return { error: authCopy.invalidCredentials, email };
     }
     throw error;
   }
@@ -62,6 +67,7 @@ export async function loginAction(_prev: FormState, formData: FormData): Promise
 }
 
 export async function logoutAction(): Promise<void> {
+  revalidatePath("/", "layout");
   await signOut({ redirectTo: "/" });
 }
 

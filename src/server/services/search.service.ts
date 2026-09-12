@@ -1,7 +1,8 @@
-import type { Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import type { ProjectCardData } from "@/components/project/ProjectCard";
 import { canViewProfile } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
+import { likePattern } from "@/lib/search-text";
 import type { Viewer } from "@/lib/session";
 import {
   projectCardSelect,
@@ -26,11 +27,37 @@ export type ArchiveFacets = {
   skills: { slug: string; name: string }[];
 };
 
-export function archiveProjectWhere(
+const MATCH_LIMIT = 500;
+
+async function matchIds(
+  table: string,
+  columns: string[],
+  query: string,
+  scope: Prisma.Sql = Prisma.sql`TRUE`,
+): Promise<string[]> {
+  const pattern = likePattern(query);
+  const predicate = Prisma.join(
+    columns.map(
+      (column) =>
+        Prisma.sql`unaccent(lower("${Prisma.raw(column)}")) LIKE unaccent(lower(${pattern}))`,
+    ),
+    " OR ",
+  );
+
+  const rows = await prisma.$queryRaw<{ id: string }[]>`
+    SELECT "id" FROM "${Prisma.raw(table)}"
+    WHERE ${scope} AND (${predicate})
+    LIMIT ${MATCH_LIMIT}
+  `;
+
+  return rows.map((row) => row.id);
+}
+
+export async function archiveProjectWhere(
   viewer: SearchViewer,
   schoolId: string,
   filters: ArchiveFilters = {},
-): Prisma.ProjectWhereInput {
+): Promise<Prisma.ProjectWhereInput> {
   const sameSchool = viewer?.schoolId === schoolId;
 
   return {
@@ -39,10 +66,14 @@ export function archiveProjectWhere(
     visibility: sameSchool ? { in: ["SCHOOL", "PUBLIC"] } : "PUBLIC",
     ...(filters.q
       ? {
-          OR: [
-            { title: { contains: filters.q, mode: "insensitive" as const } },
-            { summary: { contains: filters.q, mode: "insensitive" as const } },
-          ],
+          id: {
+            in: await matchIds(
+              "Project",
+              ["title", "summary"],
+              filters.q,
+              Prisma.sql`"schoolId" = ${schoolId}`,
+            ),
+          },
         }
       : {}),
     ...(filters.year ? { year: filters.year } : {}),
@@ -58,7 +89,7 @@ export async function listArchiveProjects(
   filters: ArchiveFilters,
   options: { take: number; skip: number },
 ): Promise<{ projects: ProjectCardData[]; total: number }> {
-  const where = archiveProjectWhere(viewer, schoolId, filters);
+  const where = await archiveProjectWhere(viewer, schoolId, filters);
 
   const [rows, total] = await Promise.all([
     prisma.project.findMany({
@@ -80,7 +111,7 @@ export async function listArchiveFeatured(
   take = 3,
 ): Promise<ProjectCardData[]> {
   const rows = await prisma.project.findMany({
-    where: { ...archiveProjectWhere(viewer, schoolId), isFeatured: true },
+    where: { ...(await archiveProjectWhere(viewer, schoolId)), isFeatured: true },
     orderBy: [{ projectDate: "desc" }],
     take,
     select: projectCardSelect,
@@ -93,7 +124,7 @@ export async function getArchiveFacets(
   viewer: SearchViewer,
   schoolId: string,
 ): Promise<ArchiveFacets> {
-  const baseWhere = archiveProjectWhere(viewer, schoolId);
+  const baseWhere = await archiveProjectWhere(viewer, schoolId);
 
   const [years, areas, events, skills] = await Promise.all([
     prisma.project.groupBy({ by: ["year"], where: baseWhere, orderBy: { year: "desc" } }),
@@ -129,8 +160,10 @@ export async function countArchiveStats(
   viewer: SearchViewer,
   schoolId: string,
 ): Promise<{ projects: number; events: number; students: number }> {
+  const baseWhere = await archiveProjectWhere(viewer, schoolId);
+
   const [projects, events, students] = await Promise.all([
-    prisma.project.count({ where: archiveProjectWhere(viewer, schoolId) }),
+    prisma.project.count({ where: baseWhere }),
     prisma.event.count({
       where:
         viewer?.schoolId === schoolId
@@ -163,7 +196,14 @@ export async function searchEverything(
   viewer: SearchViewer,
   query: string,
 ): Promise<SearchResults> {
-  const contains = { contains: query, mode: "insensitive" as const };
+  const [projectIds, studentIds, skillIds, eventIds] = await Promise.all([
+    matchIds("Project", ["title", "summary"], query),
+    matchIds("User", ["name", "username"], query),
+    viewer
+      ? matchIds("Skill", ["name"], query, Prisma.sql`"schoolId" = ${viewer.schoolId}`)
+      : Promise.resolve([]),
+    matchIds("Event", ["name"], query),
+  ]);
 
   const [projectRows, studentRows, skillRows, eventRows] = await Promise.all([
     prisma.project.findMany({
@@ -171,7 +211,7 @@ export async function searchEverything(
         AND: [
           { status: { not: "ARCHIVED" } },
           projectVisibilityWhere(viewer),
-          { OR: [{ title: contains }, { summary: contains }] },
+          { id: { in: projectIds } },
         ],
       },
       orderBy: [{ projectDate: "desc" }],
@@ -183,7 +223,7 @@ export async function searchEverything(
         role: "STUDENT",
         isActive: true,
         AND: [
-          { OR: [{ name: contains }, { username: contains }] },
+          { id: { in: studentIds } },
           viewer
             ? { OR: [{ schoolId: viewer.schoolId }, { profileVisibility: "PUBLIC" }] }
             : { profileVisibility: "PUBLIC" },
@@ -203,7 +243,7 @@ export async function searchEverything(
     }),
     viewer
       ? prisma.skill.findMany({
-          where: { schoolId: viewer.schoolId, name: contains },
+          where: { schoolId: viewer.schoolId, id: { in: skillIds } },
           orderBy: { name: "asc" },
           take: 10,
           select: {
@@ -215,7 +255,7 @@ export async function searchEverything(
       : Promise.resolve([]),
     prisma.event.findMany({
       where: {
-        name: contains,
+        id: { in: eventIds },
         ...(viewer
           ? { schoolId: viewer.schoolId }
           : { entries: { some: { project: { status: "APPROVED", visibility: "PUBLIC" } } } }),

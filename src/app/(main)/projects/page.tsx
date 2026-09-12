@@ -49,9 +49,16 @@ export default async function ProjectsPage({
     ...(status ? { status } : {}),
   };
 
+  const includeArchived = scope === "mine";
+
   const [projects, total] = await Promise.all([
-    listVisibleProjects(viewer, { where: filters, take: PAGE_SIZE, skip: (page - 1) * PAGE_SIZE }),
-    countVisibleProjects(viewer, { where: filters }),
+    listVisibleProjects(viewer, {
+      where: filters,
+      take: PAGE_SIZE,
+      skip: (page - 1) * PAGE_SIZE,
+      includeArchived,
+    }),
+    countVisibleProjects(viewer, { where: filters, includeArchived }),
   ]);
 
   const pageCount = Math.max(1, Math.ceil(total / PAGE_SIZE));

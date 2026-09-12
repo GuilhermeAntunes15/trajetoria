@@ -113,6 +113,10 @@ export const empty = {
     title: "Sua trajetória começa no primeiro projeto.",
     text: "Projetos e eventos que você participar ficam registrados aqui por ano.",
   },
+  eventProjects: {
+    title: "Os projetos deste evento são visíveis apenas para a escola.",
+    text: "Entre com sua conta da escola para ver o que foi apresentado aqui.",
+  },
 };
 
 export const project = {

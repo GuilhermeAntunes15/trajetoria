@@ -46,6 +46,7 @@ import {
   canEditProjectContent,
   canFeatureProject,
   canForkProject,
+  canPublishProject,
   canReviewProject,
   canSubmitProject,
   canViewProfile,
@@ -332,6 +333,7 @@ export default async function ProjectPage({
   const lastValidation = project.validations[0] ?? null;
   const canReview = canReviewProject(permissionViewer, projectCtx);
   const canArchive = canArchiveProject(permissionViewer, projectCtx);
+  const canPublish = canPublishProject(permissionViewer, projectCtx);
 
   const members: MemberListItem[] = project.members.map((member) => ({
     id: member.id,
@@ -683,6 +685,28 @@ export default async function ProjectPage({
             </CardBody>
           </Card>
 
+          {canDelete ? (
+            <Card>
+              <CardHeader>
+                <h3 className="text-sm font-semibold text-ink">{projectManage.deleteTitle}</h3>
+              </CardHeader>
+              <CardBody>
+                <ConfirmDialog
+                  triggerLabel={projectManage.deleteAction}
+                  title={projectManage.deleteTitle}
+                  description={projectManage.deleteConfirm}
+                  confirmLabel={projectManage.deleteAction}
+                  action={deleteProject}
+                  hiddenFields={{ projectId: project.id }}
+                />
+              </CardBody>
+            </Card>
+          ) : null}
+        </section>
+      ) : null}
+
+      {canPublish ? (
+        <section className="space-y-4">
           <Card>
             <CardHeader>
               <h3 className="text-sm font-semibold text-ink">{projectManage.visibilityTitle}</h3>
@@ -704,27 +728,11 @@ export default async function ProjectPage({
                   Salvar visibilidade
                 </SubmitButton>
               </form>
-              <p className="mt-2 text-xs text-muted">{projectCopy.publishNote}</p>
+              {project.status === "APPROVED" ? null : (
+                <p className="mt-2 text-xs text-muted">{projectCopy.publishNote}</p>
+              )}
             </CardBody>
           </Card>
-
-          {canDelete ? (
-            <Card>
-              <CardHeader>
-                <h3 className="text-sm font-semibold text-ink">{projectManage.deleteTitle}</h3>
-              </CardHeader>
-              <CardBody>
-                <ConfirmDialog
-                  triggerLabel={projectManage.deleteAction}
-                  title={projectManage.deleteTitle}
-                  description={projectManage.deleteConfirm}
-                  confirmLabel={projectManage.deleteAction}
-                  action={deleteProject}
-                  hiddenFields={{ projectId: project.id }}
-                />
-              </CardBody>
-            </Card>
-          ) : null}
         </section>
       ) : null}
 

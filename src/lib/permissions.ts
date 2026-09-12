@@ -146,6 +146,7 @@ export function canFeatureProject(viewer: Viewer, project: ProjectCtx): boolean 
 }
 
 export function canPublishProject(viewer: Viewer, project: ProjectCtx): boolean {
+  if (project.status === "ARCHIVED") return false;
   return isProjectMember(viewer, project);
 }
 

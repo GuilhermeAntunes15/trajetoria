@@ -17,3 +17,6 @@ Thumbs.db
 coverage/
 .vscode/
 .idea/
+.playwright-mcp/
+qa-shots/
+.qa/

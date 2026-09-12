@@ -22,6 +22,7 @@ export function LoginForm({ redirectTo }: { redirectTo: string }) {
           type="email"
           autoComplete="email"
           required
+          defaultValue={state.email}
           aria-invalid={state.error ? true : undefined}
         />
       </Field>

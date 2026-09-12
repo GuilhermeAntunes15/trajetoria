@@ -123,7 +123,9 @@ DRAFT ──enviar──► SUBMITTED ──aprovar─────────�
 
 ## Como rodar localmente
 
-Pré-requisitos: Node 22+, npm 11+, Docker (ou um PostgreSQL 16 já disponível).
+Pré-requisitos: Node 22+, npm 11+, Docker (ou um PostgreSQL 16 já disponível com o pacote
+`contrib`, de onde vem a extensão `unaccent` usada pela busca — as imagens oficiais do Postgres
+e o Postgres do Railway já a incluem).
 
 ```bash
 # 1. Banco de dados (Postgres 16 na porta 5434)
@@ -192,7 +194,8 @@ Tour completo em ordem, cobrindo os critérios de entrega:
     em uma janela anônima.
 14. Clique em **Ver QR Code** e baixe o PNG — ele aponta para a página pública do projeto.
 15. `/events/hackathon-horizonte-2026` — descrição, quantidade de estudantes, destaques e
-    projetos participantes.
+    projetos participantes. Sem sessão, a ficha do evento continua aberta: a lista de projetos
+    respeita a visibilidade e a contagem de estudantes considera apenas o que está visível.
 16. `/s/ee-horizonte` — acervo da escola com busca e filtros de Ano, Área, Evento e Competência.
 17. Como professor, conceda uma badge ao estudante (na página do projeto ou do perfil).
 18. Ainda como professor, emita um certificado vinculado a evento/projeto; abra

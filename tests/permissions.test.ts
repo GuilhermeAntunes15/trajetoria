@@ -289,6 +289,15 @@ describe("canArchiveProject e canModerateProject", () => {
     expect(canPublishProject(owner, project())).toBe(true);
     expect(canPublishProject(teacher, project())).toBe(false);
   });
+
+  it("membro publica projeto aprovado", () => {
+    expect(canPublishProject(owner, project({ status: "APPROVED" }))).toBe(true);
+    expect(canPublishProject(owner, project({ status: "SUBMITTED" }))).toBe(true);
+  });
+
+  it("projeto arquivado não muda de visibilidade pelo membro", () => {
+    expect(canPublishProject(owner, project({ status: "ARCHIVED" }))).toBe(false);
+  });
 });
 
 describe("canForkProject", () => {

@@ -6,8 +6,12 @@ export default async function MainLayout({ children }: { children: React.ReactNo
   const viewer = await getViewer();
 
   if (!viewer) {
-    return <PublicShell>{children}</PublicShell>;
+    return <PublicShell key="anon">{children}</PublicShell>;
   }
 
-  return <AppShell viewer={viewer}>{children}</AppShell>;
+  return (
+    <AppShell key={viewer.id} viewer={viewer}>
+      {children}
+    </AppShell>
+  );
 }

@@ -66,13 +66,6 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
     ? { id: viewer.id, role: viewer.role, schoolId: viewer.schoolId }
     : null;
 
-  const sameSchool = viewer?.schoolId === event.schoolId;
-  const hasPublicProject = event.entries.some(
-    (entry) => entry.project.status === "APPROVED" && entry.project.visibility === "PUBLIC",
-  );
-
-  if (!sameSchool && !hasPublicProject) notFound();
-
   const visibleEntries = event.entries.filter((entry) =>
     canViewProject(permissionViewer, toProjectCtx(entry.project)),
   );
@@ -168,7 +161,7 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       <section className="space-y-4">
         <SectionTitle>{eventsCopy.participantsTitle}</SectionTitle>
         {visibleEntries.length === 0 ? (
-          <EmptyState title={empty.projects.title} text={empty.projects.text} />
+          <EmptyState title={empty.eventProjects.title} text={empty.eventProjects.text} />
         ) : others.length === 0 ? null : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {others.map((entry) => (
