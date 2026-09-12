@@ -20,3 +20,4 @@ coverage/
 .playwright-mcp/
 qa-shots/
 .qa/
+.tmp/
