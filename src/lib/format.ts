@@ -35,6 +35,19 @@ export function formatDateRange(start: Date | string, end?: Date | string | null
   return `${formatDate(startDate)} a ${formatDate(endDate)}`;
 }
 
+const dayFormatter = new Intl.DateTimeFormat("pt-BR", { day: "2-digit" });
+const shortMonthFormatter = new Intl.DateTimeFormat("pt-BR", { month: "short" });
+
+/** Partes de uma data para desenhar o bloco de calendário dos eventos. */
+export function calendarParts(date: Date | string): { day: string; month: string; year: string } {
+  const target = new Date(date);
+  return {
+    day: dayFormatter.format(target),
+    month: shortMonthFormatter.format(target).replace(".", "").toUpperCase(),
+    year: String(target.getFullYear()),
+  };
+}
+
 export function initials(name: string): string {
   const parts = name.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return "?";

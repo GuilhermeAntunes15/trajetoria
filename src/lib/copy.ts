@@ -174,6 +174,9 @@ export const landing = {
 };
 
 export const auth = {
+  asideTitle: "Seu portfólio começa antes do mercado de trabalho.",
+  asideText: "Projetos, competências e experiências da escola, reunidos em um lugar só.",
+  asidePoints: ["Projetos documentados", "Competências verificadas", "Certificados com código"],
   loginTitle: "Entrar",
   loginSubtitle: "Use o e-mail da escola para acessar sua trajetória.",
   invalidCredentials: "E-mail ou senha incorretos.",
@@ -198,8 +201,13 @@ export const dashboard = {
     badges: "Badges",
   },
   keepBuilding: "Continue construindo",
+  keepBuildingHint: "Seus projetos mais recentes e em que ponto eles estão.",
   newProject: "+ Novo projeto",
   trajectory: "Minha trajetória",
+  trajectoryHint: "Cada marca é um projeto ou um evento que já aconteceu.",
+  currentPhaseLabel: "Fase atual",
+  noPhaseYet: "Ainda sem projeto",
+  achievementsTitle: "O que você já reuniu",
 };
 
 export const actions = {
@@ -257,6 +265,7 @@ export const empty = {
 
 export const project = {
   verifiedSeal: "Projeto verificado pela escola",
+  progressLabel: "Do rascunho à validação",
   featuredLabel: "Destaque da escola",
   publishLabel: "Permitir que este projeto seja visualizado fora da escola.",
   publishNote: "Só ficará visível fora da escola depois da validação.",
@@ -279,12 +288,21 @@ export const onboarding = {
   title: "Bem-vindo ao Trajetória.",
   subtitle: "São poucas perguntas. Dá para ajustar tudo depois.",
   submit: "Começar",
+  stepLabel: "Passo 1 de 1",
+  welcomeSticker: "Boas-vindas",
+  asidePoints: [
+    "Cadastre o projeto e conte o problema que ele resolve.",
+    "Anexe evidências: repositório, apresentação, vídeo.",
+    "Um professor lê, aprova e valida as competências.",
+  ],
 };
 
 export const errors = {
   generic: "Algo não saiu como esperado. Tente novamente.",
   notFound: "Não encontramos esta página.",
   notFoundText: "O endereço pode ter mudado ou o conteúdo não está mais disponível.",
+  notFoundSticker: "Página não encontrada",
+  backHome: "Voltar para o início",
   forbidden: "Você não tem acesso a este conteúdo.",
 };
 
@@ -424,6 +442,7 @@ export const events = {
 };
 
 export const archive = {
+  featuredTag: "Destaque",
   title: "Acervo da escola",
   subtitle: "A memória dos projetos construídos aqui.",
   featuredTitle: "Projetos em destaque",

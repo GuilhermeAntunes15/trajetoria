@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/common/PageHeader";
 import { SectionTitle } from "@/components/common/SectionTitle";
-import { Card, CardBody } from "@/components/ui/Card";
 import { admin as adminCopy } from "@/lib/copy";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/session";
@@ -56,18 +55,16 @@ export default async function AdminPage() {
 
       <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
         {blocks.map((block) => (
-          <Card key={block.label}>
-            <CardBody className="py-4">
-              <p className="text-2xl font-semibold text-ink">{block.value}</p>
-              <p className="mt-0.5 text-xs text-muted">{block.label}</p>
-              <Link
-                href={block.href}
-                className="mt-3 inline-block text-sm text-brand hover:text-brand-hover"
-              >
-                Ver lista
-              </Link>
-            </CardBody>
-          </Card>
+          <div key={block.label} className="lp-sticker lp-sticker-soft bg-surface p-4 sm:p-5">
+            <p className="font-display text-3xl leading-none font-bold text-ink">{block.value}</p>
+            <p className="mt-1.5 text-xs leading-tight text-muted">{block.label}</p>
+            <Link
+              href={block.href}
+              className="mt-3 inline-block text-sm font-semibold text-brand hover:text-brand-hover"
+            >
+              Ver lista
+            </Link>
+          </div>
         ))}
       </section>
 
@@ -78,7 +75,7 @@ export default async function AdminPage() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="block rounded-[var(--radius-card)] border border-line bg-surface px-4 py-3 text-sm font-medium text-ink transition-colors hover:border-brand/40 hover:text-brand"
+                className="lp-sticker lp-sticker-soft lp-lift-soft block bg-surface px-4 py-3 text-sm font-semibold text-ink transition-colors hover:text-brand"
               >
                 {link.label}
               </Link>

@@ -1,12 +1,15 @@
 import Link from "next/link";
-import type { ComponentProps, CSSProperties, ReactNode } from "react";
+import type { ComponentProps } from "react";
 import { BadgeCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 /**
- * Peças visuais exclusivas da landing pública.
+ * Peças visuais da landing pública.
  * Tudo é SVG inline/local: nenhuma imagem externa, nenhuma dependência nova.
+ * Kicker, Squiggle e os helpers de rotação/delay moram em
+ * `@/components/common/decor` porque o app autenticado também os usa.
  */
+export { Kicker, Squiggle, delayStyle, rotateStyle } from "@/components/common/decor";
 
 type LandingButtonTone = "ink" | "sun" | "paper" | "outline";
 
@@ -40,28 +43,6 @@ export function LandingButton({
   );
 }
 
-export function Kicker({
-  children,
-  className,
-  tone = "ink",
-}: {
-  children: ReactNode;
-  className?: string;
-  tone?: "ink" | "paper";
-}) {
-  return (
-    <p
-      className={cn(
-        "inline-flex items-center gap-2 rounded-full border-2 px-3.5 py-1.5 text-[0.7rem] font-bold tracking-[0.14em] uppercase",
-        tone === "ink" ? "border-ink bg-lp-paper text-ink" : "border-lp-paper/60 text-lp-paper",
-        className,
-      )}
-    >
-      {children}
-    </p>
-  );
-}
-
 export function VerifiedSeal({ label, className }: { label: string; className?: string }) {
   return (
     <p
@@ -73,26 +54,6 @@ export function VerifiedSeal({ label, className }: { label: string; className?: 
       <BadgeCheck size={15} strokeWidth={2.25} aria-hidden="true" />
       {label}
     </p>
-  );
-}
-
-/** Sublinhado desenhado à mão, usado sob títulos de seção. */
-export function Squiggle({ className, color = "var(--color-lp-tangerine)" }: { className?: string; color?: string }) {
-  return (
-    <svg
-      viewBox="0 0 180 14"
-      className={cn("h-2.5 w-36", className)}
-      fill="none"
-      aria-hidden="true"
-      focusable="false"
-    >
-      <path
-        d="M2 9C22 2 34 12 54 8s32-8 52-4 30 10 50 4"
-        stroke={color}
-        strokeWidth="5"
-        strokeLinecap="round"
-      />
-    </svg>
   );
 }
 
@@ -161,12 +122,4 @@ export function FloodCover({ className }: { className?: string }) {
       <circle cx="320" cy="24" r="8" fill="var(--color-accent)" />
     </svg>
   );
-}
-
-export function delayStyle(ms: number): CSSProperties {
-  return { "--lp-delay": `${ms}ms` } as CSSProperties;
-}
-
-export function rotateStyle(deg: number): CSSProperties {
-  return { "--lp-rot": `${deg}deg` } as CSSProperties;
 }

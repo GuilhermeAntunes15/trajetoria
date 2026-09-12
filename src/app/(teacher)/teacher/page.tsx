@@ -3,11 +3,11 @@ import Link from "next/link";
 import { EmptyState } from "@/components/common/EmptyState";
 import { PageHeader } from "@/components/common/PageHeader";
 import { SectionTitle } from "@/components/common/SectionTitle";
+import { CalendarDays, GraduationCap, Inbox, ShieldCheck } from "lucide-react";
 import { EventCard } from "@/components/event/EventCard";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { Card, CardBody } from "@/components/ui/Card";
 import { empty, teacher as teacherCopy } from "@/lib/copy";
 import { formatDate } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
@@ -16,6 +16,14 @@ import { listVisibleProjects } from "@/server/services/project.service";
 
 export const metadata: Metadata = { title: "Painel do professor" };
 export const dynamic = "force-dynamic";
+
+const COUNTER_ICONS = [Inbox, ShieldCheck, GraduationCap, CalendarDays];
+const COUNTER_TINTS = [
+  "var(--color-lp-sun)",
+  "var(--color-lp-mint)",
+  "var(--color-lp-sky)",
+  "var(--color-lp-paper)",
+];
 
 export default async function TeacherPage() {
   const viewer = await requireRole(["TEACHER", "ADMIN"], "/teacher");
@@ -95,38 +103,60 @@ export default async function TeacherPage() {
     <div className="space-y-10">
       <PageHeader title={teacherCopy.title} description={teacherCopy.subtitle} />
 
+      {/* Indicadores do dia: adesivo leve, sem cor cheia. Isto aqui e ferramenta
+          de trabalho, nao vitrine. */}
       <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {counters.map((counter) => (
-          <Card key={counter.label}>
-            <CardBody className="py-4">
-              <p className="text-2xl font-semibold text-ink">{counter.value}</p>
-              <p className="mt-0.5 text-xs text-muted">{counter.label}</p>
-            </CardBody>
-          </Card>
-        ))}
+        {counters.map((counter, index) => {
+          const Icon = COUNTER_ICONS[index] ?? Inbox;
+
+          return (
+            <div
+              key={counter.label}
+              className="lp-sticker lp-sticker-soft flex flex-col bg-surface p-4"
+            >
+              <span
+                className="grid size-9 place-items-center rounded-full border-2 border-ink text-ink"
+                style={{ backgroundColor: COUNTER_TINTS[index] }}
+                aria-hidden
+              >
+                <Icon size={17} strokeWidth={2.25} />
+              </span>
+              <p className="mt-3 font-display text-3xl leading-none font-bold text-ink">
+                {counter.value}
+              </p>
+              <p className="mt-1.5 text-xs leading-tight text-muted">{counter.label}</p>
+            </div>
+          );
+        })}
       </section>
 
       <section className="space-y-4">
         <SectionTitle>{teacherCopy.queueTitle}</SectionTitle>
         {sortedQueue.length === 0 ? (
-          <EmptyState title={empty.teacherQueue.title} text={empty.teacherQueue.text} />
+          <EmptyState
+            title={empty.teacherQueue.title}
+            text={empty.teacherQueue.text}
+            illustration="notebook"
+          />
         ) : (
           <ul className="space-y-2">
             {sortedQueue.map((project) => (
               <li
                 key={project.id}
-                className="flex flex-col gap-3 rounded-[var(--radius-card)] border border-line bg-surface p-4 sm:flex-row sm:items-center sm:justify-between"
+                className="lp-sticker lp-sticker-soft flex flex-col gap-3 bg-surface p-4 sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="min-w-0 space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
                     <Link
                       href={`/projects/${project.slug}`}
-                      className="text-sm font-medium text-ink hover:text-brand"
+                      className="font-display text-base leading-tight font-bold text-ink hover:text-brand"
                     >
                       {project.title}
                     </Link>
                     {project.advisorId === viewer.id ? (
-                      <Badge tone="brand">{teacherCopy.yoursFirst}</Badge>
+                      <Badge tone="brand" variant="ink">
+                        {teacherCopy.yoursFirst}
+                      </Badge>
                     ) : null}
                   </div>
                   <p className="text-xs text-muted">
@@ -177,9 +207,9 @@ export default async function TeacherPage() {
             {classrooms.map((classroom) => (
               <li
                 key={classroom.id}
-                className="flex items-center justify-between gap-3 rounded-[var(--radius-card)] border border-line bg-surface p-4"
+                className="lp-sticker lp-sticker-soft flex items-center justify-between gap-3 bg-surface p-4"
               >
-                <span className="text-sm font-medium text-ink">{classroom.name}</span>
+                <span className="font-display text-base font-bold text-ink">{classroom.name}</span>
                 <span className="text-xs text-muted">
                   {classroom.year} ·{" "}
                   {classroom._count.students === 1

@@ -1,20 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CalendarDays, ScrollText } from "lucide-react";
 import { revokeBadgeAction } from "@/actions/badge.actions";
 import { BadgeCard } from "@/components/badge/BadgeCard";
 import { GrantBadgeDialog } from "@/components/badge/GrantBadgeDialog";
 import { IssueCertificateDialog } from "@/components/certificate/IssueCertificateDialog";
 import { EmptyState } from "@/components/common/EmptyState";
 import { SectionTitle } from "@/components/common/SectionTitle";
+import { rotateStyle } from "@/components/common/decor";
 import { SubmitButton } from "@/components/common/SubmitButton";
 import { ProjectCard } from "@/components/project/ProjectCard";
 import { SkillBadge } from "@/components/project/SkillBadge";
 import { StudentAvatar } from "@/components/project/StudentAvatar";
-import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { ROLE_LABELS } from "@/lib/constants";
-import { badges as badgesCopy, empty, settings } from "@/lib/copy";
+import { badges as badgesCopy, certificates as certificatesCopy, empty, settings } from "@/lib/copy";
 import { formatDate } from "@/lib/format";
 import { canViewProfile, canViewProject } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
@@ -26,6 +27,14 @@ import {
 } from "@/server/services/project.service";
 
 export const dynamic = "force-dynamic";
+
+/** Adesivos de interesse: cor decorativa, sem significado de categoria. */
+const INTEREST_TINTS = [
+  "var(--color-lp-mint)",
+  "var(--color-lp-sun)",
+  "var(--color-lp-sky)",
+  "var(--color-lp-paper)",
+];
 
 export async function generateMetadata({
   params,
@@ -191,40 +200,72 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
     : [[], []];
 
   const profile = user.studentProfile;
-  const details = [profile?.course, profile?.gradeYear, profile?.classroom?.name].filter(Boolean);
+  const details = [profile?.course, profile?.gradeYear, profile?.classroom?.name].filter(
+    (value): value is string => Boolean(value),
+  );
 
   return (
-    <div className="space-y-10">
-      <header className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-start">
-          <StudentAvatar name={user.name} avatarUrl={user.avatarUrl} size="lg" />
-          <div className="min-w-0 space-y-2">
-            <div className="space-y-1">
-              <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">{user.name}</h1>
-              <p className="text-sm text-muted">
-                {user.school.name}
-                {user.role !== "STUDENT" ? ` — ${ROLE_LABELS[user.role]}` : ""}
-              </p>
+    <div className="space-y-12">
+      {/* Capa de caderno: papel com trama de pontos, foto colada por cima. */}
+      <header className="relative overflow-hidden rounded-[var(--radius-sticker)] border-2 border-ink bg-lp-paper shadow-[5px_5px_0_var(--color-ink)]">
+        <div className="lp-dots pointer-events-none absolute inset-0" aria-hidden="true" />
+
+        <div className="relative flex flex-col gap-5 p-5 sm:flex-row sm:items-start sm:justify-between sm:p-8">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:gap-6">
+            <StudentAvatar
+              name={user.name}
+              avatarUrl={user.avatarUrl}
+              size="xl"
+              className="shadow-[4px_4px_0_var(--color-ink)]"
+            />
+            <div className="min-w-0 space-y-3">
+              <div className="space-y-1.5">
+                <h1 className="font-display text-[1.75rem] leading-[1.05] font-bold text-ink sm:text-4xl">
+                  {user.name}
+                </h1>
+                <p className="text-sm font-medium text-muted">
+                  {user.school.name}
+                  {user.role !== "STUDENT" ? ` — ${ROLE_LABELS[user.role]}` : ""}
+                </p>
+              </div>
+
               {details.length > 0 ? (
-                <p className="text-sm text-muted">{details.join(" · ")}</p>
+                <ul className="flex flex-wrap gap-2">
+                  {details.map((detail) => (
+                    <li
+                      key={detail}
+                      className="rounded-full border-2 border-ink bg-surface px-3 py-1 text-xs font-bold text-ink"
+                    >
+                      {detail}
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+
+              {user.bio ? (
+                <p className="max-w-2xl text-sm leading-relaxed text-ink sm:text-base">{user.bio}</p>
+              ) : null}
+
+              {profile?.interests && profile.interests.length > 0 ? (
+                <ul className="flex flex-wrap gap-2 pt-0.5">
+                  {profile.interests.map((interest, index) => (
+                    <li
+                      key={interest}
+                      className="lp-sticker lp-sticker-soft px-2.5 py-1 text-xs font-bold text-ink"
+                      style={{
+                        ...rotateStyle(index % 2 === 0 ? -1.5 : 1.5),
+                        backgroundColor: INTEREST_TINTS[index % INTEREST_TINTS.length],
+                      }}
+                    >
+                      {interest}
+                    </li>
+                  ))}
+                </ul>
               ) : null}
             </div>
-
-            {user.bio ? <p className="max-w-2xl text-sm text-ink">{user.bio}</p> : null}
-
-            {profile?.interests && profile.interests.length > 0 ? (
-              <div className="flex flex-wrap gap-2 pt-1">
-                {profile.interests.map((interest) => (
-                  <Badge key={interest} tone="neutral">
-                    {interest}
-                  </Badge>
-                ))}
-              </div>
-            ) : null}
           </div>
-        </div>
 
-        <div className="flex flex-wrap items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
           {isOwner ? (
             <ButtonLink href="/settings" variant="secondary" size="sm">
               {settings.editProfile}
@@ -240,17 +281,19 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
               />
             </>
           ) : null}
+          </div>
         </div>
       </header>
 
       <section className="space-y-4">
-        <SectionTitle>Projetos</SectionTitle>
+        <SectionTitle variant="display">Projetos</SectionTitle>
         {projects.length === 0 ? (
           <EmptyState
             title={empty.portfolio.title}
             text={empty.portfolio.text}
             actionLabel={isOwner ? empty.portfolio.action : undefined}
             actionHref={isOwner ? "/projects/new" : undefined}
+            illustration="notebook"
           />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -262,9 +305,9 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
       </section>
 
       <section className="space-y-4">
-        <SectionTitle>Competências</SectionTitle>
+        <SectionTitle variant="display">Competências</SectionTitle>
         {skills.length === 0 ? (
-          <EmptyState title={empty.skills.title} text={empty.skills.text} />
+          <EmptyState title={empty.skills.title} text={empty.skills.text} illustration="map" />
         ) : (
           <div className="flex flex-wrap gap-2">
             {skills.map((skill) => (
@@ -275,11 +318,11 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
       </section>
 
       <section className="space-y-4">
-        <SectionTitle>Badges</SectionTitle>
+        <SectionTitle variant="display">Badges</SectionTitle>
         {badges.length === 0 ? (
-          <EmptyState title={empty.badges.title} text={empty.badges.text} />
+          <EmptyState title={empty.badges.title} text={empty.badges.text} illustration="collection" />
         ) : (
-          <ul className="grid gap-3 sm:grid-cols-2">
+          <ul className="grid gap-4 sm:grid-cols-2">
             {badges.map((userBadge) => (
               <li key={userBadge.id}>
                 <BadgeCard
@@ -309,21 +352,34 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
       </section>
 
       <section className="space-y-4">
-        <SectionTitle>Eventos</SectionTitle>
+        <SectionTitle variant="display">Eventos</SectionTitle>
         {eventRows.length === 0 ? (
-          <EmptyState title={empty.events.title} text={empty.events.text} />
+          <EmptyState title={empty.events.title} text={empty.events.text} illustration="map" />
         ) : (
-          <ul className="space-y-2">
+          <ul className="grid gap-3 sm:grid-cols-2">
             {eventRows.map((entry) => (
-              <li key={entry.event.id} className="text-sm">
-                <Link href={`/events/${entry.event.slug}`} className="font-medium text-ink hover:text-brand">
-                  {entry.event.name}
+              <li key={entry.event.id}>
+                <Link
+                  href={`/events/${entry.event.slug}`}
+                  className="lp-sticker lp-sticker-soft lp-lift-soft flex items-center gap-3 bg-surface p-3.5"
+                >
+                  <span
+                    className="grid size-10 shrink-0 place-items-center rounded-full border-2 border-ink bg-lp-sky text-ink"
+                    aria-hidden
+                  >
+                    <CalendarDays size={18} strokeWidth={2.25} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-display text-sm leading-tight font-bold text-ink">
+                      {entry.event.name}
+                    </span>
+                    <span className="mt-0.5 block text-xs text-muted">
+                      {[formatDate(entry.event.startDate), entry.event.location]
+                        .filter(Boolean)
+                        .join(" · ")}
+                    </span>
+                  </span>
                 </Link>
-                <span className="block text-xs text-muted">
-                  {[formatDate(entry.event.startDate), entry.event.location]
-                    .filter(Boolean)
-                    .join(" · ")}
-                </span>
               </li>
             ))}
           </ul>
@@ -331,28 +387,41 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
       </section>
 
       <section className="space-y-4">
-        <SectionTitle>Certificados</SectionTitle>
+        <SectionTitle variant="display">Certificados</SectionTitle>
         {certificates.length === 0 ? (
-          <EmptyState title={empty.certificates.title} text={empty.certificates.text} />
+          <EmptyState
+            title={empty.certificates.title}
+            text={empty.certificates.text}
+            illustration="certificate"
+          />
         ) : (
-          <ul className="space-y-2">
+          <ul className="grid gap-3 sm:grid-cols-2">
             {certificates.map((certificate) => (
-              <li key={certificate.id} className="text-sm">
+              <li key={certificate.id}>
                 <Link
                   href={`/certificate/${certificate.code}`}
-                  className="font-medium text-ink hover:text-brand"
+                  className="lp-sticker lp-sticker-soft lp-lift-soft flex h-full flex-col bg-surface p-4"
                 >
-                  {certificate.title}
+                  <span className="flex items-center gap-2 text-[0.68rem] font-bold tracking-[0.12em] text-muted uppercase">
+                    <ScrollText size={15} strokeWidth={2.25} aria-hidden="true" />
+                    {certificatesCopy.title}
+                  </span>
+                  <span className="mt-2 font-display text-base leading-tight font-bold text-ink">
+                    {certificate.title}
+                  </span>
+                  <span className="mt-1 text-xs text-muted">
+                    {[
+                      certificate.event?.name,
+                      certificate.hours ? `${certificate.hours} h` : null,
+                      formatDate(certificate.issuedAt),
+                    ]
+                      .filter(Boolean)
+                      .join(" · ")}
+                  </span>
+                  <span className="mt-3 inline-flex self-start rounded-full border-2 border-dashed border-ink/25 px-2.5 py-1 font-mono text-xs tracking-wider text-ink">
+                    {certificate.code}
+                  </span>
                 </Link>
-                <span className="block text-xs text-muted">
-                  {[
-                    certificate.event?.name,
-                    certificate.hours ? `${certificate.hours} h` : null,
-                    formatDate(certificate.issuedAt),
-                  ]
-                    .filter(Boolean)
-                    .join(" · ")}
-                </span>
               </li>
             ))}
           </ul>

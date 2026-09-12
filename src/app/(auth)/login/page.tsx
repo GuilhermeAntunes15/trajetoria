@@ -24,25 +24,28 @@ export default async function LoginPage({
 
   return (
     <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="font-display text-2xl font-semibold text-ink">{authCopy.loginTitle}</h1>
-        <p className="text-sm text-muted">{authCopy.loginSubtitle}</p>
+      <div className="space-y-2">
+        <h1 className="font-display text-[1.75rem] leading-tight font-bold text-ink sm:text-4xl">{authCopy.loginTitle}</h1>
+        <p className="text-base text-muted">{authCopy.loginSubtitle}</p>
       </div>
 
       {params.reset ? (
-        <p className="rounded-[var(--radius-control)] border border-success/30 bg-success/10 px-3 py-2 text-sm text-success">
+        <p className="rounded-[var(--radius-sticker)] border-2 border-ink bg-lp-mint px-4 py-2.5 text-sm font-bold text-ink">
           {authCopy.resetDone}
         </p>
       ) : null}
 
-      <Card>
+      <Card variant="sticker">
         <CardBody>
           <LoginForm redirectTo={redirectTo} />
         </CardBody>
       </Card>
 
       <p className="text-center text-sm text-muted">
-        <Link href="/esqueci-minha-senha" className="text-brand transition-colors hover:text-brand-hover">
+        <Link
+          href="/esqueci-minha-senha"
+          className="font-semibold text-brand underline-offset-4 transition-colors hover:text-brand-hover hover:underline"
+        >
           Esqueci minha senha
         </Link>
       </p>

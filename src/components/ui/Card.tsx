@@ -1,11 +1,23 @@
 import type { HTMLAttributes } from "react";
 import { cn } from "@/lib/utils";
 
-export function Card({ className, ...props }: HTMLAttributes<HTMLDivElement>) {
+/**
+ * `plain` é o cartão de trabalho: borda fina, sombra quase inexistente.
+ * É o que formulários, tabelas e painéis de gestão continuam usando.
+ * `sticker` é o adesivo do caderno, para as peças que a pessoa quer olhar:
+ * capa de projeto, conquista, certificado.
+ */
+export type CardVariant = "plain" | "sticker";
+
+type CardProps = HTMLAttributes<HTMLDivElement> & { variant?: CardVariant };
+
+export function Card({ variant = "plain", className, ...props }: CardProps) {
   return (
     <div
       className={cn(
-        "rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card)]",
+        variant === "sticker"
+          ? "lp-sticker bg-surface"
+          : "rounded-[var(--radius-card)] border border-line bg-surface shadow-[var(--shadow-card)]",
         className,
       )}
       {...props}

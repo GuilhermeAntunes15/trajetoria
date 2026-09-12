@@ -24,11 +24,20 @@ export function MobileNavigation({ username, role }: { username: string; role: R
                 href={item.href}
                 aria-current={active ? "page" : undefined}
                 className={cn(
-                  "flex flex-col items-center gap-1 px-1 py-2.5 text-[0.68rem] transition-colors",
-                  active ? "text-brand" : "text-muted",
+                  "flex flex-col items-center gap-1 px-1 py-2 text-[0.68rem] transition-colors",
+                  active ? "font-semibold text-ink" : "text-muted",
                 )}
               >
-                <Icon size={20} strokeWidth={1.75} />
+                <span
+                  className={cn(
+                    "grid size-8 place-items-center rounded-full border-2 motion-safe:transition-transform motion-safe:duration-200",
+                    active
+                      ? "-rotate-6 border-ink bg-lp-mint text-ink"
+                      : "border-transparent text-muted",
+                  )}
+                >
+                  <Icon size={19} strokeWidth={active ? 2.25 : 1.75} aria-hidden="true" />
+                </span>
                 {item.label}
               </Link>
             </li>

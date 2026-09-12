@@ -24,6 +24,18 @@ const icons: Record<EvidenceType, LucideIcon> = {
   OTHER: Paperclip,
 };
 
+/** Cada tipo de evidência tem seu bloco de cor — o rótulo continua escrito. */
+const tints: Record<EvidenceType, string> = {
+  IMAGE: "var(--color-lp-sky)",
+  VIDEO: "var(--color-lp-tangerine)",
+  DOCUMENT: "var(--color-lp-paper)",
+  LINK: "var(--color-lp-mint)",
+  GITHUB: "var(--color-lp-mint)",
+  WEBSITE: "var(--color-lp-sky)",
+  PRESENTATION: "var(--color-lp-sun)",
+  OTHER: "var(--color-lp-paper)",
+};
+
 export type EvidenceCardData = {
   id: string;
   type: EvidenceType;
@@ -44,15 +56,23 @@ export function EvidenceCard({
   const href = evidence.url ?? evidence.fileUrl;
 
   return (
-    <div className="rounded-[var(--radius-card)] border border-line bg-surface p-4">
+    <div className="lp-sticker lp-sticker-soft bg-surface p-4">
       <div className="flex items-start justify-between gap-3">
-        <div className="flex min-w-0 items-start gap-3">
-          <span className="mt-0.5 text-muted">
-            <Icon size={18} strokeWidth={1.75} />
+        <div className="flex min-w-0 items-start gap-3.5">
+          <span
+            className="grid size-11 shrink-0 place-items-center rounded-[10px] border-2 border-ink text-ink"
+            style={{ backgroundColor: tints[evidence.type] }}
+            aria-hidden
+          >
+            <Icon size={20} strokeWidth={2.25} />
           </span>
           <div className="min-w-0">
-            <p className="text-sm font-medium text-ink">{evidence.title}</p>
-            <p className="text-xs text-muted">{EVIDENCE_TYPE_LABELS[evidence.type]}</p>
+            <p className="font-display text-base leading-tight font-bold text-ink">
+              {evidence.title}
+            </p>
+            <p className="mt-0.5 text-xs font-semibold tracking-[0.06em] text-muted uppercase">
+              {EVIDENCE_TYPE_LABELS[evidence.type]}
+            </p>
           </div>
         </div>
 
@@ -62,10 +82,10 @@ export function EvidenceCard({
               href={href}
               target="_blank"
               rel="noopener noreferrer nofollow"
-              className="inline-flex items-center gap-1.5 text-sm text-brand hover:text-brand-hover"
+              className="inline-flex items-center gap-1.5 text-sm font-semibold text-brand hover:text-brand-hover"
             >
               Abrir
-              <ExternalLink size={16} strokeWidth={1.75} />
+              <ExternalLink size={16} strokeWidth={2} aria-hidden="true" />
             </a>
           ) : null}
           {actions}
@@ -73,7 +93,9 @@ export function EvidenceCard({
       </div>
 
       {evidence.description ? (
-        <p className="mt-2 text-sm whitespace-pre-wrap text-muted">{evidence.description}</p>
+        <p className="mt-2.5 text-sm leading-relaxed whitespace-pre-wrap text-muted">
+          {evidence.description}
+        </p>
       ) : null}
     </div>
   );

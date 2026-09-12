@@ -9,19 +9,22 @@ export const metadata: Metadata = { title: "Esqueci minha senha" };
 export default function ForgotPasswordPage() {
   return (
     <div className="space-y-6">
-      <div className="space-y-1">
-        <h1 className="font-display text-2xl font-semibold text-ink">{authCopy.forgotTitle}</h1>
-        <p className="text-sm text-muted">{authCopy.forgotSubtitle}</p>
+      <div className="space-y-2">
+        <h1 className="font-display text-[1.75rem] leading-tight font-bold text-ink sm:text-4xl">{authCopy.forgotTitle}</h1>
+        <p className="text-base text-muted">{authCopy.forgotSubtitle}</p>
       </div>
 
-      <Card>
+      <Card variant="sticker">
         <CardBody>
           <ForgotPasswordForm />
         </CardBody>
       </Card>
 
       <p className="text-center text-sm text-muted">
-        <Link href="/login" className="text-brand transition-colors hover:text-brand-hover">
+        <Link
+          href="/login"
+          className="font-semibold text-brand underline-offset-4 transition-colors hover:text-brand-hover hover:underline"
+        >
           Voltar para o login
         </Link>
       </p>

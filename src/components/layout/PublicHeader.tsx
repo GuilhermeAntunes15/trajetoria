@@ -7,7 +7,7 @@ export function PublicHeader() {
   return (
     <header className="border-b border-line bg-surface">
       <div className="mx-auto flex h-16 max-w-5xl items-center justify-between gap-4 px-4 sm:px-6">
-        <Link href="/" className="font-display text-lg font-semibold text-ink">
+        <Link href="/" className="font-display text-xl font-bold text-ink">
           {brand.name}
         </Link>
         <SearchInput id="public-search" className="hidden w-full max-w-xs md:block" />

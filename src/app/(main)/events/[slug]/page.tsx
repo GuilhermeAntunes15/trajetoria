@@ -3,14 +3,14 @@ import { notFound } from "next/navigation";
 import { CalendarDays, MapPin, Users } from "lucide-react";
 import { IssueCertificateDialog } from "@/components/certificate/IssueCertificateDialog";
 import { EmptyState } from "@/components/common/EmptyState";
-import { PageHeader } from "@/components/common/PageHeader";
 import { SectionTitle } from "@/components/common/SectionTitle";
+import { EVENT_TYPE_COLORS, EVENT_TYPE_INK } from "@/components/event/EventCard";
 import { ProjectCard } from "@/components/project/ProjectCard";
-import { Badge } from "@/components/ui/Badge";
 import { ButtonLink } from "@/components/ui/ButtonLink";
 import { EVENT_TYPE_LABELS } from "@/lib/constants";
-import { empty, events as eventsCopy } from "@/lib/copy";
+import { archive as archiveCopy, empty, events as eventsCopy } from "@/lib/copy";
 import { formatDateRange } from "@/lib/format";
+import { cn } from "@/lib/utils";
 import { canManageEvent, canViewProject } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
 import { getViewer } from "@/lib/session";
@@ -79,6 +79,9 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
   const others = visibleEntries.filter((entry) => !entry.isHighlight);
   const canManage = canManageEvent(permissionViewer, event.schoolId);
 
+  const typeColor = EVENT_TYPE_COLORS[event.type];
+  const typeInk = EVENT_TYPE_INK[event.type];
+
   const participants = canManage
     ? await prisma.user.findMany({
         where: {
@@ -96,23 +99,47 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
 
   return (
     <div className="space-y-10">
-      <div className="space-y-4">
+      {/* Capa do evento: faixa na cor do tipo, como nos cartões da listagem. */}
+      <header className="lp-sticker overflow-hidden bg-surface">
+        <div
+          className="h-3 border-b-2 border-ink"
+          style={{ backgroundColor: typeColor }}
+          aria-hidden
+        />
+
         {event.coverImageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={event.coverImageUrl}
             alt={`Capa do evento ${event.name}`}
-            className="aspect-[16/6] w-full rounded-[var(--radius-card)] border border-line object-cover"
+            className="aspect-[16/6] w-full border-b-2 border-ink object-cover"
           />
         ) : null}
 
-        <Badge tone="info">{EVENT_TYPE_LABELS[event.type]}</Badge>
-        <PageHeader
-          title={event.name}
-          description={event.description ?? undefined}
-          actions={
-            canManage ? (
-              <>
+        <div className="space-y-4 p-5 sm:p-7">
+          <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
+            <div className="min-w-0 space-y-3">
+              <p
+                className={cn(
+                  "inline-flex rounded-full border-2 border-ink px-3 py-1 text-xs font-bold",
+                  typeInk,
+                )}
+                style={{ backgroundColor: typeColor }}
+              >
+                {EVENT_TYPE_LABELS[event.type]}
+              </p>
+              <h1 className="font-display text-[1.875rem] leading-[1.05] font-bold text-ink sm:text-[2.5rem]">
+                {event.name}
+              </h1>
+              {event.description ? (
+                <p className="max-w-2xl text-sm leading-relaxed text-muted sm:text-base">
+                  {event.description}
+                </p>
+              ) : null}
+            </div>
+
+            {canManage ? (
+              <div className="flex flex-wrap items-center gap-2">
                 <ButtonLink href={`/teacher/events/${event.id}`} size="sm" variant="secondary">
                   {eventsCopy.editEvent}
                 </ButtonLink>
@@ -121,37 +148,43 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
                   eventId={event.id}
                   defaultTitle={event.name}
                 />
-              </>
-            ) : null
-          }
-        />
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-muted">
-          <span className="inline-flex items-center gap-1.5">
-            <CalendarDays size={16} strokeWidth={1.75} />
-            {formatDateRange(event.startDate, event.endDate)}
-          </span>
-          {event.location ? (
-            <span className="inline-flex items-center gap-1.5">
-              <MapPin size={16} strokeWidth={1.75} />
-              {event.location}
-            </span>
-          ) : null}
-          <span className="inline-flex items-center gap-1.5">
-            <Users size={16} strokeWidth={1.75} />
-            {eventsCopy.studentCount(studentIds.size)}
-          </span>
-          <span>{event.school.name}</span>
+              </div>
+            ) : null}
+          </div>
+
+          <ul className="flex flex-wrap items-center gap-2">
+            <li className="inline-flex items-center gap-1.5 rounded-full border-2 border-ink bg-lp-paper px-3 py-1 text-xs font-bold text-ink">
+              <CalendarDays size={14} strokeWidth={2.25} aria-hidden="true" />
+              {formatDateRange(event.startDate, event.endDate)}
+            </li>
+            {event.location ? (
+              <li className="inline-flex items-center gap-1.5 rounded-full border-2 border-ink bg-lp-paper px-3 py-1 text-xs font-bold text-ink">
+                <MapPin size={14} strokeWidth={2.25} aria-hidden="true" />
+                {event.location}
+              </li>
+            ) : null}
+            <li className="inline-flex items-center gap-1.5 rounded-full border-2 border-ink bg-lp-paper px-3 py-1 text-xs font-bold text-ink">
+              <Users size={14} strokeWidth={2.25} aria-hidden="true" />
+              {eventsCopy.studentCount(studentIds.size)}
+            </li>
+            <li className="text-xs text-muted">{event.school.name}</li>
+          </ul>
         </div>
-      </div>
+      </header>
 
       {highlights.length > 0 ? (
-        <section className="space-y-4">
-          <SectionTitle>{eventsCopy.highlightsTitle}</SectionTitle>
-          <div className="grid gap-4 sm:grid-cols-2">
+        <section className="space-y-6">
+          <SectionTitle variant="display">{eventsCopy.highlightsTitle}</SectionTitle>
+          <div className="grid gap-5 sm:grid-cols-2">
             {highlights.map((entry) => (
               <div key={entry.project.id} className="space-y-2">
-                <ProjectCard project={toProjectCardData(entry.project)} />
-                {entry.award ? <p className="text-xs text-muted">{entry.award}</p> : null}
+                <ProjectCard
+                  project={toProjectCardData(entry.project)}
+                  ribbon={archiveCopy.featuredTag}
+                />
+                {entry.award ? (
+                  <p className="pl-1 text-xs font-semibold text-muted">{entry.award}</p>
+                ) : null}
               </div>
             ))}
           </div>
@@ -159,9 +192,13 @@ export default async function EventPage({ params }: { params: Promise<{ slug: st
       ) : null}
 
       <section className="space-y-4">
-        <SectionTitle>{eventsCopy.participantsTitle}</SectionTitle>
+        <SectionTitle variant="display">{eventsCopy.participantsTitle}</SectionTitle>
         {visibleEntries.length === 0 ? (
-          <EmptyState title={empty.eventProjects.title} text={empty.eventProjects.text} />
+          <EmptyState
+            title={empty.eventProjects.title}
+            text={empty.eventProjects.text}
+            illustration="notebook"
+          />
         ) : others.length === 0 ? null : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {others.map((entry) => (

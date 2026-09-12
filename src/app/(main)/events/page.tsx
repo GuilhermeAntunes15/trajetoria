@@ -55,6 +55,8 @@ export default async function EventsPage() {
   return (
     <div className="space-y-10">
       <PageHeader
+        eyebrow="Agenda da escola"
+        accent="var(--color-lp-sun)"
         title={eventsCopy.title}
         description={eventsCopy.subtitle}
         actions={
@@ -66,11 +68,13 @@ export default async function EventsPage() {
         }
       />
 
-      {cards.length === 0 ? <EmptyState title={empty.events.title} text={empty.events.text} /> : null}
+      {cards.length === 0 ? (
+        <EmptyState title={empty.events.title} text={empty.events.text} illustration="map" />
+      ) : null}
 
       {upcoming.length > 0 ? (
         <section className="space-y-4">
-          <SectionTitle>{eventsCopy.upcoming}</SectionTitle>
+          <SectionTitle variant="display">{eventsCopy.upcoming}</SectionTitle>
           <div className="grid gap-4 sm:grid-cols-2">
             {upcoming.map((event) => (
               <EventCard key={event.slug} event={event} />
@@ -81,7 +85,7 @@ export default async function EventsPage() {
 
       {past.length > 0 ? (
         <section className="space-y-4">
-          <SectionTitle>{eventsCopy.past}</SectionTitle>
+          <SectionTitle variant="display">{eventsCopy.past}</SectionTitle>
           <div className="grid gap-4 sm:grid-cols-2">
             {past.map((event) => (
               <EventCard key={event.slug} event={event} />

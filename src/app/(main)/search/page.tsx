@@ -51,6 +51,8 @@ export default async function SearchPage({
   return (
     <div className="space-y-8">
       <PageHeader
+        eyebrow="Acervo da escola"
+        accent="var(--color-lp-sky)"
         title={searchCopy.title}
         description={query.length >= 2 ? searchCopy.resultsFor(query) : searchCopy.hint}
       />
@@ -58,11 +60,15 @@ export default async function SearchPage({
       <SearchInput id="search-page" defaultValue={query} className="max-w-xl" />
 
       {results === null ? (
-        <EmptyState title={empty.search.title} text={empty.search.text} />
+        <EmptyState title={empty.search.title} text={empty.search.text} illustration="magnifier" />
       ) : null}
 
       {results !== null && !hasResults ? (
-        <EmptyState title={searchCopy.nothingFound(query)} text={empty.search.text} />
+        <EmptyState
+          title={searchCopy.nothingFound(query)}
+          text={empty.search.text}
+          illustration="magnifier"
+        />
       ) : null}
 
       {results !== null && results.projects.length > 0 ? (
@@ -84,11 +90,13 @@ export default async function SearchPage({
               <li key={student.username}>
                 <Link
                   href={`/u/${student.username}`}
-                  className="flex items-center gap-3 rounded-[var(--radius-card)] border border-line bg-surface p-3 transition-colors hover:border-brand/40"
+                  className="lp-sticker lp-sticker-soft lp-lift-soft flex items-center gap-3 bg-surface p-3"
                 >
                   <StudentAvatar name={student.name} avatarUrl={student.avatarUrl} size="sm" />
                   <span className="min-w-0">
-                    <span className="block text-sm font-medium text-ink">{student.name}</span>
+                    <span className="block font-display text-sm leading-tight font-bold text-ink">
+                      {student.name}
+                    </span>
                     <span className="block truncate text-xs text-muted">
                       {[student.course, student.classroom].filter(Boolean).join(" · ") ||
                         `@${student.username}`}
@@ -129,9 +137,11 @@ export default async function SearchPage({
               <li key={event.slug}>
                 <Link
                   href={`/events/${event.slug}`}
-                  className="flex items-center justify-between gap-3 rounded-[var(--radius-card)] border border-line bg-surface p-3 transition-colors hover:border-brand/40"
+                  className="lp-sticker lp-sticker-soft lp-lift-soft flex items-center justify-between gap-3 bg-surface p-3"
                 >
-                  <span className="text-sm font-medium text-ink">{event.name}</span>
+                  <span className="font-display text-sm leading-tight font-bold text-ink">
+                    {event.name}
+                  </span>
                   <span className="text-xs text-muted">{formatDate(event.startDate)}</span>
                 </Link>
               </li>

@@ -46,9 +46,6 @@ export default async function CertificatePage({
     certificate.projectTitle
       ? { label: certificatesCopy.projectLabel, value: certificate.projectTitle }
       : null,
-    certificate.hours
-      ? { label: certificatesCopy.hoursLabel, value: `${certificate.hours}` }
-      : null,
     { label: "Escola", value: certificate.schoolName },
     { label: "Data de emissão", value: formatLongDate(certificate.issuedAt) },
     { label: certificatesCopy.codeLabel, value: certificate.code },
@@ -62,55 +59,67 @@ export default async function CertificatePage({
         </Notice>
       ) : null}
 
-      <Card>
-        <CardBody className="space-y-6 py-8 text-center">
-          <p className="text-xs font-semibold tracking-[0.08em] text-muted uppercase">
-            {certificatesCopy.title}
-          </p>
+      {/* Diploma: moldura tracejada dentro do adesivo, como um certificado impresso. */}
+      <Card variant="sticker" className="overflow-hidden">
+        <div className="h-3 border-b-2 border-ink bg-lp-sun" aria-hidden />
+        <CardBody className="p-4 sm:p-6">
+          <div className="space-y-7 rounded-[12px] border-2 border-dashed border-ink/25 px-4 py-8 text-center sm:px-8 sm:py-10">
+            <p className="text-[0.7rem] font-bold tracking-[0.14em] text-muted uppercase">
+              {certificatesCopy.title}
+            </p>
 
-          <div className="space-y-2">
-            <h1 className="font-display text-3xl leading-tight font-semibold text-ink">
-              {certificate.studentName}
-            </h1>
-            <p className="text-base text-ink">{certificate.title}</p>
+            <div className="space-y-3">
+              <h1 className="font-display text-[1.75rem] leading-[1.05] font-bold text-ink sm:text-4xl">
+                {certificate.studentName}
+              </h1>
+              <p className="text-base text-ink sm:text-lg">{certificate.title}</p>
+              {certificate.hours ? (
+                <p className="inline-flex rounded-full border-2 border-ink bg-lp-mint px-3 py-1 text-xs font-bold text-ink">
+                  {certificatesCopy.hoursText(certificate.hours)}
+                </p>
+              ) : null}
+            </div>
+
+            <dl className="mx-auto grid max-w-md gap-2 text-left text-sm">
+              {details.map((item) => (
+                <div
+                  key={item.label}
+                  className="flex justify-between gap-4 border-b border-dashed border-ink/20 pb-1.5"
+                >
+                  <dt className="text-muted">{item.label}</dt>
+                  <dd className="text-right font-semibold text-ink">{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+
+            {certificate.projectSlug ? (
+              <p className="text-sm">
+                <Link
+                  href={`/projects/${certificate.projectSlug}`}
+                  className="font-semibold text-brand underline-offset-4 hover:text-brand-hover hover:underline"
+                >
+                  Ver o projeto
+                </Link>
+              </p>
+            ) : null}
+
+            {revoked ? null : (
+              <p>
+                <a
+                  href={`/api/certificates/${certificate.code}/pdf`}
+                  className="inline-flex h-11 items-center justify-center gap-2 rounded-full border-2 border-ink bg-brand px-5 text-sm font-bold text-white shadow-[3px_3px_0_var(--color-ink)] transition-colors hover:bg-brand-hover"
+                >
+                  {certificatesCopy.downloadAction}
+                </a>
+              </p>
+            )}
           </div>
-
-          <dl className="mx-auto grid max-w-md gap-2 text-left text-sm">
-            {details.map((item) => (
-              <div key={item.label} className="flex justify-between gap-4 border-b border-line pb-1.5">
-                <dt className="text-muted">{item.label}</dt>
-                <dd className="text-right font-medium text-ink">{item.value}</dd>
-              </div>
-            ))}
-          </dl>
-
-          {certificate.projectSlug ? (
-            <p className="text-sm">
-              <Link
-                href={`/projects/${certificate.projectSlug}`}
-                className="text-brand hover:text-brand-hover"
-              >
-                Ver o projeto
-              </Link>
-            </p>
-          ) : null}
-
-          {revoked ? null : (
-            <p>
-              <a
-                href={`/api/certificates/${certificate.code}/pdf`}
-                className="inline-flex h-10 items-center justify-center gap-2 rounded-[var(--radius-control)] border border-brand bg-brand px-4 text-sm font-medium text-white transition-colors hover:bg-brand-hover"
-              >
-                {certificatesCopy.downloadAction}
-              </a>
-            </p>
-          )}
         </CardBody>
       </Card>
 
       <section className="space-y-3">
-        <SectionTitle>{certificatesCopy.verifyTitle}</SectionTitle>
-        <div className="flex flex-col items-start gap-4 rounded-[var(--radius-card)] border border-line bg-surface p-4 sm:flex-row sm:items-center">
+        <SectionTitle variant="display">{certificatesCopy.verifyTitle}</SectionTitle>
+        <div className="lp-sticker lp-sticker-soft flex flex-col items-start gap-4 bg-surface p-4 sm:flex-row sm:items-center">
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={`/api/certificates/${certificate.code}/qr`}
@@ -122,7 +131,10 @@ export default async function CertificatePage({
           <div className="space-y-1">
             <p className="text-sm text-ink">{certificatesCopy.verifyHint}</p>
             <p className="text-sm text-muted">
-              {certificatesCopy.codeLabel}: <span className="font-medium">{certificate.code}</span>
+              {certificatesCopy.codeLabel}:{" "}
+              <span className="font-mono font-semibold tracking-wider text-ink">
+                {certificate.code}
+              </span>
             </p>
           </div>
         </div>

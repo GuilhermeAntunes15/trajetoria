@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { BadgeCheck, CalendarDays, FolderOpen, Trophy } from "lucide-react";
+import type { LucideIcon } from "lucide-react";
 import { EmptyState } from "@/components/common/EmptyState";
 import { SectionTitle } from "@/components/common/SectionTitle";
+import { rotateStyle } from "@/components/common/decor";
 import { ProjectCard, type ProjectCardData } from "@/components/project/ProjectCard";
 import { ButtonLink } from "@/components/ui/ButtonLink";
-import { Card, CardBody } from "@/components/ui/Card";
+import { STATUS_LABELS } from "@/lib/constants";
 import { dashboard, empty } from "@/lib/copy";
 import { firstName, formatDate } from "@/lib/format";
 import { prisma } from "@/lib/prisma";
@@ -21,7 +24,27 @@ type TimelineEntry = {
   label: string;
   detail: string;
   href: string;
+  icon: LucideIcon;
 };
+
+/**
+ * Cartões de conquista: o que a pessoa já reuniu, em blocos de cor.
+ * São contagens do próprio portfólio — não há placar, ranking nem comparação
+ * com outras pessoas em lugar nenhum da tela.
+ */
+const ACHIEVEMENTS = [
+  { color: "var(--color-lp-mint)", Icon: FolderOpen, rot: -1.5 },
+  { color: "var(--color-lp-sun)", Icon: BadgeCheck, rot: 1 },
+  { color: "var(--color-lp-sky)", Icon: CalendarDays, rot: -1 },
+  { color: "var(--color-lp-paper)", Icon: Trophy, rot: 1.5 },
+];
+
+const YEAR_COLORS = [
+  "var(--color-lp-sun)",
+  "var(--color-lp-sky)",
+  "var(--color-lp-mint)",
+  "var(--color-lp-tangerine)",
+];
 
 export default async function DashboardPage() {
   const viewer = await requireOnboarded("/dashboard");
@@ -88,6 +111,8 @@ export default async function DashboardPage() {
     eventName: project.eventEntries[0]?.event.name ?? null,
   }));
 
+  const currentPhase = recentProjects[0] ? STATUS_LABELS[recentProjects[0].status] : null;
+
   const timeline: TimelineEntry[] = [
     ...timelineProjects.map((project) => ({
       key: `p-${project.slug}`,
@@ -96,6 +121,7 @@ export default async function DashboardPage() {
       label: project.title,
       detail: "Projeto",
       href: `/projects/${project.slug}`,
+      icon: FolderOpen,
     })),
     ...eventEntries.map((entry) => ({
       key: `e-${entry.event.id}`,
@@ -104,75 +130,150 @@ export default async function DashboardPage() {
       label: entry.event.name,
       detail: "Evento",
       href: `/events/${entry.event.slug}`,
+      icon: CalendarDays,
     })),
   ].sort((a, b) => b.date.getTime() - a.date.getTime());
 
   const years = [...new Set(timeline.map((entry) => entry.year))].sort((a, b) => b - a);
 
   return (
-    <div className="space-y-10">
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <h1 className="font-display text-2xl font-semibold text-ink sm:text-3xl">
-          {dashboard.greeting(firstName(viewer.name))}
-        </h1>
+    <div className="space-y-12">
+      <header className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="space-y-3">
+          <h1 className="font-display text-[2rem] leading-[1.05] font-bold text-ink sm:text-5xl">
+            {dashboard.greeting(firstName(viewer.name))}
+          </h1>
+          <p
+            className="lp-sticker lp-sticker-flat inline-flex items-center gap-2 bg-lp-sun px-3 py-1.5 text-sm font-bold text-ink"
+            style={rotateStyle(-2)}
+          >
+            <span className="text-[0.68rem] font-bold tracking-[0.12em] text-ink/70 uppercase">
+              {dashboard.currentPhaseLabel}
+            </span>
+            {currentPhase ?? dashboard.noPhaseYet}
+          </p>
+        </div>
         <ButtonLink href="/projects/new" size="sm">
           {dashboard.newProject}
         </ButtonLink>
-      </div>
+      </header>
 
-      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {counters.map((counter) => (
-          <Card key={counter.label}>
-            <CardBody className="py-4">
-              <p className="text-2xl font-semibold text-ink">{counter.value}</p>
-              <p className="mt-0.5 text-xs text-muted">{counter.label}</p>
-            </CardBody>
-          </Card>
-        ))}
+      <section className="space-y-4" aria-labelledby="dash-achievements">
+        <h2 id="dash-achievements" className="sr-only">
+          {dashboard.achievementsTitle}
+        </h2>
+        <ul className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+          {counters.map((counter, index) => {
+            const style = ACHIEVEMENTS[index]!;
+            const { Icon } = style;
+
+            return (
+              <li key={counter.label}>
+                <div
+                  className="lp-sticker lp-sticker-flat lp-lift-soft flex h-full flex-col p-4 sm:p-5"
+                  style={{ ...rotateStyle(style.rot), backgroundColor: style.color }}
+                >
+                  <Icon size={26} strokeWidth={2.25} className="text-ink" aria-hidden="true" />
+                  <p className="mt-3 font-display text-4xl leading-none font-bold text-ink sm:text-5xl">
+                    {counter.value}
+                  </p>
+                  <p className="mt-2 text-xs leading-tight font-semibold text-ink/70 sm:text-sm">
+                    {counter.label}
+                  </p>
+                </div>
+              </li>
+            );
+          })}
+        </ul>
       </section>
 
       <section className="space-y-4">
-        <SectionTitle>{dashboard.keepBuilding}</SectionTitle>
+        <div className="space-y-1">
+          <SectionTitle>{dashboard.keepBuilding}</SectionTitle>
+          <p className="text-sm text-muted">{dashboard.keepBuildingHint}</p>
+        </div>
         {cards.length === 0 ? (
           <EmptyState
             title={empty.portfolio.title}
             text={empty.portfolio.text}
             actionLabel={empty.portfolio.action}
             actionHref="/projects/new"
+            illustration="notebook"
           />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {cards.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard key={project.slug} project={project} showProgress />
             ))}
           </div>
         )}
       </section>
 
       <section className="space-y-4">
-        <SectionTitle>{dashboard.trajectory}</SectionTitle>
+        <div className="space-y-1">
+          <SectionTitle>{dashboard.trajectory}</SectionTitle>
+          <p className="text-sm text-muted">{dashboard.trajectoryHint}</p>
+        </div>
         {timeline.length === 0 ? (
-          <EmptyState title={empty.trajectory.title} text={empty.trajectory.text} />
+          <EmptyState
+            title={empty.trajectory.title}
+            text={empty.trajectory.text}
+            illustration="map"
+          />
         ) : (
-          <div className="space-y-6">
-            {years.map((year) => (
-              <div key={year} className="grid gap-3 sm:grid-cols-[5rem_1fr]">
-                <p className="font-display text-lg font-semibold text-brand">{year}</p>
-                <ul className="space-y-2 border-l border-line pl-4">
-                  {timeline
-                    .filter((entry) => entry.year === year)
-                    .map((entry) => (
-                      <li key={entry.key} className="text-sm">
-                        <Link href={entry.href} className="font-medium text-ink hover:text-brand">
-                          {entry.label}
-                        </Link>
-                        <span className="text-muted"> — {entry.detail}</span>
-                        <span className="block text-xs text-muted">{formatDate(entry.date)}</span>
-                      </li>
-                    ))}
-                </ul>
-              </div>
-            ))}
+          <div className="relative">
+            {/* Linha tracejada do caderno: liga os anos de cima a baixo. */}
+            <span
+              aria-hidden
+              className="absolute top-6 bottom-6 left-6 border-l-2 border-dashed border-ink/25"
+            />
+            <ol className="space-y-8">
+              {years.map((year, index) => (
+                <li key={year} className="relative pl-[4.5rem]">
+                  <p
+                    className="absolute top-0 left-0 grid size-12 place-items-center rounded-full border-2 border-ink font-display text-sm font-bold text-ink shadow-[3px_3px_0_var(--color-ink)]"
+                    style={{ backgroundColor: YEAR_COLORS[index % YEAR_COLORS.length] }}
+                  >
+                    {year}
+                  </p>
+                  <ul className="space-y-3 pt-1">
+                    {timeline
+                      .filter((entry) => entry.year === year)
+                      .map((entry) => {
+                        const Icon = entry.icon;
+
+                        return (
+                          <li key={entry.key} className="relative">
+                            <span
+                              aria-hidden
+                              className="absolute top-5 -left-[3.375rem] size-3 rounded-full border-2 border-ink bg-surface"
+                            />
+                            <div className="lp-sticker lp-sticker-soft lp-lift-soft bg-surface p-3.5">
+                              <p className="flex items-center gap-2">
+                                <Icon
+                                  size={16}
+                                  strokeWidth={2.25}
+                                  className="shrink-0 text-brand"
+                                  aria-hidden="true"
+                                />
+                                <Link
+                                  href={entry.href}
+                                  className="font-display text-base leading-tight font-bold text-ink transition-colors hover:text-brand"
+                                >
+                                  {entry.label}
+                                </Link>
+                              </p>
+                              <p className="mt-1 pl-6 text-xs text-muted">
+                                {entry.detail} · {formatDate(entry.date)}
+                              </p>
+                            </div>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                </li>
+              ))}
+            </ol>
           </div>
         )}
       </section>

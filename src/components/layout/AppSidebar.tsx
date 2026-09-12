@@ -28,11 +28,27 @@ function NavLink({ item, pathname }: { item: NavItem; pathname: string }) {
       href={item.href}
       aria-current={active ? "page" : undefined}
       className={cn(
-        "flex items-center gap-2.5 rounded-[var(--radius-control)] px-3 py-2 text-sm transition-colors",
-        active ? "bg-brand/10 font-medium text-brand" : "text-muted hover:bg-canvas hover:text-ink",
+        "relative flex items-center gap-2.5 rounded-[var(--radius-control)] py-2 pr-3 pl-4 text-sm transition-colors",
+        active ? "bg-lp-mint/70 font-semibold text-ink" : "text-muted hover:bg-canvas hover:text-ink",
       )}
     >
-      <Icon size={18} strokeWidth={1.75} />
+      {/* Marcador de página atual: também existe como aria-current, então o
+          traço é reforço visual, não a única pista. */}
+      <span
+        aria-hidden
+        className={cn(
+          "absolute top-1/2 left-0 h-5 w-1 -translate-y-1/2 rounded-full",
+          active ? "bg-brand" : "bg-transparent",
+        )}
+      />
+      <Icon
+        size={18}
+        strokeWidth={active ? 2.25 : 1.75}
+        className={cn(
+          "motion-safe:transition-transform motion-safe:duration-200",
+          active ? "-rotate-6 scale-110 text-brand" : undefined,
+        )}
+      />
       {item.label}
     </Link>
   );
@@ -45,7 +61,7 @@ export function AppSidebar({ role, username }: AppSidebarProps) {
   return (
     <aside className="hidden w-60 shrink-0 border-r border-line bg-surface md:block">
       <div className="sticky top-0 flex h-dvh flex-col gap-6 px-3 py-5">
-        <Link href="/dashboard" className="px-2 font-display text-lg font-semibold text-ink">
+        <Link href="/dashboard" className="px-2 font-display text-xl font-bold text-ink">
           {brand.name}
         </Link>
 
@@ -57,7 +73,7 @@ export function AppSidebar({ role, username }: AppSidebarProps) {
 
         {management.length > 0 ? (
           <div className="space-y-1">
-            <p className="px-3 text-xs font-semibold tracking-[0.08em] text-muted uppercase">Gestão</p>
+            <p className="px-4 text-xs font-bold tracking-[0.12em] text-muted uppercase">Gestão</p>
             <nav className="space-y-1" aria-label="Gestão">
               {management.map((item) => (
                 <NavLink key={item.href} item={item} pathname={pathname} />

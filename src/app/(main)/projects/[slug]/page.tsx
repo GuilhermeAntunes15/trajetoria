@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowDown, ArrowUp } from "lucide-react";
+import { ArrowDown, ArrowUp, GraduationCap } from "lucide-react";
 import { deleteProject, setProjectVisibility, submitProject } from "@/actions/project.actions";
 import { removeEvidence, reorderEvidence } from "@/actions/evidence.actions";
 import { removeMember } from "@/actions/member.actions";
@@ -377,58 +377,68 @@ export default async function ProjectPage({
       ) : null}
 
       <article className="space-y-10">
-        <header className="space-y-4">
+        {/* Capa em adesivo: a pagina do projeto abre como a pagina de um caderno. */}
+        <header className="lp-sticker overflow-hidden bg-surface">
           {project.coverImageUrl ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={project.coverImageUrl}
               alt={`Capa do projeto ${project.title}`}
-              className="aspect-[16/7] w-full rounded-[var(--radius-card)] border border-line object-cover"
+              className="aspect-[16/7] w-full border-b-2 border-ink object-cover"
             />
           ) : null}
 
-          {isMember || isStaff ? (
-            <div className="flex flex-wrap items-center gap-2">
-              <ProjectStatusBadge status={project.status} />
-              <VisibilityBadge visibility={project.visibility} />
-              {project.area ? <Badge tone="neutral">{project.area}</Badge> : null}
-            </div>
-          ) : project.area ? (
-            <div className="flex flex-wrap items-center gap-2">
-              <Badge tone="neutral">{project.area}</Badge>
-            </div>
-          ) : null}
-
-          <h1 className="font-display text-3xl leading-tight font-semibold text-ink">
-            {project.title}
-          </h1>
-
-          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
-            {event ? (
-              <Link href={`/events/${event.slug}`} className="text-brand hover:text-brand-hover">
-                {event.name}
-              </Link>
+          <div className="space-y-4 p-5 sm:p-7">
+            {isMember || isStaff ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <ProjectStatusBadge status={project.status} />
+                <VisibilityBadge visibility={project.visibility} />
+                {project.area ? <Badge tone="neutral">{project.area}</Badge> : null}
+              </div>
+            ) : project.area ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <Badge tone="neutral">{project.area}</Badge>
+              </div>
             ) : null}
-            <span>{project.school.name}</span>
-            <span>{formatDate(project.projectDate)}</span>
-          </div>
 
-          <div className="flex flex-wrap items-center gap-2">
-            {project.status === "APPROVED" ? <VerifiedBadge /> : null}
-            {project.isFeatured && project.status === "APPROVED" ? (
-              <Badge tone="brand">{projectCopy.featuredLabel}</Badge>
+            <h1 className="font-display text-[1.875rem] leading-[1.05] font-bold text-ink sm:text-[2.75rem]">
+              {project.title}
+            </h1>
+
+            <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+              {event ? (
+                <Link
+                  href={`/events/${event.slug}`}
+                  className="font-semibold text-brand hover:text-brand-hover"
+                >
+                  {event.name}
+                </Link>
+              ) : null}
+              <span>{project.school.name}</span>
+              <span>{formatDate(project.projectDate)}</span>
+            </div>
+
+            {project.status === "APPROVED" ? (
+              <div className="flex flex-wrap items-center gap-2">
+                <VerifiedBadge />
+                {project.isFeatured ? (
+                  <Badge tone="warning" variant="ink">
+                    {projectCopy.featuredLabel}
+                  </Badge>
+                ) : null}
+              </div>
+            ) : null}
+
+            {parent ? (
+              <ForkNotice
+                parent={{
+                  title: parent.title,
+                  year: parent.year,
+                  slug: parentVisible ? parent.slug : null,
+                }}
+              />
             ) : null}
           </div>
-
-          {parent ? (
-            <ForkNotice
-              parent={{
-                title: parent.title,
-                year: parent.year,
-                slug: parentVisible ? parent.slug : null,
-              }}
-            />
-          ) : null}
         </header>
 
         {showQr || canFork || isStaff ? (
@@ -467,7 +477,7 @@ export default async function ProjectPage({
         ) : null}
 
         {isMember ? (
-          <div className="flex flex-wrap items-center gap-3 border-y border-line py-4">
+          <div className="lp-sticker lp-sticker-flat flex flex-wrap items-center gap-3 bg-lp-paper p-4">
             {canEdit ? (
               <ButtonLink href={`/projects/${project.slug}/edit`} variant="secondary" size="sm">
                 {projectManage.edit}
@@ -495,9 +505,13 @@ export default async function ProjectPage({
           </div>
         ) : null}
 
-        <section className="space-y-2">
-          <SectionTitle>{projectCopy.sections.summary}</SectionTitle>
-          <p className="text-base leading-relaxed whitespace-pre-wrap text-ink">{project.summary}</p>
+        <section className="space-y-3">
+          <SectionTitle variant="display" number={1} accent="var(--color-brand)">
+            {projectCopy.sections.summary}
+          </SectionTitle>
+          <p className="text-base leading-relaxed whitespace-pre-wrap text-ink sm:text-lg">
+            {project.summary}
+          </p>
           {project.description ? (
             <p className="text-sm leading-relaxed whitespace-pre-wrap text-muted">
               {project.description}
@@ -506,34 +520,40 @@ export default async function ProjectPage({
         </section>
 
         {project.problem ? (
-          <section className="space-y-2">
-            <SectionTitle>{projectCopy.sections.problem}</SectionTitle>
+          <section className="space-y-3">
+            <SectionTitle variant="display" number={2} accent="var(--color-info)">
+              {projectCopy.sections.problem}
+            </SectionTitle>
             <p className="leading-relaxed whitespace-pre-wrap text-ink">{project.problem}</p>
           </section>
         ) : null}
 
         {project.solution ? (
-          <section className="space-y-2">
-            <SectionTitle>{projectCopy.sections.solution}</SectionTitle>
+          <section className="space-y-3">
+            <SectionTitle variant="display" number={3} accent="var(--color-warning)">
+              {projectCopy.sections.solution}
+            </SectionTitle>
             <p className="leading-relaxed whitespace-pre-wrap text-ink">{project.solution}</p>
           </section>
         ) : null}
 
         {project.learnings ? (
-          <section className="space-y-2">
-            <SectionTitle>{projectCopy.sections.learnings}</SectionTitle>
+          <section className="space-y-3">
+            <SectionTitle variant="display" number={4} accent="var(--color-accent)">
+              {projectCopy.sections.learnings}
+            </SectionTitle>
             <p className="leading-relaxed whitespace-pre-wrap text-ink">{project.learnings}</p>
           </section>
         ) : null}
 
-        <section className="space-y-3">
-          <SectionTitle>{projectCopy.sections.team}</SectionTitle>
+        <section className="space-y-4">
+          <SectionTitle variant="display">{projectCopy.sections.team}</SectionTitle>
           <MemberList members={members} />
         </section>
 
         {project.skills.length > 0 ? (
-          <section className="space-y-3">
-            <SectionTitle>{projectCopy.sections.skills}</SectionTitle>
+          <section className="space-y-4">
+            <SectionTitle variant="display">{projectCopy.sections.skills}</SectionTitle>
             <div className="flex flex-wrap gap-2">
               {project.skills.map((projectSkill) => (
                 <SkillBadge
@@ -547,9 +567,9 @@ export default async function ProjectPage({
         ) : null}
 
         {project.evidences.length > 0 ? (
-          <section className="space-y-3">
-            <SectionTitle>{projectCopy.sections.evidences}</SectionTitle>
-            <div className="space-y-2">
+          <section className="space-y-4">
+            <SectionTitle variant="display">{projectCopy.sections.evidences}</SectionTitle>
+            <div className="space-y-3">
               {project.evidences.map((evidence) => (
                 <EvidenceCard key={evidence.id} evidence={evidence} />
               ))}
@@ -560,15 +580,23 @@ export default async function ProjectPage({
         <DerivedProjects projects={derived} />
 
         {project.advisor ? (
-          <section className="space-y-2">
-            <SectionTitle>{projectCopy.sections.advisor}</SectionTitle>
-            <p className="text-sm text-ink">
-              {project.advisor.teacherProfile?.title ? `${project.advisor.teacherProfile.title} ` : ""}
-              {project.advisor.name}
-              {project.advisor.teacherProfile?.subject
-                ? ` — ${project.advisor.teacherProfile.subject}`
-                : ""}
-            </p>
+          <section className="space-y-4">
+            <SectionTitle variant="display">{projectCopy.sections.advisor}</SectionTitle>
+            <div className="lp-sticker lp-sticker-flat flex items-center gap-3.5 bg-lp-sky p-4">
+              <span
+                className="grid size-11 shrink-0 place-items-center rounded-full border-2 border-ink bg-surface text-ink"
+                aria-hidden
+              >
+                <GraduationCap size={20} strokeWidth={2.25} />
+              </span>
+              <p className="font-display text-base leading-tight font-bold text-ink sm:text-lg">
+                {project.advisor.teacherProfile?.title ? `${project.advisor.teacherProfile.title} ` : ""}
+                {project.advisor.name}
+                {project.advisor.teacherProfile?.subject
+                  ? ` — ${project.advisor.teacherProfile.subject}`
+                  : ""}
+              </p>
+            </div>
           </section>
         ) : null}
       </article>
@@ -770,10 +798,7 @@ export default async function ProjectPage({
           <SectionTitle>{projectManage.historyTitle}</SectionTitle>
           <ul className="space-y-3">
             {project.validations.map((validation) => (
-              <li
-                key={validation.id}
-                className="rounded-[var(--radius-card)] border border-line bg-surface p-4"
-              >
+              <li key={validation.id} className="lp-sticker lp-sticker-soft bg-surface p-4">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="text-sm font-medium text-ink">
                     {validation.action === "APPROVED" ? "Projeto aprovado" : "Ajustes solicitados"}

@@ -9,7 +9,7 @@ export function TopBar({ viewer }: { viewer: Viewer }) {
   return (
     <header className="sticky top-0 z-20 border-b border-line bg-surface/95 backdrop-blur-[2px]">
       <div className="flex h-14 items-center justify-between gap-3 px-4 sm:px-6">
-        <Link href="/dashboard" className="font-display text-base font-semibold text-ink md:hidden">
+        <Link href="/dashboard" className="font-display text-lg font-bold text-ink md:hidden">
           {brand.name}
         </Link>
         <SearchInput className="hidden w-full max-w-sm sm:block" />

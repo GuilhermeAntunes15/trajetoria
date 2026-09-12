@@ -78,6 +78,8 @@ export default async function ProjectsPage({
   return (
     <div className="space-y-8">
       <PageHeader
+        eyebrow="Acervo vivo"
+        accent="var(--color-lp-tangerine)"
         title="Projetos"
         description="O que foi construído na escola, documentado por quem construiu."
         actions={
@@ -92,7 +94,7 @@ export default async function ProjectsPage({
       <form
         method="get"
         action="/projects"
-        className="grid gap-3 rounded-[var(--radius-card)] border border-line bg-surface p-4 sm:grid-cols-[1fr_auto_auto_auto] sm:items-end"
+        className="lp-sticker lp-sticker-soft grid gap-3 bg-surface p-4 sm:grid-cols-[1fr_auto_auto_auto] sm:items-end"
       >
         <div className="space-y-1.5">
           <Label htmlFor="q">Buscar por título</Label>
@@ -132,12 +134,17 @@ export default async function ProjectsPage({
           text={empty.projects.text}
           actionLabel={viewer?.role === "STUDENT" ? empty.portfolio.action : undefined}
           actionHref={viewer?.role === "STUDENT" ? "/projects/new" : undefined}
+          illustration="notebook"
         />
       ) : (
         <>
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
             {projects.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                showProgress={scope === "mine"}
+              />
             ))}
           </div>
           <Pagination page={page} pageCount={pageCount} buildHref={buildHref} />

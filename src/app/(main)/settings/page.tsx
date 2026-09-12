@@ -41,6 +41,7 @@ export default async function SettingsPage() {
   return (
     <div className="mx-auto max-w-3xl space-y-8">
       <PageHeader
+        eyebrow="Sua conta"
         title={settings.title}
         description={settings.subtitle}
         actions={
@@ -52,7 +53,7 @@ export default async function SettingsPage() {
 
       <Card>
         <CardHeader>
-          <h2 className="text-sm font-semibold text-ink">{settings.profileTitle}</h2>
+          <h2 className="font-display text-base font-bold text-ink">{settings.profileTitle}</h2>
           <p className="mt-0.5 text-sm text-muted">{settings.profileSubtitle}</p>
         </CardHeader>
         <CardBody>
@@ -74,7 +75,7 @@ export default async function SettingsPage() {
 
       <Card>
         <CardHeader>
-          <h2 className="text-sm font-semibold text-ink">{settings.privacyTitle}</h2>
+          <h2 className="font-display text-base font-bold text-ink">{settings.privacyTitle}</h2>
           <p className="mt-0.5 text-sm text-muted">{settings.privacySubtitle}</p>
         </CardHeader>
         <CardBody>
@@ -84,7 +85,7 @@ export default async function SettingsPage() {
 
       <Card>
         <CardHeader>
-          <h2 className="text-sm font-semibold text-ink">{settings.passwordTitle}</h2>
+          <h2 className="font-display text-base font-bold text-ink">{settings.passwordTitle}</h2>
           <p className="mt-0.5 text-sm text-muted">{settings.passwordSubtitle}</p>
         </CardHeader>
         <CardBody>

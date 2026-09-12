@@ -36,7 +36,7 @@ export function ArchiveFilters({ action, facets, values }: ArchiveFiltersProps) 
       ref={formRef}
       method="get"
       action={action}
-      className="grid gap-3 rounded-[var(--radius-card)] border border-line bg-surface p-4 sm:grid-cols-2 lg:grid-cols-5"
+      className="lp-sticker lp-sticker-soft grid gap-3 bg-surface p-4 sm:grid-cols-2 lg:grid-cols-5"
     >
       <div className="space-y-1.5 sm:col-span-2 lg:col-span-5">
         <Label htmlFor="archive-q">{archiveCopy.searchLabel}</Label>

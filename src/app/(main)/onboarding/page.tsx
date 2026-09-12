@@ -38,9 +38,19 @@ export default async function OnboardingPage() {
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
-      <PageHeader title={onboarding.title} description={onboarding.subtitle} />
-      <Card>
-        <CardBody>
+      <PageHeader
+        eyebrow={onboarding.welcomeSticker}
+        accent="var(--color-lp-tangerine)"
+        title={onboarding.title}
+        description={onboarding.subtitle}
+        actions={
+          <p className="lp-sticker lp-sticker-flat bg-lp-sun px-3 py-1.5 text-xs font-bold text-ink">
+            {onboarding.stepLabel}
+          </p>
+        }
+      />
+      <Card variant="sticker">
+        <CardBody className="sm:px-7 sm:py-6">
           <OnboardingForm
             defaultName={user.name}
             defaultAvatarUrl={user.avatarUrl}

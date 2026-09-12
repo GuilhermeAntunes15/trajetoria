@@ -145,20 +145,28 @@ export default async function SchoolArchivePage({
       />
 
       {featured.length > 0 ? (
-        <section className="space-y-4">
-          <SectionTitle>{archiveCopy.featuredTitle}</SectionTitle>
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <section className="space-y-6">
+          <SectionTitle variant="display">{archiveCopy.featuredTitle}</SectionTitle>
+          <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((project) => (
-              <ProjectCard key={project.slug} project={project} />
+              <ProjectCard
+                key={project.slug}
+                project={project}
+                ribbon={archiveCopy.featuredTag}
+              />
             ))}
           </div>
         </section>
       ) : null}
 
       <section className="space-y-4">
-        <SectionTitle>{archiveCopy.projectsTitle}</SectionTitle>
+        <SectionTitle variant="display">{archiveCopy.projectsTitle}</SectionTitle>
         {projects.length === 0 ? (
-          <EmptyState title={empty.projects.title} text={empty.projects.text} />
+          <EmptyState
+            title={empty.projects.title}
+            text={empty.projects.text}
+            illustration="magnifier"
+          />
         ) : (
           <>
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -172,9 +180,9 @@ export default async function SchoolArchivePage({
       </section>
 
       <section className="space-y-4">
-        <SectionTitle>{archiveCopy.eventsTitle}</SectionTitle>
+        <SectionTitle variant="display">{archiveCopy.eventsTitle}</SectionTitle>
         {events.length === 0 ? (
-          <EmptyState title={empty.events.title} text={empty.events.text} />
+          <EmptyState title={empty.events.title} text={empty.events.text} illustration="map" />
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {events.map((event) => (

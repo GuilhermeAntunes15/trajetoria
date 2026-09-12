@@ -84,7 +84,7 @@ export function OnboardingForm({
         <Textarea id="bio" name="bio" defaultValue={defaultBio} maxLength={280} rows={3} />
       </Field>
 
-      <fieldset className="space-y-2">
+      <fieldset className="space-y-2.5">
         <legend className="text-sm font-medium text-ink">Interesses</legend>
         <div className="flex flex-wrap gap-2">
           {INTERESTS.map((interest) => {
@@ -93,7 +93,7 @@ export function OnboardingForm({
               <label
                 key={interest}
                 htmlFor={id}
-                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink transition-colors hover:border-brand/40 has-[:checked]:border-brand has-[:checked]:bg-brand/10 has-[:checked]:text-brand"
+                className="inline-flex cursor-pointer items-center gap-2 rounded-full border-2 border-ink/25 bg-surface px-3.5 py-1.5 text-sm font-semibold text-muted transition-colors hover:border-ink/50 hover:text-ink has-[:checked]:border-ink has-[:checked]:bg-lp-mint has-[:checked]:text-ink has-[:checked]:shadow-[3px_3px_0_var(--color-ink)]"
               >
                 <input
                   id={id}
