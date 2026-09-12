@@ -239,7 +239,7 @@ export default function LandingPage() {
             {landing.finalText}
           </p>
           <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
-            <LandingButton href="/s/ee-horizonte" tone="sun" className="whitespace-nowrap">
+            <LandingButton href="/s/ee-conselheiro-crispiniano" tone="sun" className="whitespace-nowrap">
               {landing.finalCta}
               <ArrowRight size={20} strokeWidth={2.5} aria-hidden="true" />
             </LandingButton>

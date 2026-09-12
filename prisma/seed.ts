@@ -1,5 +1,6 @@
 import {
   PrismaClient,
+  type EventType,
   type EvidenceType,
   type NotificationType,
   type ProjectStatus,
@@ -12,7 +13,8 @@ import { seedDefaultSkills } from "../src/lib/default-skills";
 const prisma = new PrismaClient();
 
 const DEMO_PASSWORD = "trajetoria123";
-const SCHOOL_SLUG = "ee-horizonte";
+const SCHOOL_SLUG = "ee-conselheiro-crispiniano";
+const LEGACY_SCHOOL_SLUG = "ee-horizonte";
 
 type SeedUser = {
   key: string;
@@ -61,8 +63,8 @@ const SEED_USERS: SeedUser[] = [
     profileVisibility: "PUBLIC",
     student: {
       course: "Desenvolvimento de Sistemas",
-      gradeYear: "3º ano",
-      classroomKey: "3A",
+      gradeYear: "2º ano",
+      classroomKey: "2A",
       interests: ["Desenvolvimento de Sistemas", "Ciência de Dados", "Pesquisa"],
     },
   },
@@ -76,8 +78,8 @@ const SEED_USERS: SeedUser[] = [
     profileVisibility: "PRIVATE",
     student: {
       course: "Desenvolvimento de Sistemas",
-      gradeYear: "3º ano",
-      classroomKey: "3A",
+      gradeYear: "2º ano",
+      classroomKey: "2A",
       interests: ["Design", "Desenvolvimento de Sistemas", "Comunicação"],
     },
   },
@@ -90,7 +92,7 @@ const SEED_USERS: SeedUser[] = [
     bio: "Gosto de pesquisa, ciências e projetos que resolvem problemas de verdade.",
     profileVisibility: "PUBLIC",
     student: {
-      course: "Ciências da Natureza",
+      course: "Desenvolvimento de Sistemas",
       gradeYear: "2º ano",
       classroomKey: "2B",
       interests: ["Ciências", "Sustentabilidade", "Pesquisa"],
@@ -99,33 +101,93 @@ const SEED_USERS: SeedUser[] = [
 ];
 
 const CLASSROOMS = [
-  { key: "3A", name: "3º A - Desenvolvimento de Sistemas", year: 2026 },
-  { key: "2B", name: "2º B - Ciências", year: 2026 },
+  {
+    key: "2A",
+    name: "2º A - Desenvolvimento de Sistemas",
+    legacyName: "3º A - Desenvolvimento de Sistemas",
+    year: 2026,
+  },
+  {
+    key: "2B",
+    name: "2º B - Desenvolvimento de Sistemas",
+    legacyName: "2º B - Ciências",
+    year: 2026,
+  },
 ];
 
-const EVENTS = [
+type SeedEvent = {
+  key: string;
+  slug: string;
+  legacySlug?: string;
+  name: string;
+  type: EventType;
+  description: string;
+  startDate: Date;
+  endDate: Date;
+  location: string;
+  coverImageUrl: string | null;
+};
+
+const EVENTS: SeedEvent[] = [
   {
     key: "hackathon",
-    slug: "hackathon-horizonte-2026",
-    name: "Hackathon Horizonte 2026",
-    type: "HACKATHON" as const,
+    slug: "hackathon-experimenta-2026",
+    legacySlug: "hackathon-horizonte-2026",
+    name: "Hackathon Experimenta",
+    type: "HACKATHON",
     description:
-      "Três dias para transformar um problema do bairro em um protótipo que funcione. As equipes escolhem o tema na abertura, desenvolvem no laboratório e apresentam para uma banca de professores e convidados.",
-    startDate: new Date("2026-03-20T12:00:00.000Z"),
-    endDate: new Date("2026-03-22T12:00:00.000Z"),
-    location: "Laboratório de Informática",
+      "Hackathon promovido pela Prefeitura de Guarulhos, com desafios trazidos pelas secretarias da cidade. As equipes escolhem um desafio na abertura, desenvolvem durante três dias e apresentam o protótipo para uma banca de servidores municipais e professores.",
+    startDate: new Date("2026-04-10T12:00:00.000Z"),
+    endDate: new Date("2026-04-12T12:00:00.000Z"),
+    location: "Prefeitura de Guarulhos",
     coverImageUrl: "/seed/evento-hackathon.svg",
+  },
+  {
+    key: "doencas-raras",
+    slug: "hackathon-doencas-raras-2026",
+    name: "Hackathon Doenças Raras",
+    type: "HACKATHON",
+    description:
+      "Maratona de tecnologia dedicada à jornada de quem convive com uma doença rara, do diagnóstico ao acompanhamento. Os times trabalham ao lado de famílias e profissionais de saúde para construir soluções que encurtem esse caminho.",
+    startDate: new Date("2026-08-07T12:00:00.000Z"),
+    endDate: new Date("2026-08-09T12:00:00.000Z"),
+    location: "Guarulhos",
+    coverImageUrl: "/seed/evento-hackathon.svg",
+  },
+  {
+    key: "congresso",
+    slug: "congresso-dos-tecnicos-2026",
+    name: "Congresso dos Técnicos",
+    type: "OTHER",
+    description:
+      "Dois dias em que as turmas dos cursos técnicos apresentam seus projetos para a comunidade escolar, para as famílias e para convidados do mercado. Cada equipe tem um horário no auditório e responde às perguntas da plateia.",
+    startDate: new Date("2026-06-18T12:00:00.000Z"),
+    endDate: new Date("2026-06-19T12:00:00.000Z"),
+    location: "Auditório da escola",
+    coverImageUrl: "/seed/evento-feira.svg",
+  },
+  {
+    key: "feceg",
+    slug: "feceg-2026",
+    name: "FECEG",
+    type: "SCIENCE_FAIR",
+    description:
+      "FECEG — Feira de Ciências e Engenharia de Guarulhos, que reúne projetos de investigação das escolas do município. Os trabalhos selecionados passam por avaliação de uma banca e concorrem a credenciamento para feiras estaduais.",
+    startDate: new Date("2026-09-24T12:00:00.000Z"),
+    endDate: new Date("2026-09-26T12:00:00.000Z"),
+    location: "Guarulhos",
+    coverImageUrl: "/seed/evento-feira.svg",
   },
   {
     key: "feira",
     slug: "feira-de-ciencias-2026",
-    name: "Feira de Ciências 2026",
-    type: "SCIENCE_FAIR" as const,
+    name: "Feira de Ciências da Escola",
+    type: "SCIENCE_FAIR",
     description:
-      "Mostra anual dos projetos de investigação das turmas de Ciências e Desenvolvimento de Sistemas. Cada equipe monta um estande, explica o método e recebe perguntas do público.",
-    startDate: new Date("2026-05-15T12:00:00.000Z"),
-    endDate: new Date("2026-05-17T12:00:00.000Z"),
-    location: "Quadra Poliesportiva",
+      "Mostra anual dos projetos de investigação das turmas do técnico em Desenvolvimento de Sistemas. Cada equipe monta um estande na quadra, explica o método e recebe perguntas do público.",
+    startDate: new Date("2026-10-15T12:00:00.000Z"),
+    endDate: new Date("2026-10-17T12:00:00.000Z"),
+    location: "Quadra da escola",
     coverImageUrl: "/seed/evento-feira.svg",
   },
 ];
@@ -164,7 +226,7 @@ const PROJECTS: SeedProject[] = [
     summary:
       "Sensores no córrego do bairro e um painel que avisa moradores quando o nível da água sobe rápido demais.",
     description:
-      "Projeto desenvolvido durante o Hackathon Horizonte 2026, em três dias de trabalho no laboratório com apoio da defesa civil do município.",
+      "Projeto desenvolvido durante o Hackathon Experimenta, em três dias de trabalho na Prefeitura de Guarulhos com apoio da defesa civil do município.",
     problem:
       "O córrego que passa atrás da escola transborda pelo menos duas vezes por ano. Quando isso acontece, as famílias das ruas mais baixas só percebem quando a água já entrou em casa. A prefeitura mantém um boletim de chuva, mas ele fala da cidade inteira e não do nosso trecho. Faltava um aviso local, com antecedência suficiente para tirar móveis e documentos do chão.",
     solution:
@@ -177,12 +239,12 @@ const PROJECTS: SeedProject[] = [
     isFeatured: true,
     allowFork: true,
     coverImageUrl: "/seed/projeto-enchentes.svg",
-    projectDate: new Date("2026-03-22T12:00:00.000Z"),
+    projectDate: new Date("2026-04-12T12:00:00.000Z"),
     eventKey: "hackathon",
     isHighlight: true,
     advisorKey: "teacher",
-    submittedAt: new Date("2026-03-23T14:30:00.000Z"),
-    validatedAt: new Date("2026-03-25T10:15:00.000Z"),
+    submittedAt: new Date("2026-04-13T14:30:00.000Z"),
+    validatedAt: new Date("2026-04-15T10:15:00.000Z"),
     members: [
       {
         userKey: "joao",
@@ -216,13 +278,13 @@ const PROJECTS: SeedProject[] = [
         type: "GITHUB",
         title: "Repositório do projeto",
         description: "Código da API, do firmware do Arduino e do painel web.",
-        url: "https://github.com/ee-horizonte/monitor-enchentes",
+        url: "https://github.com/ee-crispiniano/monitor-enchentes",
       },
       {
         type: "PRESENTATION",
         title: "Apresentação da banca",
         description: "Slides usados na apresentação final do hackathon.",
-        url: "https://docs.google.com/presentation/d/1f8Qk2mVmonitorEnchentesHorizonte/edit",
+        url: "https://docs.google.com/presentation/d/1f8Qk2mVmonitorEnchentesCrispiniano/edit",
       },
       {
         type: "VIDEO",
@@ -239,7 +301,7 @@ const PROJECTS: SeedProject[] = [
     summary:
       "Irrigação automática da horta da escola a partir da umidade real do solo, com registro diário do consumo de água.",
     description:
-      "Projeto de investigação apresentado na Feira de Ciências 2026, desenvolvido ao longo de um bimestre no canteiro atrás do refeitório.",
+      "Projeto de investigação apresentado na Feira de Ciências da Escola, desenvolvido ao longo de um bimestre no canteiro atrás do refeitório.",
     problem:
       "A horta da escola é regada por escala, sempre no mesmo horário e com a mesma quantidade de água. Em semana de chuva o canteiro encharca e as mudas de alface apodrecem. Em semana quente, a rega da manhã não chega até o fim da tarde. Ninguém tinha um número confiável sobre quanta água a horta realmente consome.",
     solution:
@@ -252,12 +314,12 @@ const PROJECTS: SeedProject[] = [
     isFeatured: false,
     allowFork: true,
     coverImageUrl: "/seed/projeto-horta.svg",
-    projectDate: new Date("2026-05-16T12:00:00.000Z"),
+    projectDate: new Date("2026-10-16T12:00:00.000Z"),
     eventKey: "feira",
     isHighlight: true,
     advisorKey: "teacher",
-    submittedAt: new Date("2026-05-18T09:00:00.000Z"),
-    validatedAt: new Date("2026-05-20T16:40:00.000Z"),
+    submittedAt: new Date("2026-10-18T09:00:00.000Z"),
+    validatedAt: new Date("2026-10-20T16:40:00.000Z"),
     members: [
       {
         userKey: "ana",
@@ -283,13 +345,13 @@ const PROJECTS: SeedProject[] = [
         type: "DOCUMENT",
         title: "Relatório de medições",
         description: "Planilha e texto com as seis semanas de acompanhamento do canteiro.",
-        url: "https://docs.google.com/document/d/1hortaInteligenteHorizonteRelatorio/edit",
+        url: "https://docs.google.com/document/d/1hortaInteligenteCrispinianoRelatorio/edit",
       },
       {
         type: "GITHUB",
         title: "Código do controlador",
         description: "Firmware do Arduino com a lógica de calibração e de abertura da válvula.",
-        url: "https://github.com/ee-horizonte/horta-inteligente",
+        url: "https://github.com/ee-crispiniano/horta-inteligente",
       },
     ],
   },
@@ -300,7 +362,7 @@ const PROJECTS: SeedProject[] = [
     summary:
       "Mapa colaborativo das calçadas do entorno da escola, com os pontos que impedem a passagem de cadeira de rodas.",
     description:
-      "Projeto em andamento para a Feira de Ciências 2026, feito em parceria com a turma de Ciências e com duas famílias do bairro.",
+      "Projeto em andamento para a Feira de Ciências da Escola, feito em parceria com a turma do 2º B e com duas famílias do bairro.",
     problem:
       "Um colega que usa cadeira de rodas leva quase o dobro do tempo para chegar à escola porque precisa desviar de calçadas quebradas. Esse tipo de informação não está em nenhum mapa. Quem precisa dela descobre na hora, no meio do caminho, e às vezes tem que voltar. Queríamos registrar o problema com endereço e foto, para ter algo concreto para levar à subprefeitura.",
     solution:
@@ -313,10 +375,10 @@ const PROJECTS: SeedProject[] = [
     isFeatured: false,
     allowFork: true,
     coverImageUrl: "/seed/projeto-acessibilidade.svg",
-    projectDate: new Date("2026-05-16T12:00:00.000Z"),
+    projectDate: new Date("2026-10-16T12:00:00.000Z"),
     eventKey: "feira",
     advisorKey: "teacher",
-    submittedAt: new Date("2026-05-19T11:20:00.000Z"),
+    submittedAt: new Date("2026-10-19T11:20:00.000Z"),
     validatedAt: null,
     members: [
       {
@@ -343,7 +405,7 @@ const PROJECTS: SeedProject[] = [
         type: "WEBSITE",
         title: "Mapa em desenvolvimento",
         description: "Versão de testes publicada para o levantamento em campo.",
-        url: "https://mapa-acessibilidade-horizonte.vercel.app",
+        url: "https://mapa-acessibilidade-crispiniano.vercel.app",
       },
     ],
   },
@@ -354,7 +416,7 @@ const PROJECTS: SeedProject[] = [
     summary:
       "Painel com frequência, notas e participação em projetos, para a coordenação enxergar a turma antes do conselho de classe.",
     description:
-      "Projeto integrador do 3º A, construído a partir das planilhas que a secretaria já mantém.",
+      "Projeto integrador do 2º A, apresentado no Congresso dos Técnicos e construído a partir das planilhas que a secretaria já mantém.",
     problem:
       "A coordenação acompanha frequência em uma planilha, notas em outra e participação em projetos no caderno. Quando chega o conselho de classe, juntar tudo leva dias. Casos que precisavam de atenção apareciam tarde demais. O dado existia, mas estava espalhado.",
     solution:
@@ -367,9 +429,10 @@ const PROJECTS: SeedProject[] = [
     isFeatured: false,
     allowFork: true,
     coverImageUrl: null,
-    projectDate: new Date("2026-06-10T12:00:00.000Z"),
+    projectDate: new Date("2026-06-19T12:00:00.000Z"),
+    eventKey: "congresso",
     advisorKey: "teacher",
-    submittedAt: new Date("2026-06-12T08:45:00.000Z"),
+    submittedAt: new Date("2026-06-21T08:45:00.000Z"),
     validatedAt: null,
     members: [
       {
@@ -389,7 +452,7 @@ const PROJECTS: SeedProject[] = [
         type: "GITHUB",
         title: "Repositório do painel",
         description: "Consultas SQL, scripts de carga e código do painel.",
-        url: "https://github.com/ee-horizonte/dashboard-indicadores",
+        url: "https://github.com/ee-crispiniano/dashboard-indicadores",
       },
     ],
   },
@@ -430,7 +493,7 @@ const PROJECTS: SeedProject[] = [
         type: "LINK",
         title: "Protótipo das telas",
         description: "Fluxo navegável com as três telas principais do aplicativo.",
-        url: "https://www.figma.com/proto/caronaEscolarHorizonte/prototipo",
+        url: "https://www.figma.com/proto/caronaEscolarCrispiniano/prototipo",
       },
     ],
   },
@@ -490,21 +553,21 @@ const USER_BADGES = [
 const CERTIFICATES = [
   {
     code: "TRJ-2026-JOAOHACK",
-    title: "Participação no Hackathon Horizonte 2026",
+    title: "Participação no Hackathon Experimenta 2026",
     studentKey: "joao",
     eventKey: "hackathon",
     projectKey: "enchentes",
     hours: 16,
-    issuedAt: new Date("2026-03-26T13:00:00.000Z"),
+    issuedAt: new Date("2026-04-16T13:00:00.000Z"),
   },
   {
     code: "TRJ-2026-ANAFEIRA",
-    title: "Participação na Feira de Ciências 2026",
+    title: "Participação na Feira de Ciências da Escola 2026",
     studentKey: "ana",
     eventKey: "feira",
     projectKey: "horta",
     hours: 12,
-    issuedAt: new Date("2026-05-21T13:00:00.000Z"),
+    issuedAt: new Date("2026-10-21T13:00:00.000Z"),
   },
 ];
 
@@ -526,8 +589,8 @@ const NOTIFICATIONS: SeedNotification[] = [
     title: "Seu projeto foi aprovado.",
     body: "Sistema de Monitoramento de Enchentes",
     projectKey: "enchentes",
-    readAt: new Date("2026-03-25T18:00:00.000Z"),
-    createdAt: new Date("2026-03-25T10:15:00.000Z"),
+    readAt: new Date("2026-04-15T18:00:00.000Z"),
+    createdAt: new Date("2026-04-15T10:15:00.000Z"),
   },
   {
     userKey: "joao",
@@ -536,7 +599,7 @@ const NOTIFICATIONS: SeedNotification[] = [
     body: "Sistema de Monitoramento de Enchentes",
     link: "/u/joao.silva",
     readAt: null,
-    createdAt: new Date("2026-03-25T10:20:00.000Z"),
+    createdAt: new Date("2026-04-15T10:20:00.000Z"),
   },
   {
     userKey: "joao",
@@ -545,7 +608,7 @@ const NOTIFICATIONS: SeedNotification[] = [
     body: "Dashboard de Indicadores Escolares",
     projectKey: "dashboard",
     readAt: null,
-    createdAt: new Date("2026-06-13T09:30:00.000Z"),
+    createdAt: new Date("2026-06-22T09:30:00.000Z"),
   },
   {
     userKey: "maria",
@@ -554,7 +617,7 @@ const NOTIFICATIONS: SeedNotification[] = [
     body: "João Silva adicionou você à equipe.",
     projectKey: "enchentes",
     readAt: null,
-    createdAt: new Date("2026-03-20T15:10:00.000Z"),
+    createdAt: new Date("2026-04-10T15:10:00.000Z"),
   },
   {
     userKey: "teacher",
@@ -563,39 +626,67 @@ const NOTIFICATIONS: SeedNotification[] = [
     body: "Mapa de Acessibilidade Urbana",
     projectKey: "acessibilidade",
     readAt: null,
-    createdAt: new Date("2026-05-19T11:20:00.000Z"),
+    createdAt: new Date("2026-10-19T11:20:00.000Z"),
   },
 ];
 
 async function main() {
-  const school = await prisma.school.upsert({
+  const schoolData = {
+    name: "E.E. Conselheiro Crispiniano",
+    description:
+      "Escola estadual em Guarulhos, com curso técnico em Desenvolvimento de Sistemas. Aqui ficam registrados os projetos construídos pelos estudantes ao longo dos anos.",
+    city: "Guarulhos",
+    state: "SP",
+  };
+
+  const currentSchool = await prisma.school.findUnique({
     where: { slug: SCHOOL_SLUG },
-    update: {
-      name: "E.E. Horizonte",
-      description:
-        "Escola estadual de ensino médio e técnico na zona leste de São Paulo. Aqui ficam registrados os projetos construídos pelas turmas ao longo dos anos.",
-      city: "São Paulo",
-      state: "SP",
-    },
-    create: {
-      name: "E.E. Horizonte",
-      slug: SCHOOL_SLUG,
-      description:
-        "Escola estadual de ensino médio e técnico na zona leste de São Paulo. Aqui ficam registrados os projetos construídos pelas turmas ao longo dos anos.",
-      city: "São Paulo",
-      state: "SP",
-    },
+    select: { id: true },
   });
+  const legacySchool = currentSchool
+    ? null
+    : await prisma.school.findUnique({ where: { slug: LEGACY_SCHOOL_SLUG }, select: { id: true } });
+
+  const school = legacySchool
+    ? await prisma.school.update({
+        where: { id: legacySchool.id },
+        data: { slug: SCHOOL_SLUG, ...schoolData },
+      })
+    : await prisma.school.upsert({
+        where: { slug: SCHOOL_SLUG },
+        update: schoolData,
+        create: { slug: SCHOOL_SLUG, ...schoolData },
+      });
 
   const classroomIds = new Map<string, string>();
   for (const classroom of CLASSROOMS) {
-    const row = await prisma.classroom.upsert({
+    const current = await prisma.classroom.findUnique({
       where: {
         schoolId_name_year: { schoolId: school.id, name: classroom.name, year: classroom.year },
       },
-      update: {},
-      create: { schoolId: school.id, name: classroom.name, year: classroom.year },
+      select: { id: true },
     });
+    const legacy = current
+      ? null
+      : await prisma.classroom.findUnique({
+          where: {
+            schoolId_name_year: {
+              schoolId: school.id,
+              name: classroom.legacyName,
+              year: classroom.year,
+            },
+          },
+          select: { id: true },
+        });
+
+    const row = current
+      ? current
+      : legacy
+        ? await prisma.classroom.update({ where: { id: legacy.id }, data: { name: classroom.name } })
+        : await prisma.classroom.create({
+            data: { schoolId: school.id, name: classroom.name, year: classroom.year },
+          });
+
     classroomIds.set(classroom.key, row.id);
   }
 
@@ -677,11 +768,23 @@ async function main() {
       schoolId: school.id,
       createdById: teacherId,
     };
-    const row = await prisma.event.upsert({
+    const current = await prisma.event.findUnique({
       where: { slug: event.slug },
-      update: data,
-      create: { slug: event.slug, ...data },
+      select: { id: true },
     });
+    const legacy =
+      current || !event.legacySlug
+        ? null
+        : await prisma.event.findUnique({ where: { slug: event.legacySlug }, select: { id: true } });
+
+    const row = legacy
+      ? await prisma.event.update({ where: { id: legacy.id }, data: { slug: event.slug, ...data } })
+      : await prisma.event.upsert({
+          where: { slug: event.slug },
+          update: data,
+          create: { slug: event.slug, ...data },
+        });
+
     eventIds.set(event.key, row.id);
   }
 
@@ -756,7 +859,7 @@ async function main() {
             suggestedByStudent: true,
             validatedByTeacher: true,
             validatorId: teacherId,
-            validatedAt: seedProject.validatedAt ?? new Date("2026-03-25T10:15:00.000Z"),
+            validatedAt: seedProject.validatedAt ?? new Date("2026-04-15T10:15:00.000Z"),
           }
         : {
             suggestedByStudent: true,
@@ -798,7 +901,7 @@ async function main() {
         "Documentem no repositório como reproduzir a montagem do sensor. Sem isso, a próxima turma vai precisar descobrir tudo de novo.",
       generalComment:
         "Projeto maduro para o tempo que vocês tiveram. Vale continuar o contato com a defesa civil no segundo semestre.",
-      createdAt: new Date("2026-03-25T10:15:00.000Z"),
+      createdAt: new Date("2026-04-15T10:15:00.000Z"),
     },
   });
 
@@ -812,7 +915,7 @@ async function main() {
       improvements:
         "Na próxima medição, registrem também a temperatura do dia. Isso ajuda a explicar as variações que ficaram sem resposta.",
       generalComment: "Bom trabalho de investigação. O estande explicou o circuito de forma acessível.",
-      createdAt: new Date("2026-05-20T16:40:00.000Z"),
+      createdAt: new Date("2026-10-20T16:40:00.000Z"),
     },
   });
 
@@ -825,7 +928,7 @@ async function main() {
       strengths: "As consultas estão bem escritas e o painel responde à pergunta que a coordenação fez.",
       improvements:
         "Descreva na sua contribuição o que você fez sozinho e o que veio pronto da secretaria. Do jeito que está, não dá para separar.",
-      createdAt: new Date("2026-06-13T09:30:00.000Z"),
+      createdAt: new Date("2026-06-22T09:30:00.000Z"),
     },
   });
 
@@ -915,7 +1018,7 @@ async function main() {
         entityType: "Project",
         entityId: projectIds.get("enchentes")!,
         metadata: { validatedSkills: 4 },
-        createdAt: new Date("2026-03-25T10:15:00.000Z"),
+        createdAt: new Date("2026-04-15T10:15:00.000Z"),
       },
       {
         schoolId: school.id,
@@ -924,7 +1027,7 @@ async function main() {
         entityType: "UserBadge",
         entityId: projectIds.get("enchentes")!,
         metadata: { badge: "Projeto Destaque", student: "joao.silva" },
-        createdAt: new Date("2026-03-25T10:20:00.000Z"),
+        createdAt: new Date("2026-04-15T10:20:00.000Z"),
       },
       {
         schoolId: school.id,
@@ -932,7 +1035,7 @@ async function main() {
         action: "project.changes_requested",
         entityType: "Project",
         entityId: projectIds.get("dashboard")!,
-        createdAt: new Date("2026-06-13T09:30:00.000Z"),
+        createdAt: new Date("2026-06-22T09:30:00.000Z"),
       },
     ],
   });

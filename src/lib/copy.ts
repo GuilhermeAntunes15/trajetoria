@@ -58,11 +58,11 @@ export const landing = {
   showcaseKicker: "Um projeto de verdade",
   showcaseTitle: "Projetos feitos na escola também contam história.",
   showcaseText:
-    "Este é um projeto real do acervo público da EE Horizonte. Ele começou como rascunho de hackathon e hoje é a primeira linha do portfólio de quem fez.",
+    "Este é um projeto real do acervo público da E.E. Conselheiro Crispiniano. Ele começou como rascunho de hackathon e hoje é a primeira linha do portfólio de quem fez.",
   showcaseLink: "Abrir o acervo da escola",
   showcaseProject: {
     title: "Sistema de Monitoramento de Enchentes",
-    event: "Hackathon Horizonte · 2026",
+    event: "Hackathon Experimenta · 2026",
     area: "Desenvolvimento de Sistemas",
     summary:
       "Sensores no córrego do bairro e um painel que avisa moradores quando o nível da água sobe rápido demais.",
@@ -98,7 +98,7 @@ export const landing = {
   ],
   certificate: {
     label: "Certificado",
-    title: "Participação no Hackathon Horizonte 2026",
+    title: "Participação no Hackathon Experimenta 2026",
     student: "João Silva",
     hours: "16 horas",
     codeLabel: "Código",

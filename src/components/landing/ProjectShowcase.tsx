@@ -30,7 +30,7 @@ export function ProjectShowcase() {
             {landing.showcaseText}
           </p>
           <Link
-            href="/s/ee-horizonte"
+            href="/s/ee-conselheiro-crispiniano"
             className="mt-6 inline-flex items-center gap-1.5 border-b-2 border-ink pb-0.5 text-base font-bold text-ink transition-colors hover:border-brand hover:text-brand"
           >
             {landing.showcaseLink}

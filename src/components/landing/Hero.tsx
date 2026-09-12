@@ -54,7 +54,7 @@ export function Hero() {
           </p>
 
           <div className="lp-enter mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center" style={delayStyle(240)}>
-            <LandingButton href="/s/ee-horizonte" tone="sun" className="whitespace-nowrap">
+            <LandingButton href="/s/ee-conselheiro-crispiniano" tone="sun" className="whitespace-nowrap">
               {landing.heroCta}
               <ArrowRight size={20} strokeWidth={2.5} aria-hidden="true" />
             </LandingButton>

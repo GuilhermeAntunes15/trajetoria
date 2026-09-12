@@ -166,9 +166,9 @@ Senha de todos: `trajetoria123`
 |---|---|---|
 | Administração | `admin@horizonte.edu.br` | Beatriz Nogueira |
 | Professor | `professor@horizonte.edu.br` | Carlos Menezes |
-| Estudante | `joao@horizonte.edu.br` | João Silva — 3º A, Desenvolvimento de Sistemas |
-| Estudante | `maria@horizonte.edu.br` | Maria Santos — 3º A, Desenvolvimento de Sistemas |
-| Estudante | `ana@horizonte.edu.br` | Ana Oliveira — 2º B, Ciências |
+| Estudante | `joao@horizonte.edu.br` | João Silva — 2º A, Desenvolvimento de Sistemas |
+| Estudante | `maria@horizonte.edu.br` | Maria Santos — 2º A, Desenvolvimento de Sistemas |
+| Estudante | `ana@horizonte.edu.br` | Ana Oliveira — 2º B, Desenvolvimento de Sistemas |
 
 > São credenciais **apenas de demonstração**. Em produção, rode o seed só se quiser a escola de
 > exemplo e troque as senhas antes de liberar o acesso a qualquer pessoa.
@@ -193,10 +193,10 @@ Tour completo em ordem, cobrindo os critérios de entrega:
 13. Marque "Permitir que este projeto seja visualizado fora da escola" e abra `/projects/<slug>`
     em uma janela anônima.
 14. Clique em **Ver QR Code** e baixe o PNG — ele aponta para a página pública do projeto.
-15. `/events/hackathon-horizonte-2026` — descrição, quantidade de estudantes, destaques e
+15. `/events/hackathon-experimenta-2026` — descrição, quantidade de estudantes, destaques e
     projetos participantes. Sem sessão, a ficha do evento continua aberta: a lista de projetos
     respeita a visibilidade e a contagem de estudantes considera apenas o que está visível.
-16. `/s/ee-horizonte` — acervo da escola com busca e filtros de Ano, Área, Evento e Competência.
+16. `/s/ee-conselheiro-crispiniano` — acervo da escola com busca e filtros de Ano, Área, Evento e Competência.
 17. Como professor, conceda uma badge ao estudante (na página do projeto ou do perfil).
 18. Ainda como professor, emita um certificado vinculado a evento/projeto; abra
     `/certificate/TRJ-2026-JOAOHACK` e baixe o PDF.
