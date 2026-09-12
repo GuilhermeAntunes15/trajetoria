@@ -35,10 +35,12 @@ function tintFor(name: string): string {
 export function BadgeCard({
   badge,
   actions,
+  meta,
   className,
 }: {
   badge: BadgeCardData;
   actions?: React.ReactNode;
+  meta?: React.ReactNode;
   className?: string;
 }) {
   const Icon = badgeIcon(badge.icon);
@@ -69,6 +71,7 @@ export function BadgeCard({
             {[formatDate(badge.issuedAt), badge.issuedByName].filter(Boolean).join(" · ")}
           </p>
         ) : null}
+        {meta ? <p className="mt-2 text-xs text-muted">{meta}</p> : null}
       </div>
 
       {actions ? <div className="shrink-0">{actions}</div> : null}

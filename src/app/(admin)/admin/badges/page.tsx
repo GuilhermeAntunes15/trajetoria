@@ -74,14 +74,16 @@ export default async function AdminBadgesPage() {
                     ) : null}
                   </div>
                 }
+                meta={
+                  <>
+                    {BADGE_TYPE_LABELS[badge.type]}
+                    {" · "}
+                    {badge._count.userBadges === 1
+                      ? "1 concessão"
+                      : `${badge._count.userBadges} concessões`}
+                  </>
+                }
               />
-              <p className="mt-1 px-4 text-xs text-muted">
-                {BADGE_TYPE_LABELS[badge.type]}
-                {" · "}
-                {badge._count.userBadges === 1
-                  ? "1 concessão"
-                  : `${badge._count.userBadges} concessões`}
-              </p>
             </li>
           ))}
         </ul>
