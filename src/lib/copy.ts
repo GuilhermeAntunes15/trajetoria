@@ -5,27 +5,163 @@ export const brand = {
 };
 
 export const landing = {
+  kicker: "Portfólio acadêmico do Ensino Médio",
   heroTitle: "Seu projeto não deveria acabar depois da apresentação.",
+  heroTitleMark: "acabar",
   heroSubtitle:
     "Registre projetos, competências e experiências construídas durante sua trajetória escolar.",
   heroCta: "Conhecer a plataforma",
+  heroCtaSecondary: "Já tenho conta",
+  heroNote: "Dá para abrir o acervo de uma escola agora, sem criar conta. Para entrar, use o e-mail da escola.",
+
   problemTitle: "O problema",
   problemText:
     "Você passa semanas desenvolvendo um projeto. Apresenta. Recebe uma nota. E depois ele desaparece.",
+  problemNoteLabel: "O que sobra hoje",
+  problemNoteValue: "Nota 9,0",
+  problemNoteCaption: "e mais nada.",
+  problemAnswer: "Você fez isso. Deixe registrado.",
+  problemAnswerText:
+    "Aqui o projeto continua existindo depois da nota: o que você construiu, com quem construiu e o que aprendeu no caminho.",
+
+  transformKicker: "Sua trajetória em 4 fases",
   transformTitle: "Transforme trabalhos em trajetória.",
+  transformText:
+    "Toda fase é visível para você e para a escola. Nada acontece escondido, e nada some depois.",
   steps: [
-    { title: "Criar", text: "Cadastre o projeto com título, problema e solução." },
-    { title: "Documentar", text: "Anexe evidências: repositório, apresentação, vídeo, relatório." },
-    { title: "Validar", text: "Um professor revisa, aprova e valida as competências demonstradas." },
-    { title: "Construir portfólio", text: "O projeto passa a fazer parte da sua trajetória escolar." },
+    {
+      phase: "Fase 1",
+      title: "Criar",
+      text: "Cadastre o projeto com título, problema e solução.",
+      state: "Rascunho",
+    },
+    {
+      phase: "Fase 2",
+      title: "Documentar",
+      text: "Anexe evidências: repositório, apresentação, vídeo, relatório.",
+      state: "Em construção",
+    },
+    {
+      phase: "Fase 3",
+      title: "Validar",
+      text: "Um professor revisa, aprova e valida as competências demonstradas.",
+      state: "Com a escola",
+    },
+    {
+      phase: "Fase 4",
+      title: "Construir portfólio",
+      text: "O projeto passa a fazer parte da sua trajetória escolar.",
+      state: "Verificado",
+    },
   ],
+
+  showcaseKicker: "Um projeto de verdade",
+  showcaseTitle: "Projetos feitos na escola também contam história.",
+  showcaseText:
+    "Este é um projeto real do acervo público da EE Horizonte. Ele começou como rascunho de hackathon e hoje é a primeira linha do portfólio de quem fez.",
+  showcaseLink: "Abrir o acervo da escola",
+  showcaseProject: {
+    title: "Sistema de Monitoramento de Enchentes",
+    event: "Hackathon Horizonte · 2026",
+    area: "Desenvolvimento de Sistemas",
+    summary:
+      "Sensores no córrego do bairro e um painel que avisa moradores quando o nível da água sobe rápido demais.",
+    seal: "Projeto verificado pela escola",
+    roleLabel: "Minha parte no projeto",
+    roleText: "Backend: API das leituras, banco de dados e envio dos alertas.",
+    progressLabel: "Do rascunho à validação",
+    progressSteps: ["Rascunho", "Enviado", "Verificado"],
+    skillsLabel: "Competências",
+    skills: [
+      { name: "Python", verified: true },
+      { name: "APIs", verified: true },
+      { name: "Arduino", verified: true },
+      { name: "Comunicação", verified: true },
+      { name: "Figma", verified: false },
+    ],
+    verifiedTag: "Verificada",
+    declaredTag: "Declarada",
+    skillsNote: "Competência verificada é aquela que um professor confirmou lendo o seu projeto.",
+  },
+
   moreThanGradesTitle: "Mais do que notas.",
+  moreThanGradesText:
+    "Um boletim diz quanto você tirou. Uma trajetória mostra o que você construiu.",
   moreThanGrades: [
     { title: "Projetos", text: "Tudo o que você construiu, reunido em um só lugar." },
-    { title: "Competências", text: "O que você aprendeu, declarado por você e verificado pela escola." },
+    {
+      title: "Competências",
+      text: "O que você aprendeu, declarado por você e verificado pela escola.",
+    },
     { title: "Experiências", text: "Hackathons, feiras, mostras e projetos integradores." },
     { title: "Certificados", text: "Comprovação de participação, com código verificável." },
   ],
+  certificate: {
+    label: "Certificado",
+    title: "Participação no Hackathon Horizonte 2026",
+    student: "João Silva",
+    hours: "16 horas",
+    codeLabel: "Código",
+    code: "TRJ-2026-JOAOHACK",
+    note: "Cada certificado tem um código que qualquer pessoa pode conferir.",
+  },
+
+  badgesKicker: "Coleção",
+  badgesTitle: "A coleção fica com você.",
+  badgesText:
+    "Badges são concedidas pela escola por participação e por conquista. Sem ranking, sem disputa, sem pontuação.",
+  badgeList: [
+    {
+      icon: "trophy",
+      name: "Projeto Destaque",
+      text: "Escolhido pela escola como referência para as próximas turmas.",
+    },
+    {
+      icon: "code",
+      name: "Hackathon",
+      text: "Participação completa, da abertura à apresentação final.",
+    },
+    {
+      icon: "flask",
+      name: "Feira de Ciências",
+      text: "Estande montado e apresentação para o público.",
+    },
+    {
+      icon: "microscope",
+      name: "Pesquisa",
+      text: "Investigação com método, registro e análise de dados.",
+    },
+    {
+      icon: "lightbulb",
+      name: "Inovação",
+      text: "Um caminho novo para um problema conhecido da comunidade.",
+    },
+  ],
+
+  teacherKicker: "Para quem ensina",
+  teacherTitle: "Como funciona para o professor.",
+  teacherText:
+    "Sem planilha paralela, sem formulário perdido no e-mail. A leitura acontece dentro da plataforma.",
+  teacherItems: [
+    {
+      title: "Fila de leitura",
+      text: "Os projetos enviados chegam em uma lista só, com tudo que a equipe escreveu.",
+    },
+    {
+      title: "Aprovar ou pedir ajuste",
+      text: "Você devolve com comentário específico e o projeto volta corrigido.",
+    },
+    {
+      title: "Validar competências",
+      text: "Marque o que o projeto realmente demonstra. É isso que vira selo verificado.",
+    },
+  ],
+
+  finalTitle: "Do primeiro projeto ao seu primeiro estágio.",
+  finalText: "Seu portfólio começa antes do mercado de trabalho.",
+  finalCta: "Conhecer a plataforma",
+  finalCtaSecondary: "Entrar",
+
   closingLines: [
     "Seu projeto não precisa terminar na apresentação.",
     "Guarde aquilo que você construiu.",

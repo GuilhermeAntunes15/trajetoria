@@ -22,6 +22,16 @@
 
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+
+  /* Landing pública (rota "/"): paleta ampliada, derivada da marca. */
+  --color-lp-paper: #fbf7ec;
+  --color-lp-mint: #d7ebe0;
+  --color-lp-sun: #f5c84b;
+  --color-lp-tangerine: #e8763a;
+  --color-lp-sky: #c2d9e9;
+  --color-lp-forest: #123f31;
+
+  --radius-sticker: 16px;
 }
 
 @layer base {
@@ -68,5 +78,154 @@
 
   .skip-link:focus-visible {
     top: 0.75rem;
+  }
+}
+
+/* ============================================================
+   Landing pública (rota "/") — estética "caderno de projetos":
+   adesivos com contorno e sombra dura, blocos de cor cheios.
+   Nada aqui é usado pelo app autenticado.
+   ============================================================ */
+
+@keyframes lp-rise {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes lp-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+@keyframes lp-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@layer components {
+  .lp-sticker {
+    border-width: 2px;
+    border-style: solid;
+    border-color: var(--color-ink);
+    border-radius: var(--radius-sticker);
+    box-shadow: 5px 5px 0 var(--color-ink);
+    transform: rotate(var(--lp-rot, 0deg));
+    transition:
+      transform 200ms cubic-bezier(0.2, 0.7, 0.3, 1),
+      box-shadow 200ms ease;
+  }
+
+  .lp-sticker-flat {
+    box-shadow: 3px 3px 0 var(--color-ink);
+  }
+
+  @media (hover: hover) {
+    .lp-lift:hover {
+      transform: rotate(var(--lp-rot, 0deg)) translate(-3px, -4px);
+      box-shadow: 8px 9px 0 var(--color-ink);
+    }
+  }
+
+  .lp-dots {
+    background-image: radial-gradient(rgb(32 35 31 / 0.13) 1.6px, transparent 1.6px);
+    background-size: 22px 22px;
+  }
+
+  .lp-rule {
+    background-image: repeating-linear-gradient(
+      to bottom,
+      transparent 0 31px,
+      rgb(32 35 31 / 0.08) 31px 32px
+    );
+  }
+
+  /* Marca-texto: destaca uma palavra como caneta sobre papel. */
+  .lp-mark {
+    background-image: linear-gradient(
+      var(--lp-mark-color, var(--color-lp-sun)),
+      var(--lp-mark-color, var(--color-lp-sun))
+    );
+    background-repeat: no-repeat;
+    background-size: 100% 0.3em;
+    background-position: 0 0.78em;
+    padding-inline: 0.06em;
+  }
+
+  .lp-num {
+    color: var(--lp-num-color, var(--color-ink));
+    opacity: 0.3;
+  }
+
+  @supports (-webkit-text-stroke: 2px black) {
+    .lp-num {
+      color: transparent;
+      opacity: 1;
+      -webkit-text-stroke: 2px var(--lp-num-color, var(--color-ink));
+    }
+  }
+
+  .lp-grow {
+    transform-origin: left center;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lp-enter {
+    animation: lp-rise 700ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+    animation-delay: var(--lp-delay, 0ms);
+  }
+
+  [data-reveal="pending"] .lp-item {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+
+  [data-reveal="visible"] .lp-item {
+    animation: lp-rise 620ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+    animation-delay: var(--lp-delay, 0ms);
+  }
+
+  [data-reveal="pending"] .lp-grow {
+    transform: scaleX(0);
+  }
+
+  [data-reveal="visible"] .lp-grow {
+    animation: lp-grow 1000ms cubic-bezier(0.3, 0.8, 0.3, 1) 160ms both;
+  }
+
+  .lp-float {
+    animation: lp-float 5.5s ease-in-out infinite;
+  }
+}
+
+/* Foco duplo (anel claro + anel escuro): permanece visível tanto sobre os blocos
+   claros quanto sobre o verde cheio da faixa final. Fica fora de @layer de
+   propósito, para vencer as utilidades de sombra do próprio botão. */
+.lp-focus:focus-visible {
+  outline: 3px solid var(--color-lp-sun);
+  outline-offset: 3px;
+  box-shadow:
+    0 0 0 6px var(--color-ink),
+    4px 4px 0 var(--color-ink);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lp-sticker {
+    transition: none;
   }
 }
