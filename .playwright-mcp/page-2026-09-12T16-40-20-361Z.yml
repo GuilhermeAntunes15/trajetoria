@@ -1,0 +1,131 @@
+- generic [active] [ref=f19e1]:
+  - generic [ref=f19e2]:
+    - link "Pular para o conteúdo" [ref=f19e3] [cursor=pointer]:
+      - /url: "#conteudo"
+    - complementary [ref=f19e4]:
+      - generic [ref=f19e5]:
+        - link "Trajetória" [ref=f19e6] [cursor=pointer]:
+          - /url: /dashboard
+        - navigation "Navegação" [ref=f19e7]:
+          - link "Início" [ref=f19e8] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Projetos" [ref=f19e14] [cursor=pointer]:
+            - /url: /projects
+          - link "Eventos" [ref=f19e17] [cursor=pointer]:
+            - /url: /events
+          - link "Acervo" [ref=f19e20] [cursor=pointer]:
+            - /url: /school
+          - link "Perfil" [ref=f19e23] [cursor=pointer]:
+            - /url: /u/joao.silva
+    - generic [ref=f19e27]:
+      - banner [ref=f19e28]:
+        - generic [ref=f19e29]:
+          - search [ref=f19e30]:
+            - generic [ref=f19e31]: Buscar
+            - searchbox "Buscar" [ref=f19e32]
+          - generic [ref=f19e33]:
+            - 'link "Notificações: 5 não lidas" [ref=f19e34] [cursor=pointer]':
+              - /url: /notifications
+              - generic [ref=f19e38]: "5"
+            - button "João Silva" [ref=f19e40]:
+              - generic [aria-hidden] [ref=f19e41]: JS
+      - main [ref=f19e45]:
+        - generic [ref=f19e46]:
+          - generic [ref=f19e47]:
+            - generic [ref=f19e48]:
+              - paragraph [ref=f19e49]: Acervo da escola
+              - heading "E.E. Horizonte" [level=1] [ref=f19e50]
+              - paragraph [ref=f19e51]: São Paulo · SP
+              - paragraph [ref=f19e55]: Escola estadual de ensino médio e técnico na zona leste de São Paulo. Aqui ficam registrados os projetos construídos pelas turmas ao longo dos anos.
+            - generic [ref=f19e56]:
+              - generic [ref=f19e57]:
+                - term [ref=f19e58]: Projetos verificados
+                - definition [ref=f19e59]: "3"
+              - generic [ref=f19e60]:
+                - term [ref=f19e61]: Eventos
+                - definition [ref=f19e62]: "2"
+              - generic [ref=f19e63]:
+                - term [ref=f19e64]: Estudantes
+                - definition [ref=f19e65]: "3"
+          - generic [ref=f19e66]:
+            - generic [ref=f19e67]:
+              - generic [ref=f19e68]: Buscar no acervo
+              - textbox "Buscar no acervo" [ref=f19e69]:
+                - /placeholder: "Ex.: enchentes"
+            - generic [ref=f19e70]:
+              - generic [ref=f19e71]: Ano
+              - combobox "Ano" [ref=f19e72]:
+                - option "Todos" [selected]
+                - option "2026"
+            - generic [ref=f19e73]:
+              - generic [ref=f19e74]: Área
+              - combobox "Área" [ref=f19e75]:
+                - option "Todos"
+                - option "Ciências (1)" [selected]
+                - option "Desenvolvimento de Sistemas (1)"
+                - option "Sustentabilidade (1)"
+            - generic [ref=f19e76]:
+              - generic [ref=f19e77]: Evento
+              - combobox "Evento" [ref=f19e78]:
+                - option "Todos" [selected]
+                - option "Feira de Ciências 2026"
+                - option "Hackathon Horizonte 2026"
+            - generic [ref=f19e79]:
+              - generic [ref=f19e80]: Competência
+              - combobox "Competência" [ref=f19e81]:
+                - option "Todos" [selected]
+                - option "APIs"
+                - option "Arduino"
+                - option "Comunicação"
+                - option "Eletrônica"
+                - option "Figma"
+                - option "Pesquisa"
+                - option "Python"
+            - generic [ref=f19e82]:
+              - button "Filtrar" [ref=f19e83]
+              - link "Limpar filtros" [ref=f19e84] [cursor=pointer]:
+                - /url: /s/ee-horizonte
+          - generic [ref=f19e85]:
+            - heading "Projetos" [level=2] [ref=f19e86]
+            - article [ref=f19e88]:
+              - generic [ref=f19e89]:
+                - generic [ref=f19e90]:
+                  - generic [ref=f19e91]: Verificado
+                  - generic [ref=f19e92]: Escola
+                  - generic [ref=f19e98]: Ciências
+                - generic [ref=f19e99]:
+                  - heading [level=3] [ref=f19e100]:
+                    - link "Estação Meteorológica Escolar" [ref=f19e101] [cursor=pointer]:
+                      - /url: /projects/estacao-meteorologica-escolar
+                  - paragraph [ref=f19e102]: Estação com sensores de temperatura, umidade e chuva instalada no pátio, com painel que mostra os dados para as turmas de Ciências.
+                - generic [ref=f19e103]:
+                  - generic [ref=f19e104]: "2026"
+                  - generic [ref=f19e107]: 2 integrantes
+                  - generic [ref=f19e113]: Feira de Ciências 2026
+          - generic [ref=f19e114]:
+            - heading "Eventos" [level=2] [ref=f19e115]
+            - generic [ref=f19e116]:
+              - article [ref=f19e117]:
+                - generic [ref=f19e118]:
+                  - generic [ref=f19e119]: Feira de Ciências
+                  - generic [ref=f19e120]: 3 projetos
+                - heading [level=3] [ref=f19e121]:
+                  - link "Feira de Ciências 2026" [ref=f19e122] [cursor=pointer]:
+                    - /url: /events/feira-de-ciencias-2026
+                - paragraph [ref=f19e123]: Mostra anual dos projetos de investigação das turmas de Ciências e Desenvolvimento de Sistemas. Cada equipe monta um estande, explica o método e recebe perguntas do público.
+                - generic [ref=f19e124]:
+                  - generic [ref=f19e125]: 15/05/2026 a 17/05/2026
+                  - generic [ref=f19e128]: Quadra Poliesportiva
+              - article [ref=f19e132]:
+                - generic [ref=f19e133]:
+                  - generic [ref=f19e134]: Hackathon
+                  - generic [ref=f19e135]: 1 projeto
+                - heading [level=3] [ref=f19e136]:
+                  - link "Hackathon Horizonte 2026" [ref=f19e137] [cursor=pointer]:
+                    - /url: /events/hackathon-horizonte-2026
+                - paragraph [ref=f19e138]: Três dias para transformar um problema do bairro em um protótipo que funcione. As equipes escolhem o tema na abertura, desenvolvem no laboratório e apresentam para uma banca de professores e convidados.
+                - generic [ref=f19e139]:
+                  - generic [ref=f19e140]: 20/03/2026 a 22/03/2026
+                  - generic [ref=f19e143]: Laboratório de Informática
+  - button "Open Next.js Dev Tools" [ref=f19e152] [cursor=pointer]
+  - alert [ref=f19e156]

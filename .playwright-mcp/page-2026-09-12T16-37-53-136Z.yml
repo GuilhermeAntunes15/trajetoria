@@ -1,0 +1,23 @@
+- generic [ref=f12e2]:
+  - banner [ref=f12e3]:
+    - link "Trajetória" [ref=f12e5] [cursor=pointer]:
+      - /url: /
+  - main [ref=f12e6]:
+    - generic [ref=f12e7]:
+      - generic [ref=f12e8]:
+        - heading "Entrar" [level=1] [ref=f12e9]
+        - paragraph [ref=f12e10]: Use o e-mail da escola para acessar sua trajetória.
+      - generic [ref=f12e13]:
+        - generic [ref=f12e14]:
+          - generic [ref=f12e15]: E-mail*
+          - textbox "E-mail*" [ref=f12e16]
+        - generic [ref=f12e17]:
+          - generic [ref=f12e18]: Senha*
+          - textbox "Senha*" [ref=f12e19]
+        - button "Entrar" [ref=f12e20]
+      - paragraph [ref=f12e21]:
+        - link "Esqueci minha senha" [ref=f12e22] [cursor=pointer]:
+          - /url: /esqueci-minha-senha
+  - contentinfo [ref=f12e23]:
+    - link "Privacidade" [ref=f12e24] [cursor=pointer]:
+      - /url: /privacy

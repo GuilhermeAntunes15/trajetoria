@@ -1,0 +1,81 @@
+- generic [active] [ref=f11e1]:
+  - button "Open Next.js Dev Tools" [ref=f11e243] [cursor=pointer]
+  - alert [ref=f11e247]: Trajetória — portfólio acadêmico
+  - generic [ref=f11e262]:
+    - link "Pular para o conteúdo" [ref=f11e263] [cursor=pointer]:
+      - /url: "#conteudo"
+    - banner [ref=f11e264]:
+      - generic [ref=f11e265]:
+        - link "Trajetória" [ref=f11e266] [cursor=pointer]:
+          - /url: /
+        - search [ref=f11e267]:
+          - generic [ref=f11e268]: Buscar
+          - searchbox "Buscar" [ref=f11e269]
+        - navigation "Navegação principal" [ref=f11e270]:
+          - link "Projetos" [ref=f11e271] [cursor=pointer]:
+            - /url: /projects
+          - link "Eventos" [ref=f11e272] [cursor=pointer]:
+            - /url: /events
+          - link "Entrar" [ref=f11e273] [cursor=pointer]:
+            - /url: /login
+    - main [ref=f11e274]:
+      - generic [ref=f11e275]:
+        - generic [ref=f11e276]:
+          - paragraph [ref=f11e277]: Portfólio acadêmico
+          - heading "Seu projeto não deveria acabar depois da apresentação." [level=1] [ref=f11e278]
+          - paragraph [ref=f11e279]: Registre projetos, competências e experiências construídas durante sua trajetória escolar.
+          - generic [ref=f11e280]:
+            - link "Conhecer a plataforma" [ref=f11e281] [cursor=pointer]:
+              - /url: /projects
+            - link "Entrar" [ref=f11e284] [cursor=pointer]:
+              - /url: /login
+        - generic [ref=f11e285]:
+          - heading "O problema" [level=2] [ref=f11e286]
+          - paragraph [ref=f11e287]: Você passa semanas desenvolvendo um projeto. Apresenta. Recebe uma nota. E depois ele desaparece.
+        - generic [ref=f11e288]:
+          - heading "Transforme trabalhos em trajetória." [level=2] [ref=f11e289]
+          - list [ref=f11e290]:
+            - listitem [ref=f11e291]:
+              - text: "01"
+              - heading "Criar" [level=3] [ref=f11e292]
+              - paragraph [ref=f11e293]: Cadastre o projeto com título, problema e solução.
+            - listitem [ref=f11e294]:
+              - text: "02"
+              - heading "Documentar" [level=3] [ref=f11e295]
+              - paragraph [ref=f11e296]: "Anexe evidências: repositório, apresentação, vídeo, relatório."
+            - listitem [ref=f11e297]:
+              - text: "03"
+              - heading "Validar" [level=3] [ref=f11e298]
+              - paragraph [ref=f11e299]: Um professor revisa, aprova e valida as competências demonstradas.
+            - listitem [ref=f11e300]:
+              - text: "04"
+              - heading "Construir portfólio" [level=3] [ref=f11e301]
+              - paragraph [ref=f11e302]: O projeto passa a fazer parte da sua trajetória escolar.
+        - generic [ref=f11e303]:
+          - heading "Mais do que notas." [level=2] [ref=f11e304]
+          - generic [ref=f11e305]:
+            - generic [ref=f11e306]:
+              - term [ref=f11e307]: Projetos
+              - definition [ref=f11e308]: Tudo o que você construiu, reunido em um só lugar.
+            - generic [ref=f11e309]:
+              - term [ref=f11e310]: Competências
+              - definition [ref=f11e311]: O que você aprendeu, declarado por você e verificado pela escola.
+            - generic [ref=f11e312]:
+              - term [ref=f11e313]: Experiências
+              - definition [ref=f11e314]: Hackathons, feiras, mostras e projetos integradores.
+            - generic [ref=f11e315]:
+              - term [ref=f11e316]: Certificados
+              - definition [ref=f11e317]: Comprovação de participação, com código verificável.
+        - generic [ref=f11e318]:
+          - paragraph [ref=f11e319]: Você fez isso. Deixe registrado.
+          - paragraph [ref=f11e320]: Seu portfólio começa antes do mercado de trabalho.
+          - link "Entrar na plataforma" [ref=f11e321] [cursor=pointer]:
+            - /url: /login
+    - contentinfo [ref=f11e322]:
+      - generic [ref=f11e323]:
+        - paragraph [ref=f11e324]: Trajetória — Transforme o que você constrói na escola em parte da sua trajetória.
+        - navigation "Rodapé" [ref=f11e325]:
+          - link "Privacidade" [ref=f11e326] [cursor=pointer]:
+            - /url: /privacy
+          - link "Entrar" [ref=f11e327] [cursor=pointer]:
+            - /url: /login

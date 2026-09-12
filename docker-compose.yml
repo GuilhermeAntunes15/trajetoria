@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: trajetoria-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: trajetoria
+      POSTGRES_PASSWORD: trajetoria
+      POSTGRES_DB: trajetoria
+    ports:
+      - "5434:5432"
+    volumes:
+      - trajetoria_pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U trajetoria -d trajetoria"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  trajetoria_pgdata:

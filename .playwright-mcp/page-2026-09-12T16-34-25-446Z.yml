@@ -1,0 +1,109 @@
+- generic [active] [ref=f5e1]:
+  - button "Open Next.js Dev Tools" [ref=f5e30] [cursor=pointer]
+  - alert [ref=f5e34]: Início · Trajetória
+  - generic [ref=f5e35]:
+    - link "Pular para o conteúdo" [ref=f5e36] [cursor=pointer]:
+      - /url: "#conteudo"
+    - complementary [ref=f5e37]:
+      - generic [ref=f5e38]:
+        - link "Trajetória" [ref=f5e39] [cursor=pointer]:
+          - /url: /dashboard
+        - navigation "Navegação" [ref=f5e40]:
+          - link "Início" [ref=f5e41] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Projetos" [ref=f5e47] [cursor=pointer]:
+            - /url: /projects
+          - link "Eventos" [ref=f5e50] [cursor=pointer]:
+            - /url: /events
+          - link "Acervo" [ref=f5e53] [cursor=pointer]:
+            - /url: /school
+          - link "Perfil" [ref=f5e56] [cursor=pointer]:
+            - /url: /u/ana.oliveira
+    - generic [ref=f5e60]:
+      - banner [ref=f5e61]:
+        - generic [ref=f5e62]:
+          - search [ref=f5e63]:
+            - generic [ref=f5e64]: Buscar
+            - searchbox "Buscar" [ref=f5e65]
+          - generic [ref=f5e66]:
+            - link "Notificações" [ref=f5e67] [cursor=pointer]:
+              - /url: /notifications
+            - button "Ana Oliveira" [ref=f5e72]:
+              - generic [aria-hidden] [ref=f5e73]: AO
+      - main [ref=f5e77]:
+        - generic [ref=f5e78]:
+          - generic [ref=f5e79]:
+            - heading "Olá, Ana." [level=1] [ref=f5e80]
+            - link "+ Novo projeto" [ref=f5e81] [cursor=pointer]:
+              - /url: /projects/new
+          - generic [ref=f5e82]:
+            - generic [ref=f5e84]:
+              - paragraph [ref=f5e85]: "2"
+              - paragraph [ref=f5e86]: Projetos
+            - generic [ref=f5e88]:
+              - paragraph [ref=f5e89]: "6"
+              - paragraph [ref=f5e90]: Competências verificadas
+            - generic [ref=f5e92]:
+              - paragraph [ref=f5e93]: "2"
+              - paragraph [ref=f5e94]: Eventos participados
+            - generic [ref=f5e96]:
+              - paragraph [ref=f5e97]: "2"
+              - paragraph [ref=f5e98]: Badges
+          - generic [ref=f5e99]:
+            - heading "Continue construindo" [level=2] [ref=f5e100]
+            - generic [ref=f5e101]:
+              - article [ref=f5e102]:
+                - generic [ref=f5e103]:
+                  - generic [ref=f5e104]:
+                    - generic [ref=f5e105]: Verificado
+                    - generic [ref=f5e106]: Escola
+                    - generic [ref=f5e112]: Sustentabilidade
+                  - generic [ref=f5e113]:
+                    - heading [level=3] [ref=f5e114]:
+                      - link "Horta Inteligente" [ref=f5e115] [cursor=pointer]:
+                        - /url: /projects/horta-inteligente
+                    - paragraph [ref=f5e116]: Irrigação automática da horta da escola a partir da umidade real do solo, com registro diário do consumo de água.
+                  - generic [ref=f5e117]:
+                    - generic [ref=f5e118]: "2026"
+                    - generic [ref=f5e121]: 2 integrantes
+                    - generic [ref=f5e127]: Feira de Ciências 2026
+              - article [ref=f5e128]:
+                - generic [ref=f5e129]:
+                  - generic [ref=f5e130]:
+                    - generic [ref=f5e131]: Verificado
+                    - generic [ref=f5e132]: Público
+                    - generic [ref=f5e136]: Desenvolvimento de Sistemas
+                  - generic [ref=f5e137]:
+                    - heading [level=3] [ref=f5e138]:
+                      - link "Sistema de Monitoramento de Enchentes" [ref=f5e139] [cursor=pointer]:
+                        - /url: /projects/sistema-de-monitoramento-de-enchentes
+                    - paragraph [ref=f5e140]: Sensores no córrego do bairro e um painel que avisa moradores quando o nível da água sobe rápido demais.
+                  - generic [ref=f5e141]:
+                    - generic [ref=f5e142]: "2026"
+                    - generic [ref=f5e145]: 3 integrantes
+                    - generic [ref=f5e151]: Hackathon Horizonte 2026
+          - generic [ref=f5e152]:
+            - heading "Minha trajetória" [level=2] [ref=f5e153]
+            - generic [ref=f5e155]:
+              - paragraph [ref=f5e156]: "2026"
+              - list [ref=f5e157]:
+                - listitem [ref=f5e158]:
+                  - link "Horta Inteligente" [ref=f5e159] [cursor=pointer]:
+                    - /url: /projects/horta-inteligente
+                  - generic [ref=f5e160]: — Projeto
+                  - generic [ref=f5e161]: 16/05/2026
+                - listitem [ref=f5e162]:
+                  - link "Feira de Ciências 2026" [ref=f5e163] [cursor=pointer]:
+                    - /url: /events/feira-de-ciencias-2026
+                  - generic [ref=f5e164]: — Evento
+                  - generic [ref=f5e165]: 15/05/2026
+                - listitem [ref=f5e166]:
+                  - link "Sistema de Monitoramento de Enchentes" [ref=f5e167] [cursor=pointer]:
+                    - /url: /projects/sistema-de-monitoramento-de-enchentes
+                  - generic [ref=f5e168]: — Projeto
+                  - generic [ref=f5e169]: 22/03/2026
+                - listitem [ref=f5e170]:
+                  - link "Hackathon Horizonte 2026" [ref=f5e171] [cursor=pointer]:
+                    - /url: /events/hackathon-horizonte-2026
+                  - generic [ref=f5e172]: — Evento
+                  - generic [ref=f5e173]: 20/03/2026

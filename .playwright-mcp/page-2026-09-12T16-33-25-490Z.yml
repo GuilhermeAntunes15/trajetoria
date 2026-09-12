@@ -1,0 +1,81 @@
+- generic [active] [ref=f4e1]:
+  - button "Open Next.js Dev Tools" [ref=f4e184] [cursor=pointer]
+  - alert [ref=f4e178]: Trajetória — portfólio acadêmico
+  - generic [ref=f4e202]:
+    - link "Pular para o conteúdo" [ref=f4e203] [cursor=pointer]:
+      - /url: "#conteudo"
+    - banner [ref=f4e204]:
+      - generic [ref=f4e205]:
+        - link "Trajetória" [ref=f4e206] [cursor=pointer]:
+          - /url: /
+        - search [ref=f4e207]:
+          - generic [ref=f4e208]: Buscar
+          - searchbox "Buscar" [ref=f4e209]
+        - navigation "Navegação principal" [ref=f4e210]:
+          - link "Projetos" [ref=f4e211] [cursor=pointer]:
+            - /url: /projects
+          - link "Eventos" [ref=f4e212] [cursor=pointer]:
+            - /url: /events
+          - link "Entrar" [ref=f4e213] [cursor=pointer]:
+            - /url: /login
+    - main [ref=f4e214]:
+      - generic [ref=f4e215]:
+        - generic [ref=f4e216]:
+          - paragraph [ref=f4e217]: Portfólio acadêmico
+          - heading "Seu projeto não deveria acabar depois da apresentação." [level=1] [ref=f4e218]
+          - paragraph [ref=f4e219]: Registre projetos, competências e experiências construídas durante sua trajetória escolar.
+          - generic [ref=f4e220]:
+            - link "Conhecer a plataforma" [ref=f4e221] [cursor=pointer]:
+              - /url: /projects
+            - link "Entrar" [ref=f4e224] [cursor=pointer]:
+              - /url: /login
+        - generic [ref=f4e225]:
+          - heading "O problema" [level=2] [ref=f4e226]
+          - paragraph [ref=f4e227]: Você passa semanas desenvolvendo um projeto. Apresenta. Recebe uma nota. E depois ele desaparece.
+        - generic [ref=f4e228]:
+          - heading "Transforme trabalhos em trajetória." [level=2] [ref=f4e229]
+          - list [ref=f4e230]:
+            - listitem [ref=f4e231]:
+              - text: "01"
+              - heading "Criar" [level=3] [ref=f4e232]
+              - paragraph [ref=f4e233]: Cadastre o projeto com título, problema e solução.
+            - listitem [ref=f4e234]:
+              - text: "02"
+              - heading "Documentar" [level=3] [ref=f4e235]
+              - paragraph [ref=f4e236]: "Anexe evidências: repositório, apresentação, vídeo, relatório."
+            - listitem [ref=f4e237]:
+              - text: "03"
+              - heading "Validar" [level=3] [ref=f4e238]
+              - paragraph [ref=f4e239]: Um professor revisa, aprova e valida as competências demonstradas.
+            - listitem [ref=f4e240]:
+              - text: "04"
+              - heading "Construir portfólio" [level=3] [ref=f4e241]
+              - paragraph [ref=f4e242]: O projeto passa a fazer parte da sua trajetória escolar.
+        - generic [ref=f4e243]:
+          - heading "Mais do que notas." [level=2] [ref=f4e244]
+          - generic [ref=f4e245]:
+            - generic [ref=f4e246]:
+              - term [ref=f4e247]: Projetos
+              - definition [ref=f4e248]: Tudo o que você construiu, reunido em um só lugar.
+            - generic [ref=f4e249]:
+              - term [ref=f4e250]: Competências
+              - definition [ref=f4e251]: O que você aprendeu, declarado por você e verificado pela escola.
+            - generic [ref=f4e252]:
+              - term [ref=f4e253]: Experiências
+              - definition [ref=f4e254]: Hackathons, feiras, mostras e projetos integradores.
+            - generic [ref=f4e255]:
+              - term [ref=f4e256]: Certificados
+              - definition [ref=f4e257]: Comprovação de participação, com código verificável.
+        - generic [ref=f4e258]:
+          - paragraph [ref=f4e259]: Você fez isso. Deixe registrado.
+          - paragraph [ref=f4e260]: Seu portfólio começa antes do mercado de trabalho.
+          - link "Entrar na plataforma" [ref=f4e261] [cursor=pointer]:
+            - /url: /login
+    - contentinfo [ref=f4e262]:
+      - generic [ref=f4e263]:
+        - paragraph [ref=f4e264]: Trajetória — Transforme o que você constrói na escola em parte da sua trajetória.
+        - navigation "Rodapé" [ref=f4e265]:
+          - link "Privacidade" [ref=f4e266] [cursor=pointer]:
+            - /url: /privacy
+          - link "Entrar" [ref=f4e267] [cursor=pointer]:
+            - /url: /login

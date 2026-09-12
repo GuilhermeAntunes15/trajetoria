@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --color-canvas: #f7f7f2;
+  --color-surface: #ffffff;
+  --color-ink: #20231f;
+  --color-muted: #62675f;
+  --color-brand: #1f6b52;
+  --color-brand-hover: #175440;
+  --color-accent: #d98a3a;
+  --color-info: #426b8a;
+  --color-line: #e3e4de;
+  --color-success: #3a7d5d;
+  --color-warning: #c7892f;
+  --color-danger: #b84a4a;
+
+  --radius-control: 10px;
+  --radius-card: 12px;
+
+  --shadow-card: 0 1px 2px rgb(32 35 31 / 0.05), 0 1px 1px rgb(32 35 31 / 0.04);
+  --shadow-pop: 0 8px 24px rgb(32 35 31 / 0.1);
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  html {
+    color-scheme: light;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-canvas);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    overflow-wrap: break-word;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 2px;
+  }
+
+  dialog::backdrop {
+    background: rgb(32 35 31 / 0.4);
+  }
+
+  dialog {
+    margin: auto;
+  }
+}
+
+@layer components {
+  .skip-link {
+    position: absolute;
+    left: 0.75rem;
+    top: -3rem;
+    z-index: 50;
+    border-radius: var(--radius-control);
+    background-color: var(--color-brand);
+    padding: 0.5rem 0.875rem;
+    font-size: 0.875rem;
+    color: var(--color-surface);
+    transition: top 150ms ease;
+  }
+
+  .skip-link:focus-visible {
+    top: 0.75rem;
+  }
+}

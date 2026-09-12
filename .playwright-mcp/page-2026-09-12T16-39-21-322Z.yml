@@ -1,0 +1,115 @@
+- generic [ref=f16e2]:
+  - link "Pular para o conteúdo" [ref=f16e3] [cursor=pointer]:
+    - /url: "#conteudo"
+  - complementary [ref=f16e4]:
+    - generic [ref=f16e5]:
+      - link "Trajetória" [ref=f16e6] [cursor=pointer]:
+        - /url: /dashboard
+      - navigation "Navegação" [ref=f16e7]:
+        - link "Início" [ref=f16e8] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Projetos" [ref=f16e14] [cursor=pointer]:
+          - /url: /projects
+        - link "Eventos" [ref=f16e17] [cursor=pointer]:
+          - /url: /events
+        - link "Acervo" [ref=f16e20] [cursor=pointer]:
+          - /url: /school
+        - link "Perfil" [ref=f16e23] [cursor=pointer]:
+          - /url: /u/joao.silva
+  - generic [ref=f16e27]:
+    - banner [ref=f16e28]:
+      - generic [ref=f16e29]:
+        - search [ref=f16e30]:
+          - generic [ref=f16e31]: Buscar
+          - searchbox "Buscar" [ref=f16e32]
+        - generic [ref=f16e33]:
+          - 'link "Notificações: 5 não lidas" [ref=f16e34] [cursor=pointer]':
+            - /url: /notifications
+            - generic [ref=f16e38]: "5"
+          - button "João Silva" [ref=f16e40]:
+            - generic [aria-hidden] [ref=f16e41]: JS
+    - main [ref=f16e45]:
+      - generic [ref=f16e46]:
+        - generic [ref=f16e48]:
+          - heading "Continuar um projeto" [level=1] [ref=f16e49]
+          - paragraph [ref=f16e50]: O novo projeto nasce como rascunho, ligado ao original. Conte o que a sua equipe fez de diferente.
+        - generic [ref=f16e53]:
+          - generic [ref=f16e54]:
+            - generic [ref=f16e55]: Título*
+            - textbox "Título*" [ref=f16e56]
+          - generic [ref=f16e57]:
+            - generic [ref=f16e58]: Resumo curto*
+            - textbox "Resumo curto*" [ref=f16e59]
+            - paragraph [ref=f16e60]: Até 280 caracteres.
+          - generic [ref=f16e61]:
+            - generic [ref=f16e62]:
+              - generic [ref=f16e63]: Área
+              - combobox "Área" [ref=f16e64]:
+                - option "Selecione" [selected]
+                - option "Desenvolvimento de Sistemas"
+                - option "Ciência de Dados"
+                - option "Inteligência Artificial"
+                - option "Robótica"
+                - option "Design"
+                - option "Ciências"
+                - option "Empreendedorismo"
+                - option "Sustentabilidade"
+                - option "Comunicação"
+                - option "Pesquisa"
+            - generic [ref=f16e65]:
+              - generic [ref=f16e66]: Data do projeto*
+              - textbox "Data do projeto*" [ref=f16e67]
+          - generic [ref=f16e68]:
+            - generic [ref=f16e69]:
+              - generic [ref=f16e70]: Evento
+              - combobox "Evento" [ref=f16e71]:
+                - option "Sem evento" [selected]
+                - option "Feira de Ciências 2026"
+                - option "Hackathon Horizonte 2026"
+              - paragraph [ref=f16e72]: Feira, hackathon, mostra ou projeto integrador.
+            - generic [ref=f16e73]:
+              - generic [ref=f16e74]: Professor orientador
+              - combobox "Professor orientador" [ref=f16e75]:
+                - option "Sem orientação definida" [selected]
+                - option "Carlos Menezes"
+          - generic [ref=f16e76]:
+            - generic [ref=f16e77]: Imagem de capa
+            - button "Imagem de capa" [ref=f16e79]
+            - paragraph [ref=f16e80]: PNG, JPEG ou WebP até 5 MB.
+          - generic [ref=f16e81]:
+            - generic [ref=f16e82]: O problema
+            - textbox "O problema" [ref=f16e83]
+            - paragraph [ref=f16e84]: Qual problema o projeto tentou resolver?
+          - generic [ref=f16e85]:
+            - generic [ref=f16e86]: Nossa solução
+            - textbox "Nossa solução" [ref=f16e87]
+            - paragraph [ref=f16e88]: O que vocês construíram e como funciona.
+          - generic [ref=f16e89]:
+            - generic [ref=f16e90]: O que aprendemos
+            - textbox "O que aprendemos" [ref=f16e91]
+          - generic [ref=f16e92]:
+            - generic [ref=f16e93]: Descrição complementar
+            - textbox "Descrição complementar" [ref=f16e94]
+          - generic [ref=f16e95]:
+            - generic [ref=f16e96]:
+              - generic [ref=f16e97]: Seu papel no projeto*
+              - textbox "Seu papel no projeto*" [ref=f16e98]
+              - paragraph [ref=f16e99]: "Ex.: Backend, UX/UI, Dados."
+            - generic [ref=f16e100]:
+              - generic [ref=f16e101]: Sua contribuição
+              - textbox "Sua contribuição" [ref=f16e102]
+          - generic [ref=f16e103]:
+            - generic [ref=f16e104]:
+              - generic [ref=f16e105]: Quem pode ver este projeto
+              - combobox "Quem pode ver este projeto" [ref=f16e106]:
+                - option "Privado — só a equipe" [selected]
+                - option "Escola — estudantes e professores"
+            - generic [ref=f16e107]:
+              - checkbox "Permitir que este projeto seja visualizado fora da escola." [ref=f16e108]
+              - generic [ref=f16e109]:
+                - generic [ref=f16e110]: Permitir que este projeto seja visualizado fora da escola.
+                - paragraph [ref=f16e111]: Só ficará visível fora da escola depois da validação.
+            - generic [ref=f16e112]:
+              - checkbox "Permitir que outros continuem este projeto." [ref=f16e113]
+              - generic [ref=f16e114]: Permitir que outros continuem este projeto.
+          - button "Salvar projeto" [ref=f16e116]

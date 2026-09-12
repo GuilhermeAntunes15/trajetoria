@@ -1,0 +1,78 @@
+- generic [ref=e2]:
+  - link "Pular para o conteúdo" [ref=e3] [cursor=pointer]:
+    - /url: "#conteudo"
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "Trajetória" [ref=e6] [cursor=pointer]:
+        - /url: /
+      - search [ref=e7]:
+        - generic [ref=e8]: Buscar
+        - searchbox "Buscar" [ref=e9]
+      - navigation "Navegação principal" [ref=e10]:
+        - link "Projetos" [ref=e11] [cursor=pointer]:
+          - /url: /projects
+        - link "Eventos" [ref=e12] [cursor=pointer]:
+          - /url: /events
+        - link "Entrar" [ref=e13] [cursor=pointer]:
+          - /url: /login
+  - main [ref=e14]:
+    - generic [ref=e15]:
+      - generic [ref=e16]:
+        - paragraph [ref=e17]: Portfólio acadêmico
+        - heading "Seu projeto não deveria acabar depois da apresentação." [level=1] [ref=e18]
+        - paragraph [ref=e19]: Registre projetos, competências e experiências construídas durante sua trajetória escolar.
+        - generic [ref=e20]:
+          - link "Conhecer a plataforma" [ref=e21] [cursor=pointer]:
+            - /url: /projects
+          - link "Entrar" [ref=e24] [cursor=pointer]:
+            - /url: /login
+      - generic [ref=e25]:
+        - heading "O problema" [level=2] [ref=e26]
+        - paragraph [ref=e27]: Você passa semanas desenvolvendo um projeto. Apresenta. Recebe uma nota. E depois ele desaparece.
+      - generic [ref=e28]:
+        - heading "Transforme trabalhos em trajetória." [level=2] [ref=e29]
+        - list [ref=e30]:
+          - listitem [ref=e31]:
+            - text: "01"
+            - heading "Criar" [level=3] [ref=e32]
+            - paragraph [ref=e33]: Cadastre o projeto com título, problema e solução.
+          - listitem [ref=e34]:
+            - text: "02"
+            - heading "Documentar" [level=3] [ref=e35]
+            - paragraph [ref=e36]: "Anexe evidências: repositório, apresentação, vídeo, relatório."
+          - listitem [ref=e37]:
+            - text: "03"
+            - heading "Validar" [level=3] [ref=e38]
+            - paragraph [ref=e39]: Um professor revisa, aprova e valida as competências demonstradas.
+          - listitem [ref=e40]:
+            - text: "04"
+            - heading "Construir portfólio" [level=3] [ref=e41]
+            - paragraph [ref=e42]: O projeto passa a fazer parte da sua trajetória escolar.
+      - generic [ref=e43]:
+        - heading "Mais do que notas." [level=2] [ref=e44]
+        - generic [ref=e45]:
+          - generic [ref=e46]:
+            - term [ref=e47]: Projetos
+            - definition [ref=e48]: Tudo o que você construiu, reunido em um só lugar.
+          - generic [ref=e49]:
+            - term [ref=e50]: Competências
+            - definition [ref=e51]: O que você aprendeu, declarado por você e verificado pela escola.
+          - generic [ref=e52]:
+            - term [ref=e53]: Experiências
+            - definition [ref=e54]: Hackathons, feiras, mostras e projetos integradores.
+          - generic [ref=e55]:
+            - term [ref=e56]: Certificados
+            - definition [ref=e57]: Comprovação de participação, com código verificável.
+      - generic [ref=e58]:
+        - paragraph [ref=e59]: Você fez isso. Deixe registrado.
+        - paragraph [ref=e60]: Seu portfólio começa antes do mercado de trabalho.
+        - link "Entrar na plataforma" [ref=e61] [cursor=pointer]:
+          - /url: /login
+  - contentinfo [ref=e62]:
+    - generic [ref=e63]:
+      - paragraph [ref=e64]: Trajetória — Transforme o que você constrói na escola em parte da sua trajetória.
+      - navigation "Rodapé" [ref=e65]:
+        - link "Privacidade" [ref=e66] [cursor=pointer]:
+          - /url: /privacy
+        - link "Entrar" [ref=e67] [cursor=pointer]:
+          - /url: /login

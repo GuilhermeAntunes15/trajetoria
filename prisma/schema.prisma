@@ -1,0 +1,493 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  STUDENT
+  TEACHER
+  ADMIN
+}
+
+enum Visibility {
+  PRIVATE
+  SCHOOL
+  PUBLIC
+}
+
+enum ProjectStatus {
+  DRAFT
+  SUBMITTED
+  APPROVED
+  CHANGES_REQUESTED
+  ARCHIVED
+}
+
+enum SkillCategory {
+  TECHNICAL
+  SOFT_SKILL
+  ACADEMIC
+}
+
+enum EvidenceType {
+  IMAGE
+  VIDEO
+  DOCUMENT
+  LINK
+  GITHUB
+  WEBSITE
+  PRESENTATION
+  OTHER
+}
+
+enum EventType {
+  SCIENCE_FAIR
+  HACKATHON
+  CULTURAL_SHOW
+  INTEGRATED_PROJECT
+  COMPETITION
+  OLYMPIAD
+  OTHER
+}
+
+enum ValidationAction {
+  APPROVED
+  CHANGES_REQUESTED
+}
+
+enum BadgeType {
+  HIGHLIGHT
+  EVENT
+  ACADEMIC
+  SPECIAL
+}
+
+enum NotificationType {
+  PROJECT_APPROVED
+  PROJECT_CHANGES_REQUESTED
+  PROJECT_SUBMITTED
+  MEMBER_ADDED
+  SKILL_VALIDATED
+  BADGE_GRANTED
+  CERTIFICATE_ISSUED
+  FEEDBACK_ADDED
+}
+
+model School {
+  id          String   @id @default(cuid())
+  name        String
+  slug        String   @unique
+  description String?
+  city        String?
+  state       String?
+  logoUrl     String?
+  coverUrl    String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  users        User[]
+  classrooms   Classroom[]
+  projects     Project[]
+  events       Event[]
+  skills       Skill[]
+  badges       Badge[]
+  certificates Certificate[]
+  auditLogs    AuditLog[]
+}
+
+model User {
+  id                     String     @id @default(cuid())
+  email                  String     @unique
+  username               String     @unique
+  name                   String
+  passwordHash           String
+  role                   Role       @default(STUDENT)
+  schoolId               String
+  avatarUrl              String?
+  bio                    String?
+  profileVisibility      Visibility @default(PRIVATE)
+  mustCompleteOnboarding Boolean    @default(true)
+  isActive               Boolean    @default(true)
+  lastLoginAt            DateTime?
+  createdAt              DateTime   @default(now())
+  updatedAt              DateTime   @updatedAt
+
+  school         School          @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  studentProfile StudentProfile?
+  teacherProfile TeacherProfile?
+
+  createdProjects   Project[] @relation("ProjectCreatedBy")
+  advisedProjects   Project[] @relation("ProjectAdvisor")
+  validatedProjects Project[] @relation("ProjectValidatedBy")
+
+  projectMemberships ProjectMember[]
+  reviews            ProjectValidation[] @relation("ValidationReviewer")
+  validatedSkills    ProjectSkill[]      @relation("SkillValidator")
+  classroomsTaught   ClassroomTeacher[]
+
+  createdEvents       Event[]              @relation("EventCreatedBy")
+  badges              UserBadge[]          @relation("BadgeOwner")
+  grantedBadges       UserBadge[]          @relation("BadgeIssuer")
+  certificates        Certificate[]        @relation("CertificateStudent")
+  issuedCertificates  Certificate[]        @relation("CertificateIssuer")
+  notifications       Notification[]
+  passwordResetTokens PasswordResetToken[]
+  auditLogs           AuditLog[]           @relation("AuditActor")
+
+  @@index([schoolId])
+  @@index([schoolId, role])
+}
+
+model StudentProfile {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  course      String?
+  gradeYear   String?
+  classroomId String?
+  interests   String[] @default([])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  classroom Classroom? @relation(fields: [classroomId], references: [id], onDelete: SetNull)
+
+  @@index([classroomId])
+}
+
+model TeacherProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  subject   String?
+  title     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Classroom {
+  id        String   @id @default(cuid())
+  name      String
+  year      Int
+  schoolId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  school   School             @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  students StudentProfile[]
+  teachers ClassroomTeacher[]
+
+  @@unique([schoolId, name, year])
+  @@index([schoolId])
+}
+
+model ClassroomTeacher {
+  id          String   @id @default(cuid())
+  classroomId String
+  teacherId   String
+  createdAt   DateTime @default(now())
+
+  classroom Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  teacher   User      @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+
+  @@unique([classroomId, teacherId])
+  @@index([teacherId])
+}
+
+model Project {
+  id              String        @id @default(cuid())
+  slug            String        @unique
+  title           String
+  summary         String
+  description     String?
+  problem         String?
+  solution        String?
+  learnings       String?
+  area            String?
+  status          ProjectStatus @default(DRAFT)
+  visibility      Visibility    @default(SCHOOL)
+  allowFork       Boolean       @default(true)
+  isFeatured      Boolean       @default(false)
+  coverImageUrl   String?
+  projectDate     DateTime
+  year            Int
+  schoolId        String
+  createdById     String
+  advisorId       String?
+  parentProjectId String?
+  submittedAt     DateTime?
+  validatedById   String?
+  validatedAt     DateTime?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+
+  school      School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  createdBy   User   @relation("ProjectCreatedBy", fields: [createdById], references: [id], onDelete: Restrict)
+  advisor     User?  @relation("ProjectAdvisor", fields: [advisorId], references: [id], onDelete: SetNull)
+  validatedBy User?  @relation("ProjectValidatedBy", fields: [validatedById], references: [id], onDelete: SetNull)
+
+  parentProject   Project?  @relation("ProjectLineage", fields: [parentProjectId], references: [id], onDelete: SetNull)
+  derivedProjects Project[] @relation("ProjectLineage")
+
+  members      ProjectMember[]
+  evidences    ProjectEvidence[]
+  skills       ProjectSkill[]
+  validations  ProjectValidation[]
+  eventEntries EventProject[]
+  badges       UserBadge[]
+  certificates Certificate[]
+
+  @@index([schoolId, status])
+  @@index([schoolId, visibility])
+  @@index([schoolId, year])
+  @@index([schoolId, area])
+  @@index([schoolId, isFeatured])
+  @@index([createdById])
+  @@index([advisorId])
+  @@index([parentProjectId])
+}
+
+model ProjectMember {
+  id           String   @id @default(cuid())
+  projectId    String
+  userId       String
+  role         String
+  contribution String?
+  isOwner      Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId, userId])
+  @@index([userId])
+}
+
+model ProjectEvidence {
+  id          String       @id @default(cuid())
+  projectId   String
+  type        EvidenceType
+  title       String
+  description String?
+  url         String?
+  fileUrl     String?
+  fileName    String?
+  fileSize    Int?
+  mimeType    String?
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@index([projectId, order])
+}
+
+model Skill {
+  id        String        @id @default(cuid())
+  name      String
+  slug      String
+  category  SkillCategory
+  schoolId  String
+  createdAt DateTime      @default(now())
+  updatedAt DateTime      @updatedAt
+
+  school        School         @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  projectSkills ProjectSkill[]
+
+  @@unique([schoolId, slug])
+  @@index([schoolId, category])
+}
+
+model ProjectSkill {
+  id                 String    @id @default(cuid())
+  projectId          String
+  skillId            String
+  suggestedByStudent Boolean   @default(true)
+  validatedByTeacher Boolean   @default(false)
+  validatorId        String?
+  validatedAt        DateTime?
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  skill     Skill   @relation(fields: [skillId], references: [id], onDelete: Cascade)
+  validator User?   @relation("SkillValidator", fields: [validatorId], references: [id], onDelete: SetNull)
+
+  @@unique([projectId, skillId])
+  @@index([skillId])
+  @@index([projectId, validatedByTeacher])
+}
+
+model ProjectValidation {
+  id             String           @id @default(cuid())
+  projectId      String
+  reviewerId     String
+  action         ValidationAction
+  comment        String?
+  strengths      String?
+  improvements   String?
+  generalComment String?
+  createdAt      DateTime         @default(now())
+
+  project  Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  reviewer User    @relation("ValidationReviewer", fields: [reviewerId], references: [id], onDelete: Restrict)
+
+  @@index([projectId, createdAt])
+  @@index([reviewerId])
+}
+
+model Event {
+  id            String    @id @default(cuid())
+  slug          String    @unique
+  name          String
+  description   String?
+  type          EventType
+  startDate     DateTime
+  endDate       DateTime?
+  location      String?
+  coverImageUrl String?
+  schoolId      String
+  createdById   String
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  school    School @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  createdBy User   @relation("EventCreatedBy", fields: [createdById], references: [id], onDelete: Cascade)
+
+  entries      EventProject[]
+  badges       UserBadge[]
+  certificates Certificate[]
+
+  @@index([schoolId, startDate])
+}
+
+model EventProject {
+  id          String   @id @default(cuid())
+  eventId     String
+  projectId   String
+  isHighlight Boolean  @default(false)
+  award       String?
+  createdAt   DateTime @default(now())
+
+  event   Event   @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  project Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+
+  @@unique([projectId])
+  @@index([eventId, isHighlight])
+}
+
+model Badge {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String
+  description String?
+  icon        String
+  type        BadgeType @default(SPECIAL)
+  schoolId    String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  school     School      @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  userBadges UserBadge[]
+
+  @@unique([schoolId, slug])
+  @@index([schoolId])
+}
+
+model UserBadge {
+  id         String   @id @default(cuid())
+  userId     String
+  badgeId    String
+  issuedById String
+  projectId  String?
+  eventId    String?
+  note       String?
+  issuedAt   DateTime @default(now())
+
+  user     User     @relation("BadgeOwner", fields: [userId], references: [id], onDelete: Cascade)
+  badge    Badge    @relation(fields: [badgeId], references: [id], onDelete: Cascade)
+  issuedBy User     @relation("BadgeIssuer", fields: [issuedById], references: [id], onDelete: Restrict)
+  project  Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  event    Event?   @relation(fields: [eventId], references: [id], onDelete: SetNull)
+
+  @@index([userId, issuedAt])
+  @@index([badgeId])
+  @@index([projectId])
+}
+
+model Certificate {
+  id         String    @id @default(cuid())
+  code       String    @unique
+  title      String
+  studentId  String
+  schoolId   String
+  eventId    String?
+  projectId  String?
+  hours      Int?
+  issuedById String
+  issuedAt   DateTime  @default(now())
+  revokedAt  DateTime?
+
+  student  User     @relation("CertificateStudent", fields: [studentId], references: [id], onDelete: Restrict)
+  school   School   @relation(fields: [schoolId], references: [id], onDelete: Cascade)
+  event    Event?   @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  project  Project? @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  issuedBy User     @relation("CertificateIssuer", fields: [issuedById], references: [id], onDelete: Restrict)
+
+  @@index([studentId, issuedAt])
+  @@index([schoolId])
+  @@index([eventId])
+}
+
+model Notification {
+  id        String           @id @default(cuid())
+  userId    String
+  type      NotificationType
+  title     String
+  body      String?
+  link      String?
+  readAt    DateTime?
+  createdAt DateTime         @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId, readAt])
+  @@index([userId, createdAt])
+}
+
+model AuditLog {
+  id         String   @id @default(cuid())
+  schoolId   String?
+  actorId    String?
+  action     String
+  entityType String
+  entityId   String
+  metadata   Json?
+  createdAt  DateTime @default(now())
+
+  school School? @relation(fields: [schoolId], references: [id], onDelete: SetNull)
+  actor  User?   @relation("AuditActor", fields: [actorId], references: [id], onDelete: SetNull)
+
+  @@index([schoolId, createdAt])
+  @@index([entityType, entityId])
+}
+
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  userId    String
+  tokenHash String    @unique
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([expiresAt])
+}

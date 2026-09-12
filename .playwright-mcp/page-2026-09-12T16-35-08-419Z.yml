@@ -1,0 +1,171 @@
+- generic [active] [ref=f8e1]:
+  - button "Open Next.js Dev Tools" [ref=f8e30] [cursor=pointer]
+  - alert [ref=f8e34]: Painel do professor · Trajetória
+  - generic [ref=f8e35]:
+    - link "Pular para o conteúdo" [ref=f8e36] [cursor=pointer]:
+      - /url: "#conteudo"
+    - complementary [ref=f8e37]:
+      - generic [ref=f8e38]:
+        - link "Trajetória" [ref=f8e39] [cursor=pointer]:
+          - /url: /dashboard
+        - navigation "Navegação" [ref=f8e40]:
+          - link "Início" [ref=f8e41] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Projetos" [ref=f8e47] [cursor=pointer]:
+            - /url: /projects
+          - link "Eventos" [ref=f8e50] [cursor=pointer]:
+            - /url: /events
+          - link "Acervo" [ref=f8e53] [cursor=pointer]:
+            - /url: /school
+          - link "Perfil" [ref=f8e56] [cursor=pointer]:
+            - /url: /u/carlos.menezes
+        - generic [ref=f8e60]:
+          - paragraph [ref=f8e61]: Gestão
+          - navigation "Gestão" [ref=f8e62]:
+            - link "Painel do professor" [ref=f8e63] [cursor=pointer]:
+              - /url: /teacher
+            - link "Estudantes" [ref=f8e67] [cursor=pointer]:
+              - /url: /teacher/students
+            - link "Turmas" [ref=f8e73] [cursor=pointer]:
+              - /url: /teacher/classes
+            - link "Eventos da escola" [ref=f8e79] [cursor=pointer]:
+              - /url: /teacher/events
+    - generic [ref=f8e82]:
+      - banner [ref=f8e83]:
+        - generic [ref=f8e84]:
+          - search [ref=f8e85]:
+            - generic [ref=f8e86]: Buscar
+            - searchbox "Buscar" [ref=f8e87]
+          - generic [ref=f8e88]:
+            - 'link "Notificações: 2 não lidas" [ref=f8e89] [cursor=pointer]':
+              - /url: /notifications
+              - generic [ref=f8e93]: "2"
+            - button "Carlos Menezes" [ref=f8e95]:
+              - generic [aria-hidden] [ref=f8e96]: CM
+      - main [ref=f8e100]:
+        - generic [ref=f8e101]:
+          - generic [ref=f8e103]:
+            - heading "Painel do professor" [level=1] [ref=f8e104]
+            - paragraph [ref=f8e105]: Comece pelos projetos que estão esperando a sua leitura.
+          - generic [ref=f8e106]:
+            - generic [ref=f8e108]:
+              - paragraph [ref=f8e109]: "2"
+              - paragraph [ref=f8e110]: Aguardando você
+            - generic [ref=f8e112]:
+              - paragraph [ref=f8e113]: "2"
+              - paragraph [ref=f8e114]: Projetos aprovados em 2026
+            - generic [ref=f8e116]:
+              - paragraph [ref=f8e117]: "3"
+              - paragraph [ref=f8e118]: Alunos ativos
+            - generic [ref=f8e120]:
+              - paragraph [ref=f8e121]: "2"
+              - paragraph [ref=f8e122]: Eventos em 2026
+          - generic [ref=f8e123]:
+            - heading "Projetos aguardando você" [level=2] [ref=f8e124]
+            - list [ref=f8e125]:
+              - listitem [ref=f8e126]:
+                - generic [ref=f8e127]:
+                  - generic [ref=f8e128]:
+                    - link "Mapa de Acessibilidade Urbana" [ref=f8e129] [cursor=pointer]:
+                      - /url: /projects/mapa-de-acessibilidade-urbana
+                    - generic [ref=f8e130]: Você orienta
+                  - paragraph [ref=f8e131]: João Silva, Maria Santos
+                  - paragraph [ref=f8e132]: Feira de Ciências 2026 · Enviado em 19/05/2026
+                - link "Abrir projeto" [ref=f8e133] [cursor=pointer]:
+                  - /url: /projects/mapa-de-acessibilidade-urbana
+              - listitem [ref=f8e134]:
+                - generic [ref=f8e135]:
+                  - generic [ref=f8e136]:
+                    - link "Estação Meteorológica Escolar" [ref=f8e137] [cursor=pointer]:
+                      - /url: /projects/estacao-meteorologica-escolar
+                    - generic [ref=f8e138]: Você orienta
+                  - paragraph [ref=f8e139]: João Silva, Maria Santos
+                  - paragraph [ref=f8e140]: Feira de Ciências 2026 · Enviado em 12/09/2026
+                - link "Abrir projeto" [ref=f8e141] [cursor=pointer]:
+                  - /url: /projects/estacao-meteorologica-escolar
+          - generic [ref=f8e142]:
+            - heading "Projetos recentes" [level=2] [ref=f8e143]
+            - generic [ref=f8e144]:
+              - article [ref=f8e145]:
+                - generic [ref=f8e146]:
+                  - generic [ref=f8e147]:
+                    - generic [ref=f8e148]: Em análise
+                    - generic [ref=f8e149]: Escola
+                    - generic [ref=f8e155]: Ciências
+                  - generic [ref=f8e156]:
+                    - heading [level=3] [ref=f8e157]:
+                      - link "Estação Meteorológica Escolar" [ref=f8e158] [cursor=pointer]:
+                        - /url: /projects/estacao-meteorologica-escolar
+                    - paragraph [ref=f8e159]: Estação com sensores de temperatura, umidade e chuva instalada no pátio, com painel que mostra os dados para as turmas de Ciências.
+                  - generic [ref=f8e160]:
+                    - generic [ref=f8e161]: "2026"
+                    - generic [ref=f8e164]: 2 integrantes
+                    - generic [ref=f8e170]: Feira de Ciências 2026
+              - article [ref=f8e171]:
+                - generic [ref=f8e172]:
+                  - generic [ref=f8e173]:
+                    - generic [ref=f8e174]: Rascunho
+                    - generic [ref=f8e175]: Privado
+                    - generic [ref=f8e179]: Desenvolvimento de Sistemas
+                  - generic [ref=f8e180]:
+                    - heading [level=3] [ref=f8e181]:
+                      - link "Aplicativo de Carona Escolar" [ref=f8e182] [cursor=pointer]:
+                        - /url: /projects/aplicativo-de-carona-escolar
+                    - paragraph [ref=f8e183]: Combinação de caronas entre famílias que já fazem o mesmo trajeto até a escola, com confirmação do responsável.
+                  - generic [ref=f8e184]:
+                    - generic [ref=f8e185]: "2026"
+                    - generic [ref=f8e188]: 1 integrante
+              - article [ref=f8e194]:
+                - generic [ref=f8e195]:
+                  - generic [ref=f8e196]:
+                    - generic [ref=f8e197]: Ajustes solicitados
+                    - generic [ref=f8e198]: Escola
+                    - generic [ref=f8e204]: Ciência de Dados
+                  - generic [ref=f8e205]:
+                    - heading [level=3] [ref=f8e206]:
+                      - link "Dashboard de Indicadores Escolares" [ref=f8e207] [cursor=pointer]:
+                        - /url: /projects/dashboard-de-indicadores-escolares
+                    - paragraph [ref=f8e208]: Painel com frequência, notas e participação em projetos, para a coordenação enxergar a turma antes do conselho de classe.
+                  - generic [ref=f8e209]:
+                    - generic [ref=f8e210]: "2026"
+                    - generic [ref=f8e213]: 2 integrantes
+          - generic [ref=f8e219]:
+            - generic [ref=f8e220]:
+              - heading "Turmas" [level=2] [ref=f8e221]
+              - link "Ver todos" [ref=f8e222] [cursor=pointer]:
+                - /url: /teacher/classes
+            - list [ref=f8e223]:
+              - listitem [ref=f8e224]:
+                - generic [ref=f8e225]: 2º B - Ciências
+                - generic [ref=f8e226]: 2026 · 1 estudante
+              - listitem [ref=f8e227]:
+                - generic [ref=f8e228]: 3º A - Desenvolvimento de Sistemas
+                - generic [ref=f8e229]: 2026 · 2 estudantes
+          - generic [ref=f8e230]:
+            - generic [ref=f8e231]:
+              - heading "Eventos" [level=2] [ref=f8e232]
+              - link "Ver todos" [ref=f8e233] [cursor=pointer]:
+                - /url: /teacher/events
+            - generic [ref=f8e234]:
+              - article [ref=f8e235]:
+                - generic [ref=f8e236]:
+                  - generic [ref=f8e237]: Feira de Ciências
+                  - generic [ref=f8e238]: 3 projetos
+                - heading [level=3] [ref=f8e239]:
+                  - link "Feira de Ciências 2026" [ref=f8e240] [cursor=pointer]:
+                    - /url: /events/feira-de-ciencias-2026
+                - paragraph [ref=f8e241]: Mostra anual dos projetos de investigação das turmas de Ciências e Desenvolvimento de Sistemas. Cada equipe monta um estande, explica o método e recebe perguntas do público.
+                - generic [ref=f8e242]:
+                  - generic [ref=f8e243]: 15/05/2026 a 17/05/2026
+                  - generic [ref=f8e246]: Quadra Poliesportiva
+              - article [ref=f8e250]:
+                - generic [ref=f8e251]:
+                  - generic [ref=f8e252]: Hackathon
+                  - generic [ref=f8e253]: 1 projeto
+                - heading [level=3] [ref=f8e254]:
+                  - link "Hackathon Horizonte 2026" [ref=f8e255] [cursor=pointer]:
+                    - /url: /events/hackathon-horizonte-2026
+                - paragraph [ref=f8e256]: Três dias para transformar um problema do bairro em um protótipo que funcione. As equipes escolhem o tema na abertura, desenvolvem no laboratório e apresentam para uma banca de professores e convidados.
+                - generic [ref=f8e257]:
+                  - generic [ref=f8e258]: 20/03/2026 a 22/03/2026
+                  - generic [ref=f8e261]: Laboratório de Informática

@@ -1,0 +1,41 @@
+- generic [ref=f21e2]:
+  - link "Pular para o conteúdo" [ref=f21e3] [cursor=pointer]:
+    - /url: "#conteudo"
+  - complementary [ref=f21e4]:
+    - generic [ref=f21e5]:
+      - link "Trajetória" [ref=f21e6] [cursor=pointer]:
+        - /url: /dashboard
+      - navigation "Navegação" [ref=f21e7]:
+        - link "Início" [ref=f21e8] [cursor=pointer]:
+          - /url: /dashboard
+        - link "Projetos" [ref=f21e14] [cursor=pointer]:
+          - /url: /projects
+        - link "Eventos" [ref=f21e17] [cursor=pointer]:
+          - /url: /events
+        - link "Acervo" [ref=f21e20] [cursor=pointer]:
+          - /url: /school
+        - link "Perfil" [ref=f21e23] [cursor=pointer]:
+          - /url: /u/joao.silva
+  - generic [ref=f21e27]:
+    - banner [ref=f21e28]:
+      - generic [ref=f21e29]:
+        - search [ref=f21e30]:
+          - generic [ref=f21e31]: Buscar
+          - searchbox "Buscar" [ref=f21e32]
+        - generic [ref=f21e33]:
+          - 'link "Notificações: 5 não lidas" [ref=f21e34] [cursor=pointer]':
+            - /url: /notifications
+            - generic [ref=f21e38]: "5"
+          - button "João Silva" [ref=f21e40]:
+            - generic [aria-hidden] [ref=f21e41]: JS
+    - main [ref=f21e45]:
+      - generic [ref=f21e46]:
+        - generic [ref=f21e48]:
+          - heading "Busca" [level=1] [ref=f21e49]
+          - paragraph [ref=f21e50]: Resultados para “estacao”.
+        - search [ref=f21e51]:
+          - generic [ref=f21e52]: Buscar
+          - searchbox "Buscar" [ref=f21e53]: estacao
+        - generic [ref=f21e54]:
+          - paragraph [ref=f21e55]: Nada encontrado para “estacao”.
+          - paragraph [ref=f21e56]: Tente outras palavras ou procure pelo nome do projeto.

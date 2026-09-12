@@ -1,0 +1,138 @@
+- generic [active] [ref=f12e1]:
+  - button "Open Next.js Dev Tools" [ref=f12e30] [cursor=pointer]
+  - alert [ref=f12e34]: Início · Trajetória
+  - generic [ref=f12e35]:
+    - link "Pular para o conteúdo" [ref=f12e36] [cursor=pointer]:
+      - /url: "#conteudo"
+    - complementary [ref=f12e37]:
+      - generic [ref=f12e38]:
+        - link "Trajetória" [ref=f12e39] [cursor=pointer]:
+          - /url: /dashboard
+        - navigation "Navegação" [ref=f12e40]:
+          - link "Início" [ref=f12e41] [cursor=pointer]:
+            - /url: /dashboard
+          - link "Projetos" [ref=f12e47] [cursor=pointer]:
+            - /url: /projects
+          - link "Eventos" [ref=f12e50] [cursor=pointer]:
+            - /url: /events
+          - link "Acervo" [ref=f12e53] [cursor=pointer]:
+            - /url: /school
+          - link "Perfil" [ref=f12e56] [cursor=pointer]:
+            - /url: /u/joao.silva
+    - generic [ref=f12e60]:
+      - banner [ref=f12e61]:
+        - generic [ref=f12e62]:
+          - search [ref=f12e63]:
+            - generic [ref=f12e64]: Buscar
+            - searchbox "Buscar" [ref=f12e65]
+          - generic [ref=f12e66]:
+            - 'link "Notificações: 5 não lidas" [ref=f12e67] [cursor=pointer]':
+              - /url: /notifications
+              - generic [ref=f12e71]: "5"
+            - button "João Silva" [ref=f12e73]:
+              - generic [aria-hidden] [ref=f12e74]: JS
+      - main [ref=f12e78]:
+        - generic [ref=f12e79]:
+          - generic [ref=f12e80]:
+            - heading "Olá, João." [level=1] [ref=f12e81]
+            - link "+ Novo projeto" [ref=f12e82] [cursor=pointer]:
+              - /url: /projects/new
+          - generic [ref=f12e83]:
+            - generic [ref=f12e85]:
+              - paragraph [ref=f12e86]: "5"
+              - paragraph [ref=f12e87]: Projetos
+            - generic [ref=f12e89]:
+              - paragraph [ref=f12e90]: "6"
+              - paragraph [ref=f12e91]: Competências verificadas
+            - generic [ref=f12e93]:
+              - paragraph [ref=f12e94]: "2"
+              - paragraph [ref=f12e95]: Eventos participados
+            - generic [ref=f12e97]:
+              - paragraph [ref=f12e98]: "3"
+              - paragraph [ref=f12e99]: Badges
+          - generic [ref=f12e100]:
+            - heading "Continue construindo" [level=2] [ref=f12e101]
+            - generic [ref=f12e102]:
+              - article [ref=f12e103]:
+                - generic [ref=f12e104]:
+                  - generic [ref=f12e105]:
+                    - generic [ref=f12e106]: Verificado
+                    - generic [ref=f12e107]: Escola
+                    - generic [ref=f12e113]: Ciências
+                  - generic [ref=f12e114]:
+                    - heading [level=3] [ref=f12e115]:
+                      - link "Estação Meteorológica Escolar" [ref=f12e116] [cursor=pointer]:
+                        - /url: /projects/estacao-meteorologica-escolar
+                    - paragraph [ref=f12e117]: Estação com sensores de temperatura, umidade e chuva instalada no pátio, com painel que mostra os dados para as turmas de Ciências.
+                  - generic [ref=f12e118]:
+                    - generic [ref=f12e119]: "2026"
+                    - generic [ref=f12e122]: 2 integrantes
+                    - generic [ref=f12e128]: Feira de Ciências 2026
+              - article [ref=f12e129]:
+                - generic [ref=f12e130]:
+                  - generic [ref=f12e131]:
+                    - generic [ref=f12e132]: Rascunho
+                    - generic [ref=f12e133]: Privado
+                    - generic [ref=f12e137]: Desenvolvimento de Sistemas
+                  - generic [ref=f12e138]:
+                    - heading [level=3] [ref=f12e139]:
+                      - link "Aplicativo de Carona Escolar" [ref=f12e140] [cursor=pointer]:
+                        - /url: /projects/aplicativo-de-carona-escolar
+                    - paragraph [ref=f12e141]: Combinação de caronas entre famílias que já fazem o mesmo trajeto até a escola, com confirmação do responsável.
+                  - generic [ref=f12e142]:
+                    - generic [ref=f12e143]: "2026"
+                    - generic [ref=f12e146]: 1 integrante
+              - article [ref=f12e152]:
+                - generic [ref=f12e153]:
+                  - generic [ref=f12e154]:
+                    - generic [ref=f12e155]: Ajustes solicitados
+                    - generic [ref=f12e156]: Escola
+                    - generic [ref=f12e162]: Ciência de Dados
+                  - generic [ref=f12e163]:
+                    - heading [level=3] [ref=f12e164]:
+                      - link "Dashboard de Indicadores Escolares" [ref=f12e165] [cursor=pointer]:
+                        - /url: /projects/dashboard-de-indicadores-escolares
+                    - paragraph [ref=f12e166]: Painel com frequência, notas e participação em projetos, para a coordenação enxergar a turma antes do conselho de classe.
+                  - generic [ref=f12e167]:
+                    - generic [ref=f12e168]: "2026"
+                    - generic [ref=f12e171]: 2 integrantes
+          - generic [ref=f12e177]:
+            - heading "Minha trajetória" [level=2] [ref=f12e178]
+            - generic [ref=f12e180]:
+              - paragraph [ref=f12e181]: "2026"
+              - list [ref=f12e182]:
+                - listitem [ref=f12e183]:
+                  - link "Estação Meteorológica Escolar" [ref=f12e184] [cursor=pointer]:
+                    - /url: /projects/estacao-meteorologica-escolar
+                  - generic [ref=f12e185]: — Projeto
+                  - generic [ref=f12e186]: 12/09/2026
+                - listitem [ref=f12e187]:
+                  - link "Aplicativo de Carona Escolar" [ref=f12e188] [cursor=pointer]:
+                    - /url: /projects/aplicativo-de-carona-escolar
+                  - generic [ref=f12e189]: — Projeto
+                  - generic [ref=f12e190]: 05/08/2026
+                - listitem [ref=f12e191]:
+                  - link "Dashboard de Indicadores Escolares" [ref=f12e192] [cursor=pointer]:
+                    - /url: /projects/dashboard-de-indicadores-escolares
+                  - generic [ref=f12e193]: — Projeto
+                  - generic [ref=f12e194]: 10/06/2026
+                - listitem [ref=f12e195]:
+                  - link "Mapa de Acessibilidade Urbana" [ref=f12e196] [cursor=pointer]:
+                    - /url: /projects/mapa-de-acessibilidade-urbana
+                  - generic [ref=f12e197]: — Projeto
+                  - generic [ref=f12e198]: 16/05/2026
+                - listitem [ref=f12e199]:
+                  - link "Feira de Ciências 2026" [ref=f12e200] [cursor=pointer]:
+                    - /url: /events/feira-de-ciencias-2026
+                  - generic [ref=f12e201]: — Evento
+                  - generic [ref=f12e202]: 15/05/2026
+                - listitem [ref=f12e203]:
+                  - link "Sistema de Monitoramento de Enchentes" [ref=f12e204] [cursor=pointer]:
+                    - /url: /projects/sistema-de-monitoramento-de-enchentes
+                  - generic [ref=f12e205]: — Projeto
+                  - generic [ref=f12e206]: 22/03/2026
+                - listitem [ref=f12e207]:
+                  - link "Hackathon Horizonte 2026" [ref=f12e208] [cursor=pointer]:
+                    - /url: /events/hackathon-horizonte-2026
+                  - generic [ref=f12e209]: — Evento
+                  - generic [ref=f12e210]: 20/03/2026
