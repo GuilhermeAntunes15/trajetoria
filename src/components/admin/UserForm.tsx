@@ -86,7 +86,12 @@ export function UserForm({ mode, classrooms, defaults }: UserFormProps) {
 
       {role === "STUDENT" ? (
         <Field id="user-classroom" label="Turma">
-          <Select id="user-classroom" name="classroomId" defaultValue={defaults?.classroomId ?? ""}>
+          <Select
+            key={defaults?.classroomId ?? ""}
+            id="user-classroom"
+            name="classroomId"
+            defaultValue={defaults?.classroomId ?? ""}
+          >
             <option value="">Sem turma</option>
             {classrooms.map((classroom) => (
               <option key={classroom.id} value={classroom.id}>

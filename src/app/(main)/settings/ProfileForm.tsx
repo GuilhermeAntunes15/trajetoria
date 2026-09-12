@@ -70,7 +70,12 @@ export function ProfileForm({
 
           <div className="grid gap-5 sm:grid-cols-2">
             <Field id="classroomId" label="Turma">
-              <Select id="classroomId" name="classroomId" defaultValue={classroomId}>
+              <Select
+                key={classroomId}
+                id="classroomId"
+                name="classroomId"
+                defaultValue={classroomId}
+              >
                 <option value="">Sem turma</option>
                 {classrooms.map((classroom) => (
                   <option key={classroom.id} value={classroom.id}>
@@ -81,7 +86,7 @@ export function ProfileForm({
             </Field>
 
             <Field id="gradeYear" label="Ano / Série">
-              <Select id="gradeYear" name="gradeYear" defaultValue={gradeYear}>
+              <Select key={gradeYear} id="gradeYear" name="gradeYear" defaultValue={gradeYear}>
                 <option value="">Selecione</option>
                 {GRADE_YEARS.map((year) => (
                   <option key={year} value={year}>
@@ -104,6 +109,7 @@ export function ProfileForm({
                     className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-line bg-surface px-3 py-1.5 text-sm text-ink transition-colors hover:border-brand/40 has-[:checked]:border-brand has-[:checked]:bg-brand/10 has-[:checked]:text-brand"
                   >
                     <input
+                      key={String(interests.includes(interest))}
                       id={id}
                       type="checkbox"
                       name="interests"

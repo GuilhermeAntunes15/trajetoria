@@ -53,6 +53,18 @@ async function matchIds(
   return rows.map((row) => row.id);
 }
 
+function projectScope(viewer: SearchViewer): Prisma.Sql {
+  return viewer
+    ? Prisma.sql`("schoolId" = ${viewer.schoolId} OR "visibility"::text = 'PUBLIC')`
+    : Prisma.sql`"visibility"::text = 'PUBLIC'`;
+}
+
+function studentScope(viewer: SearchViewer): Prisma.Sql {
+  return viewer
+    ? Prisma.sql`("schoolId" = ${viewer.schoolId} OR "profileVisibility"::text = 'PUBLIC')`
+    : Prisma.sql`"profileVisibility"::text = 'PUBLIC'`;
+}
+
 export async function archiveProjectWhere(
   viewer: SearchViewer,
   schoolId: string,
@@ -197,12 +209,17 @@ export async function searchEverything(
   query: string,
 ): Promise<SearchResults> {
   const [projectIds, studentIds, skillIds, eventIds] = await Promise.all([
-    matchIds("Project", ["title", "summary"], query),
-    matchIds("User", ["name", "username"], query),
+    matchIds("Project", ["title", "summary"], query, projectScope(viewer)),
+    matchIds("User", ["name", "username"], query, studentScope(viewer)),
     viewer
       ? matchIds("Skill", ["name"], query, Prisma.sql`"schoolId" = ${viewer.schoolId}`)
       : Promise.resolve([]),
-    matchIds("Event", ["name"], query),
+    matchIds(
+      "Event",
+      ["name"],
+      query,
+      viewer ? Prisma.sql`"schoolId" = ${viewer.schoolId}` : Prisma.sql`TRUE`,
+    ),
   ]);
 
   const [projectRows, studentRows, skillRows, eventRows] = await Promise.all([

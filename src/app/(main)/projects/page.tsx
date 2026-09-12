@@ -20,6 +20,7 @@ export const dynamic = "force-dynamic";
 const PAGE_SIZE = 12;
 
 const STATUS_FILTERS: ProjectStatus[] = ["DRAFT", "SUBMITTED", "APPROVED", "CHANGES_REQUESTED"];
+const MINE_STATUS_FILTERS: ProjectStatus[] = [...STATUS_FILTERS, "ARCHIVED"];
 
 type SearchParams = { q?: string; scope?: string; status?: string; page?: string };
 
@@ -38,7 +39,8 @@ export default async function ProjectsPage({
 
   const query = (params.q ?? "").trim().slice(0, 80);
   const scope = viewer && params.scope === "mine" ? "mine" : "all";
-  const status = STATUS_FILTERS.includes(params.status as ProjectStatus)
+  const statusOptions = scope === "mine" ? MINE_STATUS_FILTERS : STATUS_FILTERS;
+  const status = statusOptions.includes(params.status as ProjectStatus)
     ? (params.status as ProjectStatus)
     : null;
   const page = readPage(params.page);
@@ -109,9 +111,9 @@ export default async function ProjectsPage({
 
         <div className="space-y-1.5">
           <Label htmlFor="status">Situação</Label>
-          <Select id="status" name="status" defaultValue={status ?? ""}>
+          <Select key={status ?? ""} id="status" name="status" defaultValue={status ?? ""}>
             <option value="">Todas</option>
-            {STATUS_FILTERS.map((value) => (
+            {statusOptions.map((value) => (
               <option key={value} value={value}>
                 {STATUS_LABELS[value]}
               </option>

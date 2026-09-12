@@ -51,7 +51,12 @@ export function BadgeForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field id="badge-icon" label={adminCopy.badgeIconLabel} required>
-          <Select id="badge-icon" name="icon" defaultValue={defaults?.icon ?? "award"}>
+          <Select
+            key={defaults?.icon ?? "award"}
+            id="badge-icon"
+            name="icon"
+            defaultValue={defaults?.icon ?? "award"}
+          >
             {BADGE_ICON_KEYS.map((key) => (
               <option key={key} value={key}>
                 {BADGE_ICON_LABELS[key]}
@@ -61,7 +66,12 @@ export function BadgeForm({
         </Field>
 
         <Field id="badge-type" label={adminCopy.badgeTypeLabel} required>
-          <Select id="badge-type" name="type" defaultValue={defaults?.type ?? "SPECIAL"}>
+          <Select
+            key={defaults?.type ?? "SPECIAL"}
+            id="badge-type"
+            name="type"
+            defaultValue={defaults?.type ?? "SPECIAL"}
+          >
             {TYPES.map((type) => (
               <option key={type} value={type}>
                 {BADGE_TYPE_LABELS[type]}

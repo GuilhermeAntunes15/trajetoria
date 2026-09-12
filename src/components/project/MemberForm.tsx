@@ -143,10 +143,11 @@ export function MemberContributionForm({
 
       <div className="grid gap-4 sm:grid-cols-2">
         <Field id="own-role" label="Seu papel no projeto" required>
-          <Input id="own-role" name="role" defaultValue={role} required maxLength={80} />
+          <Input key={role} id="own-role" name="role" defaultValue={role} required maxLength={80} />
         </Field>
         <Field id="own-contribution" label="Sua contribuição">
           <Input
+            key={contribution ?? ""}
             id="own-contribution"
             name="contribution"
             defaultValue={contribution ?? ""}

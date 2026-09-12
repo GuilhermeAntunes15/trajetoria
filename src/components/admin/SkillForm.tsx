@@ -35,7 +35,12 @@ export function SkillForm({
         </Field>
 
         <Field id="skill-category" label="Categoria" required>
-          <Select id="skill-category" name="category" defaultValue={defaults?.category ?? "TECHNICAL"}>
+          <Select
+            key={defaults?.category ?? "TECHNICAL"}
+            id="skill-category"
+            name="category"
+            defaultValue={defaults?.category ?? "TECHNICAL"}
+          >
             {CATEGORIES.map((category) => (
               <option key={category} value={category}>
                 {SKILL_CATEGORY_LABELS[category]}

@@ -21,6 +21,7 @@ export function PrivacyForm({ profileVisibility }: { profileVisibility: Visibili
           {OPTIONS.map((option) => (
             <label key={option} htmlFor={`visibility-${option}`} className="flex items-start gap-2.5">
               <input
+                key={profileVisibility}
                 id={`visibility-${option}`}
                 type="radio"
                 name="profileVisibility"

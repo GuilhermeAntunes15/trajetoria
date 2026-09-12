@@ -12,6 +12,33 @@ async function render(size) {
   return sharp(svg, { density: 384 }).resize(size, size).png({ compressionLevel: 9 }).toBuffer();
 }
 
+// Container ICO com PNG embutido (ICONDIR + ICONDIRENTRY): aceito por todos os
+// browsers atuais e evita a dependência de um encoder BMP.
+function icoContainer(images) {
+  const header = Buffer.alloc(6);
+  header.writeUInt16LE(0, 0);
+  header.writeUInt16LE(1, 2);
+  header.writeUInt16LE(images.length, 4);
+
+  const directory = Buffer.alloc(16 * images.length);
+  let offset = header.length + directory.length;
+
+  images.forEach((image, index) => {
+    const entry = index * 16;
+    directory.writeUInt8(image.size >= 256 ? 0 : image.size, entry);
+    directory.writeUInt8(image.size >= 256 ? 0 : image.size, entry + 1);
+    directory.writeUInt8(0, entry + 2);
+    directory.writeUInt8(0, entry + 3);
+    directory.writeUInt16LE(1, entry + 4);
+    directory.writeUInt16LE(32, entry + 6);
+    directory.writeUInt32LE(image.data.length, entry + 8);
+    directory.writeUInt32LE(offset, entry + 12);
+    offset += image.data.length;
+  });
+
+  return Buffer.concat([header, directory, ...images.map((image) => image.data)]);
+}
+
 async function write(file, buffer) {
   await writeFile(file, buffer);
   console.log(`${path.relative(process.cwd(), file)} — ${(buffer.length / 1024).toFixed(1)} kB`);
@@ -44,6 +71,13 @@ async function main() {
     .toBuffer();
 
   await write(path.join(PUBLIC_DIR, "apple-touch-icon.png"), appleTouch);
+
+  const favicon = icoContainer([
+    { size: 16, data: await render(16) },
+    { size: 32, data: await render(32) },
+  ]);
+
+  await write(path.join(PUBLIC_DIR, "favicon.ico"), favicon);
 }
 
 main().catch((error) => {

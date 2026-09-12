@@ -716,7 +716,12 @@ export default async function ProjectPage({
                 <input type="hidden" name="projectId" value={project.id} />
                 <div className="space-y-1.5">
                   <Label htmlFor="visibility">Quem pode ver este projeto</Label>
-                  <Select id="visibility" name="visibility" defaultValue={project.visibility}>
+                  <Select
+                    key={project.visibility}
+                    id="visibility"
+                    name="visibility"
+                    defaultValue={project.visibility}
+                  >
                     {(["PRIVATE", "SCHOOL", "PUBLIC"] as const).map((value) => (
                       <option key={value} value={value}>
                         {VISIBILITY_LABELS[value]}

@@ -44,7 +44,7 @@ export function ClassroomMembersForm({
           <div className="grid gap-2 pt-1 sm:grid-cols-2">
             {students.map((student) => (
               <Checkbox
-                key={student.id}
+                key={`${student.id}:${selectedStudentIds.includes(student.id)}`}
                 id={`student-${student.id}`}
                 name="studentIds"
                 value={student.id}
@@ -65,7 +65,7 @@ export function ClassroomMembersForm({
           <div className="grid gap-2 pt-1 sm:grid-cols-2">
             {teachers.map((teacher) => (
               <Checkbox
-                key={teacher.id}
+                key={`${teacher.id}:${selectedTeacherIds.includes(teacher.id)}`}
                 id={`teacher-${teacher.id}`}
                 name="teacherIds"
                 value={teacher.id}

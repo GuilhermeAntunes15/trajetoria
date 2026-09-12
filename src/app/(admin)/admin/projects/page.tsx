@@ -166,6 +166,7 @@ export default async function AdminProjectsPage({
                   <div className="space-y-1.5">
                     <Label htmlFor={`visibility-${project.id}`}>Visibilidade</Label>
                     <Select
+                      key={project.visibility}
                       id={`visibility-${project.id}`}
                       name="visibility"
                       defaultValue={project.visibility}
