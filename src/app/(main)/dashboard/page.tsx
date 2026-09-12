@@ -239,16 +239,19 @@ export default async function DashboardPage() {
                   <ul className="space-y-3 pt-1">
                     {timeline
                       .filter((entry) => entry.year === year)
-                      .map((entry) => {
+                      .map((entry, position) => {
                         const Icon = entry.icon;
 
                         return (
                           <li key={entry.key} className="relative">
-                            <span
-                              aria-hidden
-                              className="absolute top-5 -left-[3.375rem] size-3 rounded-full border-2 border-ink bg-surface"
-                            />
-                            <div className="lp-sticker lp-sticker-soft lp-lift-soft bg-surface p-3.5">
+                            {/* O circulo do ano ja marca o primeiro ponto da trilha. */}
+                            {position > 0 ? (
+                              <span
+                                aria-hidden
+                                className="absolute top-5 -left-[3.375rem] size-3 rounded-full border-2 border-ink bg-surface"
+                              />
+                            ) : null}
+                            <div className="lp-sticker lp-sticker-soft lp-lift-soft rounded-[12px] bg-surface p-3.5">
                               <p className="flex items-center gap-2">
                                 <Icon
                                   size={16}

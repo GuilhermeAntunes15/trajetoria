@@ -50,7 +50,7 @@ export function SchoolHeader({ school, stats }: { school: SchoolHeaderData; stat
           ) : null}
         </div>
 
-        <dl className="grid grid-cols-3 gap-2.5 sm:gap-4">
+        <dl className="grid max-w-xl grid-cols-3 gap-2.5 sm:gap-4">
           {counters.map((counter, index) => {
             const style = COUNTER_STYLES[index]!;
             const { Icon } = style;

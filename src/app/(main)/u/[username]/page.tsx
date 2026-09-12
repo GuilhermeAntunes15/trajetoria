@@ -404,7 +404,7 @@ export default async function ProfilePage({ params }: { params: Promise<{ userna
                 >
                   <span className="flex items-center gap-2 text-[0.68rem] font-bold tracking-[0.12em] text-muted uppercase">
                     <ScrollText size={15} strokeWidth={2.25} aria-hidden="true" />
-                    {certificatesCopy.title}
+                    {certificatesCopy.itemLabel}
                   </span>
                   <span className="mt-2 font-display text-base leading-tight font-bold text-ink">
                     {certificate.title}

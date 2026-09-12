@@ -29,14 +29,14 @@ export function AuthAside({ className }: { className?: string }) {
         </h2>
         <p className="max-w-sm text-base leading-relaxed text-lp-paper/80">{authCopy.asideText}</p>
 
-        <ul className="space-y-3 pt-1">
+        <ul className="flex flex-col items-start gap-3 pt-1">
           {authCopy.asidePoints.map((point, index) => {
             const Icon = ICONS[index] ?? FolderOpen;
 
             return (
               <li
                 key={point}
-                className="lp-sticker lp-sticker-flat flex items-center gap-3 px-4 py-3 text-sm font-bold text-ink"
+                className="lp-sticker lp-sticker-flat inline-flex items-center gap-3 px-4 py-3 text-sm font-bold text-ink"
                 style={{ ...rotateStyle(ROTATIONS[index] ?? 0), backgroundColor: TINTS[index] }}
               >
                 <Icon size={18} strokeWidth={2.25} aria-hidden="true" />

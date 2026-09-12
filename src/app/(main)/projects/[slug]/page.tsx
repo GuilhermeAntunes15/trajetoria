@@ -271,6 +271,12 @@ export default async function ProjectPage({
   };
 
   const canSubmit = canSubmitProject(permissionViewer, submitCtx);
+  /**
+   * A faixa de acoes so existe quando tem o que mostrar. Sem isto, um projeto
+   * aprovado renderizava um adesivo vazio no meio da pagina.
+   */
+  const pendingRevision =
+    project.status === "DRAFT" || project.status === "CHANGES_REQUESTED";
   const canDelete = canDeleteProject(permissionViewer, {
     ...projectCtx,
     otherMemberCount: projectCtx.memberIds.filter((id) => id !== project.createdById).length,
@@ -476,7 +482,7 @@ export default async function ProjectPage({
           </div>
         ) : null}
 
-        {isMember ? (
+        {isMember && (canEdit || canSubmit || pendingRevision || project.status === "SUBMITTED") ? (
           <div className="lp-sticker lp-sticker-flat flex flex-wrap items-center gap-3 bg-lp-paper p-4">
             {canEdit ? (
               <ButtonLink href={`/projects/${project.slug}/edit`} variant="secondary" size="sm">
@@ -493,7 +499,7 @@ export default async function ProjectPage({
               </form>
             ) : null}
 
-            {!canSubmit && (project.status === "DRAFT" || project.status === "CHANGES_REQUESTED") ? (
+            {!canSubmit && pendingRevision ? (
               <p className="text-sm text-muted">
                 {projectManage.submitMissingTitle} {missing.join(", ")}.
               </p>

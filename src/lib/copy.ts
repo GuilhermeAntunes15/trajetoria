@@ -536,6 +536,7 @@ export const badges = {
 
 export const certificates = {
   title: "Certificados",
+  itemLabel: "Certificado",
   issueAction: "Emitir certificado",
   issueTitle: "Emitir certificado",
   issueDescription: "O certificado fica disponível em uma página pública com código de verificação.",
