@@ -3,6 +3,7 @@ import Link from "next/link";
 import { EmptyState } from "@/components/common/EmptyState";
 import { PageHeader } from "@/components/common/PageHeader";
 import { SectionTitle } from "@/components/common/SectionTitle";
+import { StatCard } from "@/components/common/StatCard";
 import { CalendarDays, GraduationCap, Inbox, ShieldCheck } from "lucide-react";
 import { EventCard } from "@/components/event/EventCard";
 import { ProjectCard } from "@/components/project/ProjectCard";
@@ -105,29 +106,17 @@ export default async function TeacherPage() {
 
       {/* Indicadores do dia: adesivo leve, sem cor cheia. Isto aqui e ferramenta
           de trabalho, nao vitrine. */}
-      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-        {counters.map((counter, index) => {
-          const Icon = COUNTER_ICONS[index] ?? Inbox;
-
-          return (
-            <div
-              key={counter.label}
-              className="lp-sticker lp-sticker-soft flex flex-col bg-surface p-4"
-            >
-              <span
-                className="grid size-9 place-items-center rounded-full border-2 border-ink text-ink"
-                style={{ backgroundColor: COUNTER_TINTS[index] }}
-                aria-hidden
-              >
-                <Icon size={17} strokeWidth={2.25} />
-              </span>
-              <p className="mt-3 font-display text-3xl leading-none font-bold text-ink">
-                {counter.value}
-              </p>
-              <p className="mt-1.5 text-xs leading-tight text-muted">{counter.label}</p>
-            </div>
-          );
-        })}
+      <section className="grid grid-cols-2 gap-2 lg:grid-cols-4">
+        {counters.map((counter, index) => (
+          <StatCard
+            key={counter.label}
+            label={counter.label}
+            value={counter.value}
+            icon={COUNTER_ICONS[index] ?? Inbox}
+            tint={COUNTER_TINTS[index]}
+            padding="regular"
+          />
+        ))}
       </section>
 
       <section className="space-y-4">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/common/PageHeader";
 import { SectionTitle } from "@/components/common/SectionTitle";
+import { StatCard } from "@/components/common/StatCard";
 import { admin as adminCopy } from "@/lib/copy";
 import { prisma } from "@/lib/prisma";
 import { requireRole } from "@/lib/session";
@@ -53,18 +54,15 @@ export default async function AdminPage() {
         description={[school.name, school.city, school.state].filter(Boolean).join(" · ")}
       />
 
-      <section className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <section className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
         {blocks.map((block) => (
-          <div key={block.label} className="lp-sticker lp-sticker-soft bg-surface p-4 sm:p-5">
-            <p className="font-display text-3xl leading-none font-bold text-ink">{block.value}</p>
-            <p className="mt-1.5 text-xs leading-tight text-muted">{block.label}</p>
-            <Link
-              href={block.href}
-              className="mt-3 inline-block text-sm font-semibold text-brand hover:text-brand-hover"
-            >
-              Ver lista
-            </Link>
-          </div>
+          <StatCard
+            key={block.label}
+            label={block.label}
+            value={block.value}
+            href={block.href}
+            action="Ver lista"
+          />
         ))}
       </section>
 
