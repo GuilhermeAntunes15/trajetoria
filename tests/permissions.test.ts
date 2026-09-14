@@ -10,6 +10,7 @@ import {
   canManageSchoolEntity,
   canModerateProject,
   canPublishProject,
+  canReopenProject,
   canReviewProject,
   canSubmitProject,
   canValidateSkill,
@@ -266,6 +267,39 @@ describe("canDeleteProject", () => {
     expect(
       canDeleteProject(outsideAdmin, { ...project({ status: "DRAFT" }), otherMemberCount: 0 }),
     ).toBe(false);
+  });
+
+  it("rascunho reaberto com histórico de validação não pode ser excluído", () => {
+    expect(canDeleteProject(owner, { ...project({ status: "DRAFT" }), validationCount: 1 })).toBe(
+      false,
+    );
+    expect(
+      canDeleteProject(admin, { ...project({ status: "DRAFT" }), otherMemberCount: 0, validationCount: 1 }),
+    ).toBe(false);
+  });
+});
+
+describe("canReopenProject", () => {
+  it("integrantes reabrem projeto aprovado", () => {
+    expect(canReopenProject(owner, project({ status: "APPROVED" }))).toBe(true);
+    expect(canReopenProject(teammate, project({ status: "APPROVED" }))).toBe(true);
+    expect(
+      canReopenProject(teacher, project({ status: "APPROVED", memberIds: [owner.id, teacher.id] })),
+    ).toBe(true);
+  });
+
+  it("quem não é da equipe não reabre", () => {
+    expect(canReopenProject(classmate, project({ status: "APPROVED" }))).toBe(false);
+    expect(canReopenProject(teacher, project({ status: "APPROVED" }))).toBe(false);
+    expect(canReopenProject(admin, project({ status: "APPROVED" }))).toBe(false);
+    expect(canReopenProject(anonymous, project({ status: "APPROVED" }))).toBe(false);
+    expect(canReopenProject(outsideStudent, project({ status: "APPROVED" }))).toBe(false);
+  });
+
+  it("só projeto aprovado pode ser reaberto", () => {
+    for (const status of ["DRAFT", "SUBMITTED", "CHANGES_REQUESTED", "ARCHIVED"] as const) {
+      expect(canReopenProject(owner, project({ status }))).toBe(false);
+    }
   });
 });
 

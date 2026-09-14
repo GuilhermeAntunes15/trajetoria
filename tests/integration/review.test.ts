@@ -20,8 +20,13 @@ vi.mock("@/lib/session", () => ({
 
 import { prisma } from "@/lib/prisma";
 import type { Viewer } from "@/lib/session";
-import { submitProject } from "@/actions/project.actions";
-import { approveProject, requestChanges, ReviewError } from "@/server/services/validation.service";
+import { reopenProject, submitProject } from "@/actions/project.actions";
+import {
+  approveProject,
+  requestChanges,
+  ReviewError,
+  toggleFeatured,
+} from "@/server/services/validation.service";
 import { grantBadge, BadgeError } from "@/server/services/badge.service";
 import { createProjectRow, createSchool, createUser, formData, resetDatabase } from "./factory";
 
@@ -222,6 +227,99 @@ describe.skipIf(!enabled)("validação do professor", () => {
       action: "CHANGES_REQUESTED",
       comment: "Adicione uma explicação melhor sobre sua participação individual.",
     });
+  });
+
+  async function approvedProject() {
+    const project = await draftProject();
+    await submitProject(formData({ projectId: project.id }));
+    await approveProject(teacherA, {
+      projectId: project.id,
+      strengths: "",
+      improvements: "",
+      generalComment: "",
+      validatedSkillIds: [],
+    });
+    return project;
+  }
+
+  it("integrante reabre projeto aprovado e reenvia", async () => {
+    const project = await approvedProject();
+    await toggleFeatured(teacherA, project.id);
+
+    session.viewer = teammate;
+    await reopenProject(formData({ projectId: project.id }));
+
+    const reopened = await prisma.project.findUnique({
+      where: { id: project.id },
+      select: {
+        status: true,
+        validatedAt: true,
+        validatedById: true,
+        isFeatured: true,
+        validations: { select: { id: true } },
+      },
+    });
+
+    expect(reopened).toMatchObject({
+      status: "DRAFT",
+      validatedAt: null,
+      validatedById: null,
+      isFeatured: false,
+    });
+    expect(reopened!.validations).toHaveLength(1);
+    expect(await prisma.auditLog.count({ where: { action: "project.reopened" } })).toBe(1);
+
+    await submitProject(formData({ projectId: project.id }));
+    const resubmitted = await prisma.project.findUnique({
+      where: { id: project.id },
+      select: { status: true },
+    });
+    expect(resubmitted!.status).toBe("SUBMITTED");
+  });
+
+  it("quem não é da equipe não reabre projeto aprovado", async () => {
+    const project = await approvedProject();
+
+    session.viewer = outsider;
+    await expect(reopenProject(formData({ projectId: project.id }))).rejects.toThrow(
+      "Este projeto não pode ser reaberto.",
+    );
+
+    const updated = await prisma.project.findUnique({
+      where: { id: project.id },
+      select: { status: true },
+    });
+    expect(updated!.status).toBe("APPROVED");
+  });
+
+  it("professor devolve projeto aprovado para ajustes", async () => {
+    const project = await approvedProject();
+    await prisma.notification.deleteMany({});
+
+    await requestChanges(teacherA, {
+      projectId: project.id,
+      comment: "Revise a descrição da participação individual.",
+      strengths: "",
+      improvements: "",
+    });
+
+    const updated = await prisma.project.findUnique({
+      where: { id: project.id },
+      select: { status: true, validatedAt: true, validations: { select: { id: true } } },
+    });
+
+    expect(updated!.status).toBe("CHANGES_REQUESTED");
+    expect(updated!.validatedAt).toBeNull();
+    expect(updated!.validations).toHaveLength(2);
+
+    const notified = await prisma.notification.findMany({
+      where: { type: "PROJECT_CHANGES_REQUESTED" },
+      select: { userId: true },
+    });
+    expect(new Set(notified.map((notification) => notification.userId))).toEqual(
+      new Set([owner.id, teammate.id]),
+    );
+    expect(notified).toHaveLength(2);
   });
 
   it("badge não atravessa a fronteira da escola", async () => {

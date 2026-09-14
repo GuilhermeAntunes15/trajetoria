@@ -2,7 +2,12 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowDown, ArrowUp, GraduationCap } from "lucide-react";
-import { deleteProject, setProjectVisibility, submitProject } from "@/actions/project.actions";
+import {
+  deleteProject,
+  reopenProject,
+  setProjectVisibility,
+  submitProject,
+} from "@/actions/project.actions";
 import { removeEvidence, reorderEvidence } from "@/actions/evidence.actions";
 import { removeMember } from "@/actions/member.actions";
 import { removeProjectSkill } from "@/actions/skill.actions";
@@ -47,6 +52,7 @@ import {
   canFeatureProject,
   canForkProject,
   canPublishProject,
+  canReopenProject,
   canReviewProject,
   canSubmitProject,
   canViewProfile,
@@ -271,6 +277,7 @@ export default async function ProjectPage({
   };
 
   const canSubmit = canSubmitProject(permissionViewer, submitCtx);
+  const canReopen = canReopenProject(permissionViewer, projectCtx);
   /**
    * A faixa de acoes so existe quando tem o que mostrar. Sem isto, um projeto
    * aprovado renderizava um adesivo vazio no meio da pagina.
@@ -280,6 +287,7 @@ export default async function ProjectPage({
   const canDelete = canDeleteProject(permissionViewer, {
     ...projectCtx,
     otherMemberCount: projectCtx.memberIds.filter((id) => id !== project.createdById).length,
+    validationCount: project.validations.length,
   });
 
   const missing = [
@@ -336,7 +344,7 @@ export default async function ProjectPage({
 
   const eventEntry = project.eventEntries[0] ?? null;
   const event = eventEntry?.event ?? null;
-  const lastValidation = project.validations[0] ?? null;
+  const lastValidation = project.validations.find((v) => v.action === "CHANGES_REQUESTED") ?? null;
   const canReview = canReviewProject(permissionViewer, projectCtx);
   const canArchive = canArchiveProject(permissionViewer, projectCtx);
   const canPublish = canPublishProject(permissionViewer, projectCtx);
@@ -482,7 +490,8 @@ export default async function ProjectPage({
           </div>
         ) : null}
 
-        {isMember && (canEdit || canSubmit || pendingRevision || project.status === "SUBMITTED") ? (
+        {isMember &&
+        (canEdit || canSubmit || canReopen || pendingRevision || project.status === "SUBMITTED") ? (
           <div className="lp-sticker lp-sticker-flat flex flex-wrap items-center gap-3 bg-lp-paper p-4">
             {canEdit ? (
               <ButtonLink href={`/projects/${project.slug}/edit`} variant="secondary" size="sm">
@@ -507,6 +516,17 @@ export default async function ProjectPage({
 
             {project.status === "SUBMITTED" ? (
               <p className="text-sm text-muted">{projectManage.submitDone}</p>
+            ) : null}
+
+            {canReopen ? (
+              <ConfirmDialog
+                triggerLabel={projectManage.reopenAction}
+                title={projectManage.reopenTitle}
+                description={projectManage.reopenConfirm}
+                confirmLabel={projectManage.reopenAction}
+                action={reopenProject}
+                hiddenFields={{ projectId: project.id }}
+              />
             ) : null}
           </div>
         ) : null}

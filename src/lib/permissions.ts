@@ -81,10 +81,11 @@ export function canArchiveProject(viewer: Viewer, project: ProjectCtx): boolean 
 
 export function canDeleteProject(
   viewer: Viewer,
-  project: ProjectCtx & { otherMemberCount?: number },
+  project: ProjectCtx & { otherMemberCount?: number; validationCount?: number },
 ): boolean {
   if (!viewer) return false;
   if (project.status !== "DRAFT") return false;
+  if ((project.validationCount ?? 0) > 0) return false;
   if (viewer.id === project.createdById) return true;
   if (viewer.role === "ADMIN" && isSameSchool(viewer, project.schoolId)) {
     return (project.otherMemberCount ?? 0) === 0;
@@ -118,6 +119,10 @@ export function canSubmitProject(viewer: Viewer, project: SubmitCtx): boolean {
   if (!isProjectMember(viewer, project)) return false;
   if (project.status !== "DRAFT" && project.status !== "CHANGES_REQUESTED") return false;
   return isProjectComplete(project);
+}
+
+export function canReopenProject(viewer: Viewer, project: ProjectCtx): boolean {
+  return project.status === "APPROVED" && isProjectMember(viewer, project);
 }
 
 export function canReviewProject(viewer: Viewer, project: ProjectCtx): boolean {

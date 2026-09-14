@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import type { Visibility } from "@prisma/client";
+import { logAudit } from "@/lib/audit";
 import { fork as forkCopy } from "@/lib/copy";
 import {
   canCreateProject,
@@ -10,6 +11,7 @@ import {
   canEditProjectContent,
   canForkProject,
   canPublishProject,
+  canReopenProject,
   canSubmitProject,
 } from "@/lib/permissions";
 import { prisma } from "@/lib/prisma";
@@ -280,6 +282,38 @@ export async function submitProject(formData: FormData): Promise<void> {
   revalidatePath("/dashboard");
 }
 
+export async function reopenProject(formData: FormData): Promise<void> {
+  const viewer = await getViewer();
+  if (!viewer) redirect("/login");
+
+  const projectId = String(formData.get("projectId") ?? "");
+  const project = await getProjectCtxById(projectId);
+  if (!project) throw new Error("Projeto não encontrado.");
+
+  if (!canReopenProject(permissionViewer(viewer), project)) {
+    throw new Error("Este projeto não pode ser reaberto.");
+  }
+
+  await prisma.project.update({
+    where: { id: project.id },
+    data: { status: "DRAFT", validatedAt: null, validatedById: null, isFeatured: false },
+  });
+
+  await logAudit({
+    schoolId: project.schoolId,
+    actorId: viewer.id,
+    action: "project.reopened",
+    entityType: "Project",
+    entityId: project.id,
+    metadata: { previousStatus: "APPROVED" },
+  });
+
+  revalidatePath(`/projects/${project.slug}`);
+  revalidatePath("/projects");
+  revalidatePath("/teacher");
+  revalidatePath("/dashboard");
+}
+
 export async function deleteProject(formData: FormData): Promise<void> {
   const viewer = await getViewer();
   if (!viewer) redirect("/login");
@@ -289,8 +323,9 @@ export async function deleteProject(formData: FormData): Promise<void> {
   if (!project) throw new Error("Projeto não encontrado.");
 
   const otherMemberCount = project.memberIds.filter((id) => id !== project.createdById).length;
+  const validationCount = await prisma.projectValidation.count({ where: { projectId: project.id } });
 
-  if (!canDeleteProject(permissionViewer(viewer), { ...project, otherMemberCount })) {
+  if (!canDeleteProject(permissionViewer(viewer), { ...project, otherMemberCount, validationCount })) {
     throw new Error("Este projeto não pode ser excluído.");
   }
 

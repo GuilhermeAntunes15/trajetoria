@@ -350,6 +350,10 @@ export const projectManage = {
   deleteTitle: "Excluir projeto",
   deleteAction: "Excluir projeto",
   deleteConfirm: "Isso apaga o rascunho e tudo que está nele. Não dá para desfazer.",
+  reopenTitle: "Reabrir projeto para edição",
+  reopenAction: "Reabrir para edição",
+  reopenConfirm:
+    "O projeto volta a rascunho e sai do acervo, do portfólio e dos destaques até ser aprovado de novo. Competências já verificadas e o histórico de validação continuam.",
   edit: "Editar",
 };
 
@@ -368,6 +372,7 @@ export const review = {
   changesDone: "Pedido de ajustes enviado para a equipe.",
   changesCommentLabel: "O que precisa ser ajustado",
   changesCommentHint: "Seja específico. Ex.: Adicione uma explicação melhor sobre sua participação individual.",
+  changesApprovedHint: "O projeto sai do acervo e dos destaques até a equipe reenviar e ele ser aprovado de novo.",
   strengthsLabel: "Pontos fortes",
   improvementsLabel: "O que pode melhorar",
   generalCommentLabel: "Comentário geral",

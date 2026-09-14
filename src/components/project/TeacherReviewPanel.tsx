@@ -248,6 +248,16 @@ export function TeacherReviewPanel({
             </CardBody>
           </Card>
 
+          <Card>
+            <CardHeader>
+              <h3 className="text-sm font-semibold text-ink">{reviewCopy.changesTitle}</h3>
+            </CardHeader>
+            <CardBody className="space-y-3">
+              <p className="text-xs text-muted">{reviewCopy.changesApprovedHint}</p>
+              <RequestChangesForm projectId={projectId} />
+            </CardBody>
+          </Card>
+
           {canFeature ? (
             <Card>
               <CardHeader>

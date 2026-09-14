@@ -153,10 +153,15 @@ export async function requestChanges(
   if (!canReviewProject(permissionViewer(viewer), target)) {
     throw new ReviewError(reviewCopy.notReviewable);
   }
-  if (target.status !== "SUBMITTED") throw new ReviewError(reviewCopy.notSubmitted);
+  if (target.status !== "SUBMITTED" && target.status !== "APPROVED") {
+    throw new ReviewError(reviewCopy.notSubmitted);
+  }
 
   await prisma.$transaction(async (tx) => {
-    await tx.project.update({ where: { id: target.id }, data: { status: "CHANGES_REQUESTED" } });
+    await tx.project.update({
+      where: { id: target.id },
+      data: { status: "CHANGES_REQUESTED", validatedAt: null, validatedById: null, isFeatured: false },
+    });
 
     await tx.projectValidation.create({
       data: {
@@ -176,6 +181,7 @@ export async function requestChanges(
     action: "project.changes_requested",
     entityType: "Project",
     entityId: target.id,
+    metadata: { previousStatus: target.status },
   });
 
   await notify(recipients(target), {
